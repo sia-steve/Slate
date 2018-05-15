@@ -27,9 +27,9 @@ There may be functional API calls which are not documented. These are not guaran
 
 Notes:
 
-*Requests must set their User-Agent string to contain the substring "Sia-Agent".
-*By default, siad listens on "localhost:9980". This can be changed using the --api-addr flag when running siad.
-*Do not bind or expose the API to a non-loopback address unless you are aware of the possible dangers.
+- Requests must set their User-Agent string to contain the substring "Sia-Agent".
+- By default, siad listens on "localhost:9980". This can be changed using the --api-addr flag when running siad.
+- Do not bind or expose the API to a non-loopback address unless you are aware of the possible dangers.
 
 Example GET curl call:
 
@@ -42,16 +42,18 @@ Example POST curl call:
 # Standard Responses
 
 ## Success
-The standard response indicating the request was successfully processed is HTTP status code 204 No Content. If the request was successfully processed and the server responded with JSON the HTTP status code is 200 OK. Specific endpoints may specify other 2xx status codes on success.
+The standard response indicating the request was successfully processed is HTTP status code `204 No Content`. If the request was successfully processed and the server responded with JSON the HTTP status code is `200 OK`. Specific endpoints may specify other 2xx status codes on success.
 
 ## Error
 The standard error response indicating the request failed for any reason, is a 4xx or 5xx HTTP status code with an error JSON object describing the error.
 
-`{
+`
+{
     "message": String
 
     // There may be additional fields depending on the specific error.
-}`
+}
+`
 
 # Kittens
 
