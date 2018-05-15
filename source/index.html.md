@@ -69,13 +69,13 @@ If a numbers is returned as a string in JSON, it should be treated as an arbitra
 
 # Daemon
 
-For examples and detailed descriptions of request and response parameters, refer to [Daemon.md](https://github.com/NebulousLabs/Sia/blob/master/doc/api/Daemon.md).
+For examples and detailed descriptions of request and response parameters, refer to Daemon.md.
 
 ## /daemon/constants [GET]
 
 returns the set of constants in use.
 
-JSON Response ([with comments](https://github.com/NebulousLabs/Sia/blob/master/doc/api/Daemon.md#json-response))
+JSON Response (with comments)
 
 `{
   "blockfrequency":         600,        // seconds per block
@@ -100,6 +100,152 @@ JSON Response ([with comments](https://github.com/NebulousLabs/Sia/blob/master/d
 
   "siacoinprecision": "1000000000000000000000000" // hastings per siacoin
 }`
+
+## /daemon/stop [GET]
+
+cleanly shuts down the daemon. This may take a few seconds.
+
+Response
+standard success or error response. See standard responses.
+
+## /daemon/version [GET]
+
+returns the version of the Sia daemon currently running.
+
+JSON Response (with comments)
+
+`
+{
+"version": "1.3.2"
+}
+`
+
+# Consensus
+
+For examples and detailed descriptions of request and response parameters, refer to Consensus.md.
+
+## /consensus [GET]
+
+returns information about the consensus set, such as the current block height.
+
+### JSON Response (with comments)
+
+`
+{
+  "synced":       true,
+  "height":       62248,
+  "currentblock": "00000000000008a84884ba827bdc868a17ba9c14011de33ff763bd95779a9cf1",
+  "target":       [0,0,0,0,0,0,11,48,125,79,116,89,136,74,42,27,5,14,10,31,23,53,226,238,202,219,5,204,38,32,59,165],
+  "difficulty":   "1234"
+}
+`
+
+## /consensus/blocks [GET]
+
+Returns the block for a given id or height.
+
+### Query String Parameters
+
+One of the following parameters can be specified.
+
+`// BlockID of the requested block.
+id 
+
+// BlockHeight of the requested block.
+height`
+
+### Response
+
+The JSON formatted block or a standard error response.
+
+```
+{
+    "height": 20032,
+    "id": "00000000000033b9eb57fa63a51adeea857e70f6415ebbfe5df2a01f0d0477f4",
+    "minerpayouts": [
+        {
+            "unlockhash": "c199cd180e19ef7597bcf4beecdd4f211e121d085e24432959c42bdf9030e32b9583e1c2727c",
+            "value": "279978000000000000000000000000"
+        }
+    ],
+    "nonce": [4,12,219,7,0,0,0,0],
+    "parentid": "0000000000009615e8db750eb1226aa5e629bfa7badbfe0b79607ec8b918a44c",
+    "timestamp": 1444516982,
+    "transactions": [
+	{
+	    // ...
+	}
+        {
+            "arbitrarydata": [],
+            "filecontractrevisions": [],
+            "filecontracts": [],
+            "minerfees": [],
+            "siacoininputs": [
+                {
+                    "parentid": "24cbeb9df7eb2d81d0025168fc94bd179909d834f49576e65b51feceaf957a64",
+                    "unlockconditions": {
+                        "publickeys": [
+                            {
+                                "algorithm": "ed25519",
+                                "key": "QET8w7WRbGfcnnpKd1nuQfE3DuNUUq9plyoxwQYDK4U="
+                            }
+                        ],
+                        "signaturesrequired": 1,
+                        "timelock": 0
+                    }
+                }
+            ],
+            "siacoinoutputs": [
+                {
+                    "unlockhash": "d54f500f6c1774d518538dbe87114fe6f7e6c76b5bc8373a890b12ce4b8909a336106a4cd6db",
+                    "value": "1010000000000000000000000000"
+                },
+                {
+                    "unlockhash": "48a56b19bd0be4f24190640acbd0bed9669ea9c18823da2645ec1ad9652f10b06c5d4210f971",
+                    "value": "5780000000000000000000000000"
+                }
+            ],
+            "siafundinputs": [],
+            "siafundoutputs": [],
+            "storageproofs": [],
+            "transactionsignatures": [
+                {
+                    "coveredfields": {
+                        "arbitrarydata": [],
+                        "filecontractrevisions": [],
+                        "filecontracts": [],
+                        "minerfees": [],
+                        "siacoininputs": [],
+                        "siacoinoutputs": [],
+                        "siafundinputs": [],
+                        "siafundoutputs": [],
+                        "storageproofs": [],
+                        "transactionsignatures": [],
+                        "wholetransaction": true
+                    },
+                    "parentid": "24cbeb9df7eb2d81d0025168fc94bd179909d834f49576e65b51feceaf957a64",
+                    "publickeyindex": 0,
+                    "signature": "pByLGMlvezIZWVZmHQs/ynGETETNbxcOY/kr6uivYgqZqCcKTJ0JkWhcFaKJU+3DEA7JAloLRNZe3PTklD3tCQ==",
+                    "timelock": 0
+                }
+            ]
+        },
+        {
+	    // ...
+        }
+    ]
+}
+```
+
+
+
+
+
+
+
+
+
+
 
 # Kittens
 
