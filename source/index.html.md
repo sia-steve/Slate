@@ -25,7 +25,7 @@ API calls return either JSON or no content. Success is indicated by 2xx HTTP sta
 
 There may be functional API calls which are not documented. These are not guaranteed to be supported beyond the current release, and should not be used in production.
 
-Notes:
+**Notes:**
 
 - Requests must set their User-Agent string to contain the substring "Sia-Agent".
 - By default, siad listens on "localhost:9980". This can be changed using the --api-addr flag when running siad.
@@ -51,6 +51,54 @@ The standard error response indicating the request failed for any reason, is a 4
     "message": String
 
     // There may be additional fields depending on the specific error.
+}`
+
+# Authentication
+
+API authentication can be enabled with the `--authenticate-api` siad flag. Authentication is HTTP Basic Authentication as described in [RFC 2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty string. The flag does not enforce authentication on all API endpoints. Only endpoints that expose sensitive information or modify state require authentication.
+
+For example, if the API password is "foobar" the request header should include
+
+`Authorization: Basic OmZvb2Jhcg==`
+
+# Units
+
+Unless otherwise specified, all parameters should be specified in their smallest possible unit. For example, size should always be specified in bytes and Siacoins should be specified in hastings. JSON values returned by the API will also use the smallest possible unit, unless otherwise specified.
+
+If a numbers is returned as a string in JSON, it should be treated as an arbitrary-precision number (bignum), and it should be parsed with your language's corresponding bignum library. Currency values are the most common example where this is necessary.
+
+# Daemon
+
+For examples and detailed descriptions of request and response parameters, refer to [Daemon.md](https://github.com/NebulousLabs/Sia/blob/master/doc/api/Daemon.md).
+
+## /daemon/constants [GET]
+
+returns the set of constants in use.
+
+JSON Response ([with comments](https://github.com/NebulousLabs/Sia/blob/master/doc/api/Daemon.md#json-response))
+
+`{
+  "blockfrequency":         600,        // seconds per block
+  "blocksizelimit":         2000000,    // bytes
+  "extremefuturethreshold": 10800,      // seconds
+  "futurethreshold":        10800,      // seconds
+  "genesistimestamp":       1257894000, // Unix time
+  "maturitydelay":          144,        // blocks
+  "mediantimestampwindow":  11,         // blocks
+  "siafundcount":           "10000",
+  "siafundportion":         "39/1000",
+  "targetwindow":           1000,       // blocks
+
+  "initialcoinbase": 300000, // Siacoins (see note in Daemon.md)
+  "minimumcoinbase": 30000,  // Siacoins (see note in Daemon.md)
+
+  "roottarget": [0,0,0,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  "rootdepth":  [255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255],
+
+  "maxtargetadjustmentup":   "5/2",
+  "maxtargetadjustmentdown": "2/5",
+
+  "siacoinprecision": "1000000000000000000000000" // hastings per siacoin
 }`
 
 # Kittens
