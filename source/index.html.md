@@ -19,51 +19,39 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Sia Storage Platform API! Sia uses semantic versioning and is backwards compatible to version v1.0.0.
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+API calls return either JSON or no content. Success is indicated by 2xx HTTP status codes, while errors are indicated by 4xx and 5xx HTTP status codes. If an endpoint does not specify its expected status code refer to #standard-responses.
 
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+There may be functional API calls which are not documented. These are not guaranteed to be supported beyond the current release, and should not be used in production.
 
-# Authentication
+Notes:
 
-> To authorize, use this code:
+*Requests must set their User-Agent string to contain the substring "Sia-Agent".
+*By default, siad listens on "localhost:9980". This can be changed using the --api-addr flag when running siad.
+*Do not bind or expose the API to a non-loopback address unless you are aware of the possible dangers.
 
-```ruby
-require 'kittn'
+Example GET curl call:
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
+`curl -A "Sia-Agent" "localhost:9980/wallet/transactions?startheight=1&endheight=250"`
 
-```python
-import kittn
+Example POST curl call:
 
-api = kittn.authorize('meowmeowmeow')
-```
+`curl -A "Sia-Agent" --data "amount=123&destination=abcd" "localhost:9980/wallet/siacoins"`
 
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
+# Standard Responses
 
-```javascript
-const kittn = require('kittn');
+## Success
+The standard response indicating the request was successfully processed is HTTP status code 204 No Content. If the request was successfully processed and the server responded with JSON the HTTP status code is 200 OK. Specific endpoints may specify other 2xx status codes on success.
 
-let api = kittn.authorize('meowmeowmeow');
-```
+## Error
+The standard error response indicating the request failed for any reason, is a 4xx or 5xx HTTP status code with an error JSON object describing the error.
 
-> Make sure to replace `meowmeowmeow` with your API key.
+`{
+    "message": String
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
+    // There may be additional fields depending on the specific error.
+}`
 
 # Kittens
 
