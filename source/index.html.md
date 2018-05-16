@@ -103,7 +103,7 @@ Returns the set of constants in use.
 `
 
 Target for how frequently new blocks should be mined.
----
+***
 `
   "blocksizelimit":         2000000,    // bytes
 `
