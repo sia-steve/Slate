@@ -224,15 +224,10 @@ Returns the version of the Sia daemon currently running. This number is visible 
 
 # Consensus
 
-For examples and detailed descriptions of request and response parameters, refer to Consensus.md.
-
 ## /consensus [GET]
 
-returns information about the consensus set, such as the current block height.
-
-### JSON Response (with comments)
-
-`
+```
+JSON Response
 {
   "synced":       true,
   "height":       62248,
@@ -240,7 +235,27 @@ returns information about the consensus set, such as the current block height.
   "target":       [0,0,0,0,0,0,11,48,125,79,116,89,136,74,42,27,5,14,10,31,23,53,226,238,202,219,5,204,38,32,59,165],
   "difficulty":   "1234"
 }
-`
+```
+
+Returns information about the consensus set, such as the current block height.
+
+{
+  // True if the consensus set is synced with the network, i.e. it has downloaded the entire blockchain.
+  `"synced": true,`
+
+  // Number of blocks preceding the current block.
+  `"height": 62248,`
+
+  // Hash of the current block.
+  `"currentblock": "00000000000008a84884ba827bdc868a17ba9c14011de33ff763bd95779a9cf1",`
+
+  // An immediate child block of this block must have a hash less than this
+  // target for it to be valid.
+  `"target": [0,0,0,0,0,0,11,48,125,79,116,89,136,74,42,27,5,14,10,31,23,53,226,238,202,219,5,204,38,32,59,165],`
+
+  // The difficulty of the current block target.
+  `"difficulty": "1234" // arbitrary-precision integer`
+}
 
 ## /consensus/blocks [GET]
 
