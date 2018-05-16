@@ -101,13 +101,14 @@ Returns the set of constants in use.
 `
   "blockfrequency":         600,        // seconds per block
 `
-Target for how frequently new blocks should be mined.
+
+^ Target for how frequently new blocks should be mined.
 
 `
   "blocksizelimit":         2000000,    // bytes
 `
 
-Maximum size, in bytes, of a block. Blocks larger than this will be rejected by peers.
+^ Maximum size, in bytes, of a block. Blocks larger than this will be rejected by peers.
 
 `
   "extremefuturethreshold": 10800,      // seconds
