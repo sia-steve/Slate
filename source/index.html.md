@@ -207,7 +207,7 @@ Returns the set of constants in use.
 cleanly shuts down the daemon. This may take a few seconds.
 
 ### Response
-standard success or error response. See [standard responses](# Standard Responses).
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /daemon/version [GET]
 
