@@ -76,32 +76,75 @@ For examples and detailed descriptions of request and response parameters, refer
 returns the set of constants in use.
 
 JSON Response (with comments)
-
 ```
-{
   "blockfrequency":         600,        // seconds per block
-  "blocksizelimit":         2000000,    // bytes
-  "extremefuturethreshold": 10800,      // seconds
-  "futurethreshold":        10800,      // seconds
-  "genesistimestamp":       1257894000, // Unix time
-  "maturitydelay":          144,        // blocks
-  "mediantimestampwindow":  11,         // blocks
-  "siafundcount":           "10000",
-  "siafundportion":         "39/1000",
-  "targetwindow":           1000,       // blocks
-
-  "initialcoinbase": 300000, // Siacoins (see note in Daemon.md)
-  "minimumcoinbase": 30000,  // Siacoins (see note in Daemon.md)
-
-  "roottarget": [0,0,0,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  "rootdepth":  [255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255],
-
-  "maxtargetadjustmentup":   "5/2",
-  "maxtargetadjustmentdown": "2/5",
-
-  "siacoinprecision": "1000000000000000000000000" // hastings per siacoin
-}
 ```
+> Target for how frequently new blocks should be mined.
+```
+  "blocksizelimit":         2000000,    // bytes
+```
+> Maximum size, in bytes, of a block. Blocks larger than this will be rejected by peers.
+```
+  "extremefuturethreshold": 10800,      // seconds
+```
+> Farthest a block's timestamp can be in the future before the block is rejected outright.
+```
+  "futurethreshold":        10800,      // seconds
+```
+> How far in the future a block can be without being rejected. A block further into the future will not be accepted immediately, but the daemon will attempt to accept the block as soon as it is valid.
+```
+  "genesistimestamp":       1257894000, // Unix time
+```
+> Timestamp of the genesis block.
+```
+  "maturitydelay":          144,        // blocks
+```
+> Number of children a block must have before it is considered "mature."
+```
+  "mediantimestampwindow":  11,         // blocks
+```
+> Duration of the window used to adjust the difficulty.
+```
+  "siafundcount":           "10000",
+```
+> Total number of siafunds.
+```
+  "siafundportion":         "39/1000",
+```
+> Fraction of each file contract payout given to siafund holders.
+```
+  "targetwindow":           1000,       // blocks
+```
+> Height of the window used to adjust the difficulty.
+```
+  "initialcoinbase": 300000, // Siacoins (see note in Daemon.md)
+```
+> Number of coins given to the miner of the first block. Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
+```
+  "minimumcoinbase": 30000,  // Siacoins (see note in Daemon.md)
+```
+> Minimum number of coins paid out to the miner of a block (the coinbase decreases with each block). Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
+```
+  "roottarget": [0,0,0,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+```
+> Initial target.
+```
+  "rootdepth":  [255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255],
+```
+> Initial depth.
+```
+  "maxtargetadjustmentup":   "5/2",
+```
+> Largest allowed ratio between the old difficulty and the new difficulty.
+```
+  "maxtargetadjustmentdown": "2/5",
+```
+> Smallest allowed ratio between the old difficulty and the new difficulty.
+```
+  "siacoinprecision": "1000000000000000000000000" // hastings per siacoin
+```
+> Number of Hastings in one siacoin.
+}
 
 ## /daemon/stop [GET]
 
