@@ -98,19 +98,9 @@ For examples and detailed descriptions of request and response parameters, refer
 
 Returns the set of constants in use.
 
-XXX
-
-return | value | type
--------------- | -------------- | --------------
-blockfrequency | 600 | seconds per block
-Target for how frequently new blocks should be mined.
-blocksizelimit | 2000000 | bytes
-
-XXX
 `
   "blockfrequency":         600,        // seconds per block
 `
-
 Target for how frequently new blocks should be mined.
 
 `
