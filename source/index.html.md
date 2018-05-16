@@ -205,19 +205,19 @@ Returns the set of constants in use.
 cleanly shuts down the daemon. This may take a few seconds.
 
 ### Response
-standard success or error response. See standard responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /daemon/version [GET]
 
-returns the version of the Sia daemon currently running.
+```
+JSON Response
 
-JSON Response (with comments)
-
-`
 {
 "version": "1.3.2"
 }
-`
+```
+
+Returns the version of the Sia daemon currently running. This number is visible to its peers on the network.
 
 # Consensus
 
