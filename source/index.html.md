@@ -226,8 +226,8 @@ Returns the version of the Sia daemon currently running. This number is visible 
 
 ## /consensus [GET]
 
+> JSON Response
 ```
-JSON Response
 {
   "synced":       true,
   "height":       62248,
@@ -240,6 +240,7 @@ JSON Response
 Returns information about the consensus set, such as the current block height.
 
 {
+
   // True if the consensus set is synced with the network, i.e. it has downloaded the entire blockchain.
   `"synced": true,`
 
@@ -255,6 +256,7 @@ Returns information about the consensus set, such as the current block height.
 
   // The difficulty of the current block target.
   `"difficulty": "1234" // arbitrary-precision integer`
+  
 }
 
 ## /consensus/blocks [GET]
