@@ -109,91 +109,91 @@ Target for how frequently new blocks should be mined.
 `
 
 Maximum size, in bytes, of a block. Blocks larger than this will be rejected by peers.
-
+***
 `
   "extremefuturethreshold": 10800,      // seconds
 `
 
 Farthest a block's timestamp can be in the future before the block is rejected outright.
-
+***
 `
   "futurethreshold":        10800,      // seconds
 `
 
 How far in the future a block can be without being rejected. A block further into the future will not be accepted immediately, but the daemon will attempt to accept the block as soon as it is valid.
-
+***
 `
   "genesistimestamp":       1257894000, // Unix time
 `
 
 Timestamp of the genesis block.
-
+***
 `
   "maturitydelay":          144,        // blocks
 `
 
 Number of children a block must have before it is considered "mature."
-
+***
 `
   "mediantimestampwindow":  11,         // blocks
 `
 
 Duration of the window used to adjust the difficulty.
-
+***
 `
   "siafundcount":           "10000",
 `
 
 Total number of siafunds.
-
+***
 `
   "siafundportion":         "39/1000",
 `
 
 Fraction of each file contract payout given to siafund holders.
-
+***
 `
   "targetwindow":           1000,       // blocks
 `
 
 Height of the window used to adjust the difficulty.
-
+***
 `
   "initialcoinbase": 300000, // Siacoins
 `
 
 Number of coins given to the miner of the first block. Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
-
+***
 `
   "minimumcoinbase": 30000,  // Siacoins
 `
 
 Minimum number of coins paid out to the miner of a block (the coinbase decreases with each block). Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
-
+***
 `
   "roottarget": [0,0,0,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 `
 
 Initial target.
-
+***
 `
   "rootdepth":  [255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255],
 `
 
 Initial depth.
-
+***
 `
   "maxtargetadjustmentup":   "5/2",
 `
 
 Largest allowed ratio between the old difficulty and the new difficulty.
-
+***
 `
   "maxtargetadjustmentdown": "2/5",
 `
 
 Smallest allowed ratio between the old difficulty and the new difficulty.
-
+***
 `
   "siacoinprecision": "1000000000000000000000000" // hastings per siacoin
 `
