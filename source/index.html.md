@@ -98,9 +98,6 @@ For examples and detailed descriptions of request and response parameters, refer
 
 Returns the set of constants in use.
 
-XXXXXXXX
-`
-JSON Response`
 `
   "blockfrequency":         600,        // seconds per block
 `
@@ -119,142 +116,89 @@ Maximum size, in bytes, of a block. Blocks larger than this will be rejected by 
 
 Farthest a block's timestamp can be in the future before the block is rejected outright.
 
-```go
+`
   "futurethreshold":        10800,      // seconds
-```
+`
 
-> How far in the future a block can be without being rejected. A block further into the future will not be accepted immediately, but the daemon will attempt to accept the block as soon as it is valid.
+How far in the future a block can be without being rejected. A block further into the future will not be accepted immediately, but the daemon will attempt to accept the block as soon as it is valid.
 
-```go
+`
   "genesistimestamp":       1257894000, // Unix time
-```
+`
 
-> Timestamp of the genesis block.
+Timestamp of the genesis block.
 
-```go
+`
   "maturitydelay":          144,        // blocks
-```
+`
 
-> Number of children a block must have before it is considered "mature."
+Number of children a block must have before it is considered "mature."
 
-```go
+`
   "mediantimestampwindow":  11,         // blocks
-```
+`
 
-> Duration of the window used to adjust the difficulty.
+Duration of the window used to adjust the difficulty.
 
-```go
+`
   "siafundcount":           "10000",
-```
+`
 
-> Total number of siafunds.
+Total number of siafunds.
 
-```go
+`
   "siafundportion":         "39/1000",
-```
+`
 
-> Fraction of each file contract payout given to siafund holders.
+Fraction of each file contract payout given to siafund holders.
 
-```go
+`
   "targetwindow":           1000,       // blocks
-```
+`
 
-> Height of the window used to adjust the difficulty.
+Height of the window used to adjust the difficulty.
 
-```go
+`
   "initialcoinbase": 300000, // Siacoins (see note in Daemon.md)
-```
+`
 
-> Number of coins given to the miner of the first block. Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
+Number of coins given to the miner of the first block. Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
 
-```go
+`
   "minimumcoinbase": 30000,  // Siacoins (see note in Daemon.md)
-```
+`
 
-> Minimum number of coins paid out to the miner of a block (the coinbase decreases with each block). Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
+Minimum number of coins paid out to the miner of a block (the coinbase decreases with each block). Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
 
-```go
+`
   "roottarget": [0,0,0,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-```
+`
 
-> Initial target.
+Initial target.
 
-```go
+`
   "rootdepth":  [255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255],
-```
+`
 
-> Initial depth.
+Initial depth.
 
-```go
+`
   "maxtargetadjustmentup":   "5/2",
-```
+`
 
-> Largest allowed ratio between the old difficulty and the new difficulty.
+Largest allowed ratio between the old difficulty and the new difficulty.
 
-```go
+`
   "maxtargetadjustmentdown": "2/5",
-```
+`
 
-> Smallest allowed ratio between the old difficulty and the new difficulty.
+Smallest allowed ratio between the old difficulty and the new difficulty.
 
-```go
+`
   "siacoinprecision": "1000000000000000000000000" // hastings per siacoin
-```
-
-> Number of Hastings in one siacoin.
-
-
-
-
 `
-{`
 
-  `  "blockfrequency":         600,        // seconds per block`
-
-  `  "blocksizelimit":         2000000,    // bytes`
-
-  `  "extremefuturethreshold": 10800,      // seconds`
-
-  `  "futurethreshold":        10800,      // seconds`
-
-  `  "genesistimestamp":       1257894000, // Unix time`
-
-  `  "maturitydelay":          144,        // blocks`
-
-  `  "mediantimestampwindow":  11,         // blocks`
-
-  `  "siafundcount":           "10000",`
-
-  `  "siafundportion":         "39/1000",`
-
-  `  "targetwindow":           1000,       // blocks`
-
-
-
-  `  "initialcoinbase": 300000, // Siacoins (see note in sidebar)`
- 
-  `  "minimumcoinbase": 30000,  // Siacoins (see note in sidebar)`
-
-
-
-  `  "roottarget": [0,0,0,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],`
-
-  `  "rootdepth":  [255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255],`
-
-
-
-
-  `  "maxtargetadjustmentup":   "5/2",`
-
-  `  "maxtargetadjustmentdown": "2/5",`
-
-
-
-
-  `  "siacoinprecision": "1000000000000000000000000" // hastings per siacoin`
-
-`}
-`
+Number of Hastings in one siacoin.
 
 ## /daemon/stop [GET]
 
