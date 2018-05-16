@@ -239,6 +239,1167 @@ The JSON formatted block or a standard error response.
 }
 ```
 
+## /consensus/validate/transactionset [POST]
+
+validates a set of transactions using the current utxo set.
+
+### Request Body Bytes
+
+Since transactions may be large, the transaction set is supplied in the POST body, encoded in JSON format.
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+# Gateway
+
+For examples and detailed descriptions of request and response parameters, refer to Gateway.md.
+
+## /gateway [GET]
+
+returns information about the gateway, including the list of connected peers.
+
+### JSON Response (with comments)
+
+`
+{
+    "netaddress": String,
+    "peers":      []{
+        "netaddress": String,
+        "version":    String,
+        "inbound":    Boolean
+    }
+}
+`
+
+## /gateway/connect/:*netaddress* [POST]
+
+connects the gateway to a peer. The peer is added to the node list if it is not already present. The node list is the list of all nodes the gateway knows about, but is not necessarily connected to.
+
+### Path Parameters (with comments)
+
+`:netaddress`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /gateway/disconnect/:*netaddress* [POST] (example)
+
+disconnects the gateway from a peer. The peer remains in the node list.
+
+### Path Parameters (with comments)
+
+`netaddress`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+# Host
+
+For examples and detailed descriptions of request and response parameters, refer to Host.md.
+
+## /host [GET]
+
+fetches status information about the host.
+
+### JSON Response (with comments)
+
+`
+{
+  "externalsettings": {
+    "acceptingcontracts":   true,
+    "maxdownloadbatchsize": 17825792, // bytes
+    "maxduration":          25920,    // blocks
+    "maxrevisebatchsize":   17825792, // bytes
+    "netaddress":           "123.456.789.0:9982",
+    "remainingstorage":     35000000000, // bytes
+    "sectorsize":           4194304,     // bytes
+    "totalstorage":         35000000000, // bytes
+    "unlockhash":           "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789ab",
+    "windowsize":           144, // blocks
+
+    "collateral":    "57870370370",                     // hastings / byte / block
+    "maxcollateral": "100000000000000000000000000000",  // hastings
+
+    "contractprice":          "30000000000000000000000000", // hastings
+    "downloadbandwidthprice": "250000000000000",            // hastings / byte
+    "storageprice":           "231481481481",               // hastings / byte / block
+    "uploadbandwidthprice":   "100000000000000",            // hastings / byte
+
+    "revisionnumber": 0,
+    "version":        "1.0.0"
+  },
+
+  "financialmetrics": {
+    "contractcount":                 2,
+    "contractcompensation":          "123", // hastings
+    "potentialcontractcompensation": "123", // hastings
+
+    "lockedstoragecollateral": "123", // hastings
+    "lostrevenue":             "123", // hastings
+    "loststoragecollateral":   "123", // hastings
+    "potentialstoragerevenue": "123", // hastings
+    "riskedstoragecollateral": "123", // hastings
+    "storagerevenue":          "123", // hastings
+    "transactionfeeexpenses":  "123", // hastings
+
+    "downloadbandwidthrevenue":          "123", // hastings
+    "potentialdownloadbandwidthrevenue": "123", // hastings
+    "potentialuploadbandwidthrevenue":   "123", // hastings
+    "uploadbandwidthrevenue":            "123"  // hastings
+  },
+
+  "internalsettings": {
+    "acceptingcontracts":   true,
+    "maxdownloadbatchsize": 17825792, // bytes
+    "maxduration":          25920,    // blocks
+    "maxrevisebatchsize":   17825792, // bytes
+    "netaddress":           "123.456.789.0:9982",
+    "windowsize":           144, // blocks
+
+    "collateral":       "57870370370",                     // hastings / byte / block
+    "collateralbudget": "2000000000000000000000000000000", // hastings
+    "maxcollateral":    "100000000000000000000000000000",  // hastings
+
+    "mincontractprice":          "30000000000000000000000000", // hastings
+    "mindownloadbandwidthprice": "250000000000000",            // hastings / byte
+    "minstorageprice":           "231481481481",               // hastings / byte / block
+    "minuploadbandwidthprice":   "100000000000000"             // hastings / byte
+  },
+
+  "networkmetrics": {
+    "downloadcalls":     0,
+    "errorcalls":        1,
+    "formcontractcalls": 2,
+    "renewcalls":        3,
+    "revisecalls":       4,
+    "settingscalls":     5,
+    "unrecognizedcalls": 6
+  },
+
+  "connectabilitystatus": "checking",
+  "workingstatus":        "checking"
+}
+`
+
+## /host [POST]
+
+configures hosting parameters. All parameters are optional; unspecified parameters will be left unchanged.
+
+### Query String Parameters (with comments)
+
+`
+acceptingcontracts   // Optional, true / false
+maxdownloadbatchsize // Optional, bytes
+maxduration          // Optional, blocks
+maxrevisebatchsize   // Optional, bytes
+netaddress           // Optional
+windowsize           // Optional, blocks
+
+collateral       // Optional, hastings / byte / block
+collateralbudget // Optional, hastings
+maxcollateral    // Optional, hastings
+
+mincontractprice          // Optional, hastings
+mindownloadbandwidthprice // Optional, hastings / byte
+minstorageprice           // Optional, hastings / byte / block
+minuploadbandwidthprice   // Optional, hastings / byte
+`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /host/announce [POST]
+
+Announces the host to the network as a source of storage. GEnerally only needs to be called once.
+
+### Query String Parameters (with comments)
+
+`netaddress string // Optional`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /host/contracts [GET]
+
+gets a list of all contracts from the host database
+
+### JSON Response (with comments)
+
+```
+{
+  "contracts": [
+    {
+      "contractcost":			"1234",		// hastings
+      "datasize":			500000,		// bytes
+      "lockedcollateral":		"1234",		// hastings
+      "obligationid":			"fff48010dcbbd6ba7ffd41bc4b25a3634ee58bbf688d2f06b7d5a0c837304e13",
+      "potentialdownloadrevenue":	"1234",		// hastings
+      "potentialstoragerevenue":	"1234",		// hastings
+      "potentialuploadrevenue":		"1234",		// hastings
+      "riskedcollateral":		"1234",		// hastings
+      "sectorrootscount":		2,
+      "transactionfeesadded":		"1234",		// hastings
+
+      "expirationheight":		123456,		// blocks
+      "negotiationheight":		123456,		// blocks
+      "proofdeadline":			123456,		// blocks
+
+      "obligationstatus":		"obligationFailed",
+      "originconfirmed":		true,
+      "proofconfirmed":			true,
+      "proofconstructed":		true
+      "revisionconfirmed":		false,
+      "revisionconstructed":		false,
+    }
+  ]
+}
+```
+
+## /host/storage [GET]
+
+get a list of folders tracked by the host's storage manager.
+
+### JSON Response (with comments)
+
+```
+{
+  "folders": [
+    {
+      "path":              "/home/foo/bar",
+      "capacity":          50000000000,     // bytes
+      "capacityremaining": 100000,          // bytes
+
+      "failedreads":      0,
+      "failedwrites":     1,
+      "successfulreads":  2,
+      "successfulwrites": 3
+    }
+  ]
+}
+```
+
+## /host/storage/folders/add [POST]
+
+adds a storage folder to the manager. The manager may not check that there is enough space available on-disk to support as much storage as requested
+
+### Query String Parameters (with comments)
+
+`
+path // Required
+size // bytes, Required
+`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /host/storage/folders/remove [POST]
+
+remove a storage folder from the manager. All sotrage on the folder will be moved to other stoarge folders, meaning that no data will be lost. If the manager is unable to save data, an error will be returned and the operation will be stopped.
+
+### Query String Parameters (with comments)
+
+`
+path  // Required
+force // bool, Optional, default is false
+`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /host/storage/folders/resize [POST]
+
+grows or shrinks a storage file in the manager. The manager may not check that there is enough space on-disk to support growing the storasge folder, but should gracefully handle running out of space unexpectedly. When shrinking a storage folder, any data in the folder that neeeds to be moved will be placed into other storage folders, meaning that no data will be lost. If the manager is unable to migrate the data, an error will be returned and the operation will be stopped.
+
+### Query String Paramaters (with comments)
+
+`
+path    // Required
+newsize // bytes, Required
+`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /host/storage/sectors/delete/:*merkleroot* [POST]
+
+deletes a sector, meaning that the manager will be unable to upload that sector and be unable to provide a storage proof on that sector. This endpoint is for removing the data entirely, and will remove instances of the sector appearing at all heights. The primary purpose is to comply with legal requests to remove data.
+
+### Path Parameters (with comments)
+
+`:merkleroot`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /host/estimatescore [GET]
+
+returns the estimated HostDB score of the host using its current settings, combined with the provided settings.
+
+### JSON Response (with comments)
+
+`
+{
+	"estimatedscore": "123456786786786786786786786742133",
+	"conversionrate": 95
+}
+`
+
+### Query String Parameters (with comments)
+
+`
+acceptingcontracts   // Optional, true / false
+maxdownloadbatchsize // Optional, bytes
+maxduration          // Optional, blocks
+maxrevisebatchsize   // Optional, bytes
+netaddress           // Optional
+windowsize           // Optional, blocks
+
+collateral       // Optional, hastings / byte / block
+collateralbudget // Optional, hastings
+maxcollateral    // Optional, hastings
+
+mincontractprice          // Optional, hastings
+mindownloadbandwidthprice // Optional, hastings / byte
+minstorageprice           // Optional, hastings / byte / block
+minuploadbandwidthprice   // Optional, hastings / byte
+`
+
+# Host DB
+
+For examples and detailed descriptions of request and response parameters, refer to HostDB.md.
+
+## /hostdb/active [GET]
+
+lists all of the active hosts known to the renter, sorted by preference.
+
+### Query String Parameters (with comments)
+
+`numhosts // Optional`
+
+### JSON Response (with comments)
+
+`
+{
+  "hosts": [
+    {
+      "acceptingcontracts":   true,
+      "maxdownloadbatchsize": 17825792, // bytes
+      "maxduration":          25920,    // blocks
+      "maxrevisebatchsize":   17825792, // bytes
+      "netaddress":           "123.456.789.2:9982",
+      "remainingstorage":     35000000000, // bytes
+      "sectorsize":           4194304,     // bytes
+      "totalstorage":         35000000000, // bytes
+      "unlockhash":           "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789ab",
+      "windowsize":           144, // blocks
+      "publickey": {
+        "algorithm": "ed25519",
+        "key":        "RW50cm9weSBpc24ndCB3aGF0IGl0IHVzZWQgdG8gYmU="
+      }
+      "publickeystring": "ed25519:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+    }
+  ]
+}
+`
+
+## /hostdb/all [GET]
+
+lists all of the hosts known to the renter. Hosts are not guaranteed to be in any particular order, and the order may change in subsequent calls.
+
+### JSON Response (with comments)
+
+`
+{
+  "hosts": [
+    {
+      "acceptingcontracts":   true,
+      "maxdownloadbatchsize": 17825792, // bytes
+      "maxduration":          25920,    // blocks
+      "maxrevisebatchsize":   17825792, // bytes
+      "netaddress":           "123.456.789.0:9982",
+      "remainingstorage":     35000000000, // bytes
+      "sectorsize":           4194304,     // bytes
+      "totalstorage":         35000000000, // bytes
+      "unlockhash":           "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789ab",
+      "windowsize":           144, // blocks
+      "publickey": {
+        "algorithm": "ed25519",
+        "key":       "RW50cm9weSBpc24ndCB3aGF0IGl0IHVzZWQgdG8gYmU="
+      }
+      "publickeystring": "ed25519:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+    }
+  ]
+}
+`
+
+## /hostdb/hosts/:*pubkey* [GET] (example)
+
+fetches detailed information about a particular host, including metrics regarding the score of the host within the database. It should be noted that each renter uses different metrics for selecting hosts, and that a good score on in one hostdb does not mean that the host will be successful on the network overall.
+
+### Path Parameters (with comments)
+
+`:pubkey`
+
+### JSON Response (with comments)
+
+`
+{
+  "entry": {
+    "acceptingcontracts":   true,
+    "maxdownloadbatchsize": 17825792, // bytes
+    "maxduration":          25920,    // blocks
+    "maxrevisebatchsize":   17825792, // bytes
+    "netaddress":           "123.456.789.0:9982",
+    "remainingstorage":     35000000000, // bytes
+    "sectorsize":           4194304,     // bytes
+    "totalstorage":         35000000000, // bytes
+    "unlockhash":           "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789ab",
+    "windowsize":           144, // blocks
+    "publickey": {
+      "algorithm": "ed25519",
+      "key":       "RW50cm9weSBpc24ndCB3aGF0IGl0IHVzZWQgdG8gYmU="
+    }
+    "publickeystring": "ed25519:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+  },
+  "scorebreakdown": {
+    "score": 1,
+
+    "ageadjustment":              0.1234,
+    "burnadjustment":             0.1234,
+    "collateraladjustment":       23.456,
+    "interactionadjustment":      0.1234,
+    "priceadjustment":            0.1234,
+    "storageremainingadjustment": 0.1234,
+    "uptimeadjustment":           0.1234,
+    "versionadjustment":          0.1234,
+  }
+}
+`
+
+# Miner
+
+For examples and detailed descriptions of request and response parameters, refer to Miner.md.
+
+## /miner [GET]
+
+returns the status of the miner.
+
+### JSON Response (with comments)
+
+`
+{
+  "blocksmined":      9001,
+  "cpuhashrate":      1337,
+  "cpumining":        false,
+  "staleblocksmined": 0,
+}
+`
+
+## /miner/start [GET]
+
+starts a single threaded CPU miner. Does nothing if the CPU miner is already running.
+
+### Response
+
+standard success or error response. See #standard-response
+
+## /miner/stop [GET]
+
+stops the cpu miner. Does nothing if the cpu miner is not running.
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /miner/header [GET]
+
+provides a block header that is ready to be grinded on for work.
+
+### Byte Response
+
+For efficiency the header for work is returned as a raw byte encoding of the header, rather than encoded to JSON. Refer to Miner.md#byte-response for a detailed description of the byte encoding.
+
+## /miner/header [POST]
+
+submits a header that has passed the POW.
+
+### Request Body Bytes
+
+For efficiency headers are submitted as raw byte encodings of the header in the body of the request, rather than as a query string parameter or path parameter. The request body should contain only the 80 bytes of the encoded header. The encoding is the same encoding used in /miner/header [GET] endpoint. Refer to Miner.md#byte-response for a detailed description of the byte encoding.
+
+# Renter
+
+For examples and detailed descriptions of request and response parameters, refer to Renter.md.
+
+## /renter [GET]
+
+returns the current settings along with metrics on the renter's spending.
+
+### JSON Response (with comments)
+`
+{
+  "settings": {
+    "allowance": {
+      "funds":       "1234", // hastings
+      "hosts":       24,
+      "period":      6048, // blocks
+      "renewwindow": 3024  // blocks
+    }
+  },
+  "financialmetrics": {
+    "contractfees":     "1234", // hastings
+    "contractspending": "1234", // hastings (deprecated, now totalallocated)
+    "downloadspending": "5678", // hastings
+    "storagespending":  "1234", // hastings
+    "totalallocated":   "1234", // hastings
+    "uploadspending":   "5678", // hastings
+    "unspent":          "1234"  // hastings
+  },
+  "currentperiod": "200"
+}
+`
+
+## /renter [POST]
+
+modify settings that control the renter's behavior.
+
+### Query String Parameters (with comments)
+`
+funds // hastings
+hosts
+period      // block height
+renewwindow // block height
+`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /renter/contracts [GET]
+
+returns active contracts. Expired contracts are not included.
+
+### JSON Response (with comments)
+`
+{
+  "contracts": [
+    {
+      "downloadspending": "1234", // hastings
+      "endheight": 50000, // block height
+      "fees": "1234", // hastings
+      "hostpublickey": {
+        "algorithm": "ed25519",
+        "key": "RW50cm9weSBpc24ndCB3aGF0IGl0IHVzZWQgdG8gYmU="
+      },
+      "id": "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "lasttransaction": {},
+      "netaddress": "12.34.56.78:9",
+      "renterfunds": "1234", // hastings
+      "size": 8192, // bytes
+      "startheight": 50000, // block height
+      "StorageSpending": "1234",
+      "storagespending": "1234", // hastings
+      "totalcost": "1234", // hastings
+      "uploadspending": "1234" // hastings
+      "goodforupload": true,
+      "goodforrenew": false,
+    }
+  ]
+}
+`
+
+## /renter/downloads [GET]
+
+lists all files in the download queue.
+
+### JSON Response (with comments)
+`
+{
+  "downloads": [
+    {
+      "destination":     "/home/users/alice/bar.txt",
+      "destinationtype": "file",
+      "length":          8192,
+      "offset":          2000,
+      "siapath":         "foo/bar.txt",
+
+      "completed":           true,
+      "endtime":             "2009-11-10T23:10:00Z", // RFC 3339 time
+      "error":               "",
+      "received":            8192,
+      "starttime":           "2009-11-10T23:00:00Z", // RFC 3339 time
+      "totaldatatransfered": 10031
+    }
+  ]
+}
+`
+
+## /renter/files [GET]
+
+lists the status of all files.
+
+### JSON Response (with comments)
+`
+{
+  "files": [
+    {
+      "siapath":        "foo/bar.txt",
+      "localpath":      "/home/foo/bar.txt",
+      "filesize":       8192, // bytes
+      "available":      true,
+      "renewing":       true,
+      "redundancy":     5,
+      "bytesuploaded":  209715200, // total bytes uploaded
+      "uploadprogress": 100, // percent
+      "expiration":     60000
+    }
+  ]
+}
+`
+
+## /renter/file/*siapath [GET]
+
+lists the status of specified file.
+
+### JSON Response (with comments)
+`
+{
+  "file": {
+    "siapath":        "foo/bar.txt",
+    "localpath":      "/home/foo/bar.txt",
+    "filesize":       8192, // bytes
+    "available":      true,
+    "renewing":       true,
+    "redundancy":     5,
+    "bytesuploaded":  209715200, // total bytes uploaded
+    "uploadprogress": 100, // percent
+    "expiration":     60000
+  }
+}
+`
+
+## /renter/prices [GET]
+
+lists the estimated prices of performing various storage and data operations.
+
+### JSON Response (with comments)
+`
+{
+  "downloadterabyte":      "1234", // hastings
+  "formcontracts":         "1234", // hastings
+  "storageterabytemonth":  "1234", // hastings
+  "uploadterabyte":        "1234"  // hastings
+}
+`
+
+## /renter/delete/*siapath [POST]
+
+deletes a renter file entry. Does not delete any downloads or original files, only the entry in the renter.
+
+### Path Parameters (with comments)
+
+`*siapath`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /renter/download/*siapath [GET]
+
+downloads a file to the local filesystem. The call will block until the file has been downloaded.
+
+### Path Parameters (with comments)
+
+`*siapath`
+
+### Query String Parameters (with comments)
+
+`async
+destination
+httpresp
+length
+offset`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /renter/downloadasync/*siapath [GET]
+
+downloads a file to the local filesystem. The call will return immediately.
+
+### Path Parameters (with comments)
+
+`*siapath`
+
+### Query String Parameters (with comments)
+
+`destination`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /renter/rename/*siapath [POST]
+
+renames a file. Does not rename any downloads or source files, only renames the entry in the renter. An error is returned if siapath does not exist or newsiapath already exists.
+
+### Path Parameters (with comments)
+
+`*siapath`
+
+### Query String Parameters (with comments)
+
+`newsiapath`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /renter/stream/*siapath [GET]
+
+downloads a file using http streaming. This call blocks until the data is received. The streaming endpoint also uses caching internally to prevent siad from redownloading the same chunk multiple times when only parts of a file are requested at once. This might lead to a substantial increase in ram usage and therefore it is not recommended to stream multiple files in parallel at the moment. This restriction will be removed together with the caching once partial downloads are supported in the future.
+
+### Path Parameters (with comments)
+
+`*siapath`
+
+### Response
+
+standard success with the requested data in the body or error response. See #standard-responses.
+
+## /renter/upload/*siapath [POST]
+
+uploads a file to the network from the local filesystem.
+
+### Path Parameters (with comments)
+
+`*siapath`
+
+### Query String Parameters (with comments)
+
+`datapieces   // int
+paritypieces // int
+source       // string - a filepath`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+# Transaction Pool
+
+## /tpool/confirmed/:id [GET]
+
+returns whether the requested transaction has been seen on the blockchain. Note, however, that the block containing the transaction may later be invalidated by a reorg.
+
+### JSON Response
+`
+{
+  "confirmed": true
+}
+`
+
+## /tpool/fee [GET]
+
+returns the minimum and maximum estimated fees expected by the transaction pool.
+
+### JSON Response (with comments)
+`
+{
+  "minimum": "1234", // hastings / byte
+  "maximum": "5678"  // hastings / byte
+}
+`
+
+## /tpool/raw/:id [GET]
+
+returns the ID for the requested transaction and its raw encoded parents and transaction data.
+
+### JSON Response (with comments)
+`
+{
+	// id of the transaction
+	"id": "124302d30a219d52f368ecd94bae1bfb922a3e45b6c32dd7fb5891b863808788",
+
+	// raw, base64 encoded transaction data
+	"transaction": "AQAAAAAAAADBM1ca/FyURfizmSukoUQ2S0GwXMit1iNSeYgrnhXOPAAAAAAAAAAAAQAAAAAAAABlZDI1NTE5AAAAAAAAAAAAIAAAAAAAAACdfzoaJ1MBY7L0fwm7O+BoQlFkkbcab5YtULa6B9aecgEAAAAAAAAAAQAAAAAAAAAMAAAAAAAAAAM7Ljyf0IA86AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAACgAAAAAAAACe0ZTbGbI4wAAAAAAAAAAAAAABAAAAAAAAAMEzVxr8XJRF+LOZK6ShRDZLQbBcyK3WI1J5iCueFc48AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA+z4P1wc98IqKxykTSJxiVT+BVbWezIBnIBO1gRRlLq2x/A+jIc6G7/BA5YNJRbdnqPHrzsZvkCv4TKYd/XzwBA==",
+	"parents": "AQAAAAAAAAABAAAAAAAAAJYYmFUdXXfLQ2p6EpF+tcqM9M4Pw5SLSFHdYwjMDFCjAAAAAAAAAAABAAAAAAAAAGVkMjU1MTkAAAAAAAAAAAAgAAAAAAAAAAHONvdzzjHfHBx6psAN8Z1rEVgqKPZ+K6Bsqp3FbrfjAQAAAAAAAAACAAAAAAAAAAwAAAAAAAAAAzvNDjSrme8gwAAA4w8ODnW8DxbOV/JribivvTtjJ4iHVOug0SXJc31BdSINAAAAAAAAAAPGHY4699vggx5AAAC2qBhm5vwPaBsmwAVPho/1Pd8ecce/+BGv4UimnEPzPQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAACWGJhVHV13y0NqehKRfrXKjPTOD8OUi0hR3WMIzAxQowAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAABnt64wN1qxym/CfiMgOx5fg/imVIEhY+4IiiM7gwvSx8qtqKniOx50ekrGv8B+gTKDXpmm2iJibWTI9QLZHWAY=",
+}
+`
+
+## /tpool/raw [POST]
+
+submits a raw transaction to the transaction pool, broadcasting it to the transaction pool's peers.
+
+### Query String Parameters (with comments)
+
+`parents     string // raw base64 encoded transaction parents
+transaction string // raw base64 encoded transaction`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+# Wallet
+
+For examples and detailed descriptions of request and response parameters, refer to Wallet.md.
+
+## /wallet [GET]
+
+returns basic information about the wallet, such as whether the wallet is locked or unlocked.
+
+### JSON Response (with comments)
+`
+{
+  "encrypted":  true,
+  "unlocked":   true,
+  "rescanning": false,
+
+  "confirmedsiacoinbalance":     "123456", // hastings, big int
+  "unconfirmedoutgoingsiacoins": "0",      // hastings, big int
+  "unconfirmedincomingsiacoins": "789",    // hastings, big int
+
+  "siafundbalance":      "1",    // siafunds, big int
+  "siacoinclaimbalance": "9001", // hastings, big int
+
+  "dustthreshold": "1234", // hastings / byte, big int
+}
+`
+
+## /wallet/033x [POST]
+
+loads a v0.3.3.x wallet into the current wallet, harvesting all of the secret keys. All spendable addresses in the loaded wallet will become spendable from the current wallet.
+
+### Query String Parameters (with comments)
+
+`source
+encryptionpassword`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /wallet/address [GET]
+
+gets a new address from the wallet generated by the primary seed. An error will be returned if the wallet is locked.
+
+### JSON Response (with comments)
+`
+{
+  "address": "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789ab"
+}
+`
+
+## /wallet/addresses [GET]
+
+fetches the list of addresses from the wallet. If the wallet has not been created or unlocked, no addresses will be returned. After the wallet is unlocked, this call will continue to return its addresses even after the wallet is locked again.
+
+### JSON Response (with comments)
+`
+{
+  "addresses": [
+    "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789ab",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  ]
+}
+`
+
+## /wallet/backup [GET]
+
+creates a backup of the wallet settings file. Though this can easily be done manually, the settings file is often in an unknown or difficult to find location. The /wallet/backup call can spare users the trouble of needing to find their wallet file.
+
+### Parameters (with comments)
+
+`destination`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /wallet/init [POST]
+
+initializes the wallet. After the wallet has been initialized once, it does not need to be initialized again, and future calls to /wallet/init will return an error. The encryption password is provided by the api call. If the password is blank, then the password will be set to the same as the seed.
+
+### Query String Parameters (with comments)
+
+`encryptionpassword
+dictionary // Optional, default is english.
+force // Optional, when set to true it will destroy an existing wallet and reinitialize a new one.`
+
+### JSON Response (with comments)
+`
+{
+  "primaryseed": "hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello"
+}
+`
+
+## /wallet/init/seed [POST]
+
+initializes the wallet using a preexisting seed. After the wallet has been initialized once, it does not need to be initialized again, and future calls to /wallet/init/seed will return an error. The encryption password is provided by the api call. If the password is blank, then the password will be set to the same as the seed. Note that loading a preexisting seed requires scanning the blockchain to determine how many keys have been generated from the seed. For this reason, /wallet/init/seed can only be called if the blockchain is synced.
+
+### Query String Parameters (with comments)
+
+`encryptionpassword
+dictionary // Optional, default is english.
+seed
+force // Optional, when set to true it will destroy an existing wallet and reinitialize a new one.`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /wallet/seed [POST]
+
+gives the wallet a seed to track when looking for incoming transactions. The wallet will be able to spend outputs related to addresses created by the seed. The seed is added as an auxiliary seed, and does not replace the primary seed. Only the primary seed will be used for generating new addresses.
+
+### Query String Parameters (with comments)
+
+`encryptionpassword
+dictionary
+seed`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /wallet/seeds [GET]
+
+returns the list of seeds in use by the wallet. The primary seed is the only seed that gets used to generate new addresses. This call is unavailable when the wallet is locked.
+
+### Query String Parameters (with comments)
+
+`dictionary`
+
+### JSON Response (with comments)
+`
+{
+  "primaryseed":        "hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello",
+  "addressesremaining": 2500,
+  "allseeds":           [
+    "hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello",
+    "foo bar foo bar foo bar foo bar foo bar foo bar foo bar foo bar foo bar foo bar foo bar foo bar foo bar foo bar foo",
+  ]
+}
+`
+
+## /wallet/siacoins [POST]
+
+sends siacoins to an address or set of addresses. The outputs are arbitrarily selected from addresses in the wallet. If 'outputs' is supplied, 'amount' and 'destination' must be empty.
+
+### Query String Parameters (with comments)
+`
+amount      // hastings
+destination // address
+outputs     // JSON array of {unlockhash, value} pairs`
+
+### JSON Response (with comments)
+`
+{
+  "transactionids": [
+    "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  ]
+}
+`
+
+## /wallet/siafunds [POST]
+
+sends siafunds to an address. The outputs are arbitrarily selected from addresses in the wallet. Any siacoins available in the siafunds being sent (as well as the siacoins available in any siafunds that end up in a refund address) will become available to the wallet as siacoins after 144 confirmations. To access all of the siacoins in the siacoin claim balance, send all of the siafunds to an address in your control (this will give you all the siacoins, while still letting you control the siafunds).
+
+### Query String Parameters (with comments)
+`
+amount      // siafunds
+destination // address`
+
+### JSON Response (with comments)
+`
+{
+  "transactionids": [
+    "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  ]
+}
+`
+
+## /wallet/siagkey [POST]
+
+loads a key into the wallet that was generated by siag. Most siafunds are currently in addresses created by siag.
+
+### Query String Parameters (with comments)
+`
+encryptionpassword
+keyfiles`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /wallet/sweep/seed [POST]
+
+Function: Scan the blockchain for outputs belonging to a seed and send them to an address owned by the wallet.
+
+### Query String Parameters (with comments)
+`
+dictionary // Optional, default is english.
+seed`
+
+### JSON Response (with comments)
+`
+{
+  "coins": "123456", // hastings, big int
+  "funds": "1",      // siafunds, big int
+}
+`
+
+## /wallet/lock [POST]
+
+locks the wallet, wiping all secret keys. After being locked, the keys are encrypted. Queries for the seed, to send siafunds, and related queries become unavailable. Queries concerning transaction history and balance are still available.
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /wallet/transaction/:*id* [GET]
+
+gets the transaction associated with a specific transaction id.
+
+### Path Parameters (with comments)
+
+`:id`
+
+### JSON Response (with comments)
+`
+{
+  "transaction": {
+    "transaction": {
+      // See types.Transaction in https://github.com/NebulousLabs/Sia/blob/master/types/transactions.go
+    },
+    "transactionid":         "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "confirmationheight":    50000,
+    "confirmationtimestamp": 1257894000,
+    "inputs": [
+      {
+        "parentid":       "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "fundtype":       "siacoin input",
+        "walletaddress":  false,
+        "relatedaddress": "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789ab",
+        "value":          "1234", // hastings or siafunds, depending on fundtype, big int
+      }
+    ],
+    "outputs": [
+      {
+        "id":             "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "fundtype":       "siacoin output",
+        "maturityheight": 50000,
+        "walletaddress":  false,
+        "relatedaddress": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "value":          "1234", // hastings or siafunds, depending on fundtype, big int
+      }
+    ]
+  }
+}
+`
+
+## /wallet/transactions [GET]
+
+returns a list of transactions related to the wallet in chronological order.
+
+### Query String Parameters (with comments)
+`
+startheight // block height
+endheight   // block height`
+
+### JSON Response (with comments)
+`
+{
+  "confirmedtransactions": [
+    {
+      // See the documentation for '/wallet/transaction/:id' for more information.
+    }
+  ],
+  "unconfirmedtransactions": [
+    {
+      // See the documentation for '/wallet/transaction/:id' for more information.
+    }
+  ]
+}
+`
+
+## /wallet/transactions/:addr [GET]
+
+returns all of the transactions related to a specific address.
+
+### Path Parameters (with comments)
+
+`:addr`
+
+### JSON Response (with comments)
+`
+{
+  "transactions": [
+    {
+      // See the documentation for '/wallet/transaction/:id' for more information.
+    }
+  ]
+}
+`
+
+## /wallet/unlock [POST]
+
+unlocks the wallet. The wallet is capable of knowing whether the correct password was provided.
+
+### Query String Parameters (with comments)
+
+`encryptionpassword`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+## /wallet/verify/address/:addr [GET]
+
+takes the address specified by :addr and returns a JSON response indicating if the address is valid.
+
+### JSON Response (with comments)
+`
+{
+	"valid": true
+}
+`
+
+## /wallet/changepassword [POST]
+
+changes the wallet's encryption key.
+
+### Query String Parameters (with comments)
+`
+encryptionpassword
+newpassword`
+
+### Response
+
+standard success or error response. See #standard-responses.
+
+
+
+
+
+
+
+
+
 
 
 
