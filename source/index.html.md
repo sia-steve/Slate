@@ -44,11 +44,11 @@ The standard response indicating the request was successfully processed is HTTP 
 ## Error
 The standard error response indicating the request failed for any reason, is a 4xx or 5xx HTTP status code with an error JSON object describing the error.
 
-`{
-    "message": String
+`{`
+`    "message": String`
 
-    // There may be additional fields depending on the specific error.
-}`
+`    // There may be additional fields depending on the specific error.`
+`}`
 
 # Authentication
 
