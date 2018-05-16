@@ -71,23 +71,53 @@ For examples and detailed descriptions of request and response parameters, refer
 ## /daemon/constants [GET]
 
 ```go
-JSON Response
+{
   "blockfrequency":         600,        // seconds per block
-```
-
-> Target for how frequently new blocks should be mined.
-
-```go
   "blocksizelimit":         2000000,    // bytes
-```
-
-> Maximum size, in bytes, of a block. Blocks larger than this will be rejected by peers.
-
-```go
   "extremefuturethreshold": 10800,      // seconds
+  "futurethreshold":        10800,      // seconds
+  "genesistimestamp":       1257894000, // Unix time
+  "maturitydelay":          144,        // blocks
+  "mediantimestampwindow":  11,         // blocks
+  "siafundcount":           "10000",
+  "siafundportion":         "39/1000",
+  "targetwindow":           1000,       // blocks
+
+  "initialcoinbase": 300000, // Siacoins (see note in Daemon.md)
+  "minimumcoinbase": 30000,  // Siacoins (see note in Daemon.md)
+
+  "roottarget": [0,0,0,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  "rootdepth":  [255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255],
+
+  "maxtargetadjustmentup":   "5/2",
+  "maxtargetadjustmentdown": "2/5",
+
+  "siacoinprecision": "1000000000000000000000000" // hastings per siacoin
+}
 ```
 
-> Farthest a block's timestamp can be in the future before the block is rejected outright.
+Returns the set of constants in use.
+
+XXXXXXXX
+`
+JSON Response`
+`
+  "blockfrequency":         600,        // seconds per block
+`
+
+Target for how frequently new blocks should be mined.
+
+`
+  "blocksizelimit":         2000000,    // bytes
+`
+
+Maximum size, in bytes, of a block. Blocks larger than this will be rejected by peers.
+
+`
+  "extremefuturethreshold": 10800,      // seconds
+`
+
+Farthest a block's timestamp can be in the future before the block is rejected outright.
 
 ```go
   "futurethreshold":        10800,      // seconds
@@ -173,7 +203,7 @@ JSON Response
 
 > Number of Hastings in one siacoin.
 
-Returns the set of constants in use.
+
 
 
 `
