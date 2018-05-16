@@ -104,6 +104,7 @@ Returns the set of constants in use.
 
 Target for how frequently new blocks should be mined.
 
+
 `
   "blocksizelimit":         2000000,    // bytes
 `
@@ -159,13 +160,13 @@ Fraction of each file contract payout given to siafund holders.
 Height of the window used to adjust the difficulty.
 
 `
-  "initialcoinbase": 300000, // Siacoins (see note in Daemon.md)
+  "initialcoinbase": 300000, // Siacoins
 `
 
 Number of coins given to the miner of the first block. Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
 
 `
-  "minimumcoinbase": 30000,  // Siacoins (see note in Daemon.md)
+  "minimumcoinbase": 30000,  // Siacoins
 `
 
 Minimum number of coins paid out to the miner of a block (the coinbase decreases with each block). Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
