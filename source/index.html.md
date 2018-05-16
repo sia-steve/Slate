@@ -176,30 +176,53 @@ JSON Response
 Returns the set of constants in use.
 
 
-
 `
 {`
+
 `  "blockfrequency":         600,        // seconds per block`
+
 `  "blocksizelimit":         2000000,    // bytes`
+
 `  "extremefuturethreshold": 10800,      // seconds`
+
 `  "futurethreshold":        10800,      // seconds`
+
 `  "genesistimestamp":       1257894000, // Unix time`
+
 `  "maturitydelay":          144,        // blocks`
+
 `  "mediantimestampwindow":  11,         // blocks`
+
 `  "siafundcount":           "10000",`
+
 `  "siafundportion":         "39/1000",`
+
 `  "targetwindow":           1000,       // blocks`
 
+
+
 `  "initialcoinbase": 300000, // Siacoins (see note in sidebar)`
+
 `  "minimumcoinbase": 30000,  // Siacoins (see note in sidebar)`
 
+
+
 `  "roottarget": [0,0,0,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],`
+
 `  "rootdepth":  [255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255],`
 
+
+
+
 `  "maxtargetadjustmentup":   "5/2",`
+
 `  "maxtargetadjustmentdown": "2/5",`
 
+
+
+
 `  "siacoinprecision": "1000000000000000000000000" // hastings per siacoin`
+
 `}
 `
 
