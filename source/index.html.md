@@ -77,7 +77,8 @@ returns the set of constants in use.
 
 JSON Response (with comments)
 
-`{
+```
+{
   "blockfrequency":         600,        // seconds per block
   "blocksizelimit":         2000000,    // bytes
   "extremefuturethreshold": 10800,      // seconds
@@ -99,7 +100,8 @@ JSON Response (with comments)
   "maxtargetadjustmentdown": "2/5",
 
   "siacoinprecision": "1000000000000000000000000" // hastings per siacoin
-}`
+}
+```
 
 ## /daemon/stop [GET]
 
