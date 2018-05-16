@@ -72,75 +72,109 @@ For examples and detailed descriptions of request and response parameters, refer
 
 returns the set of constants in use.
 
-JSON Response (with comments)
-```
+```go
+JSON Response
   "blockfrequency":         600,        // seconds per block
 ```
+
 > Target for how frequently new blocks should be mined.
-```
+
+```go
   "blocksizelimit":         2000000,    // bytes
 ```
+
 > Maximum size, in bytes, of a block. Blocks larger than this will be rejected by peers.
-```
+
+```go
   "extremefuturethreshold": 10800,      // seconds
 ```
+
 > Farthest a block's timestamp can be in the future before the block is rejected outright.
-```
+
+```go
   "futurethreshold":        10800,      // seconds
 ```
+
 > How far in the future a block can be without being rejected. A block further into the future will not be accepted immediately, but the daemon will attempt to accept the block as soon as it is valid.
-```
+
+```go
   "genesistimestamp":       1257894000, // Unix time
 ```
+
 > Timestamp of the genesis block.
-```
+
+```go
   "maturitydelay":          144,        // blocks
 ```
+
 > Number of children a block must have before it is considered "mature."
-```
+
+```go
   "mediantimestampwindow":  11,         // blocks
 ```
+
 > Duration of the window used to adjust the difficulty.
-```
+
+```go
   "siafundcount":           "10000",
 ```
+
 > Total number of siafunds.
-```
+
+```go
   "siafundportion":         "39/1000",
 ```
+
 > Fraction of each file contract payout given to siafund holders.
-```
+
+```go
   "targetwindow":           1000,       // blocks
 ```
+
 > Height of the window used to adjust the difficulty.
-```
+
+```go
   "initialcoinbase": 300000, // Siacoins (see note in Daemon.md)
 ```
+
 > Number of coins given to the miner of the first block. Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
-```
+
+```go
   "minimumcoinbase": 30000,  // Siacoins (see note in Daemon.md)
 ```
+
 > Minimum number of coins paid out to the miner of a block (the coinbase decreases with each block). Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
-```
+
+```go
   "roottarget": [0,0,0,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 ```
+
 > Initial target.
-```
+
+```go
   "rootdepth":  [255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255],
 ```
+
 > Initial depth.
-```
+
+```go
   "maxtargetadjustmentup":   "5/2",
 ```
+
 > Largest allowed ratio between the old difficulty and the new difficulty.
-```
+
+```go
   "maxtargetadjustmentdown": "2/5",
 ```
+
 > Smallest allowed ratio between the old difficulty and the new difficulty.
-```
+
+```go
   "siacoinprecision": "1000000000000000000000000" // hastings per siacoin
 ```
+
 > Number of Hastings in one siacoin.
+
 }
 
 ## /daemon/stop [GET]
