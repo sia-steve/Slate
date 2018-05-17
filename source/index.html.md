@@ -1,5 +1,5 @@
 ---
-title: Sia API Reference
+title: Sia API Reference Docs
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - go
