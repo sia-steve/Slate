@@ -209,8 +209,7 @@ Returns the version of the Sia daemon currently running. This number is visible 
 
 ## /consensus [GET]
 
-> JSON Response
-```
+```go
 {
   "synced":       true,
   "height":       62248,
