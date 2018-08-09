@@ -309,8 +309,6 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 # Gateway
 
-For examples and detailed descriptions of request and response parameters, refer to Gateway.md.
-
 ## /gateway [GET]
 
 ```go
@@ -387,8 +385,6 @@ Example IPV6 address: [123::456]:789
 standard success or error response. See [standard responses](#Standard-Responses).
 
 # Host
-
-For examples and detailed descriptions of request and response parameters, refer to Host.md.
 
 ## /host [GET]
 
