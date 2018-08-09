@@ -289,11 +289,11 @@ Returns the block for a given id or height.
 
 One of the following parameters can be specified.
 
-`// BlockID of the requested block.
-id 
+// BlockID of the requested block.
+`id` 
 
 // BlockHeight of the requested block.
-height`
+`height`
 
 ## /consensus/validate/transactionset [POST]
 
