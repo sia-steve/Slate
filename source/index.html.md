@@ -388,11 +388,7 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 ## /host [GET]
 
-fetches status information about the host.
-
-### JSON Response (with comments)
-
-`
+```go
 {
   "externalsettings": {
     "acceptingcontracts":   true,
@@ -468,7 +464,9 @@ fetches status information about the host.
   "connectabilitystatus": "checking",
   "workingstatus":        "checking"
 }
-`
+```
+
+fetches status information about the host.
 
 ## /host [POST]
 
