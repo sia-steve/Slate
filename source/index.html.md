@@ -340,7 +340,7 @@ connects the gateway to a peer. The peer is added to the node list if it is not 
 
 standard success or error response. See [standard responses](#Standard-Responses).
 
-## /gateway/disconnect/:*netaddress* [POST] (example)
+## /gateway/disconnect/:*netaddress* [POST]
 
 disconnects the gateway from a peer. The peer remains in the node list.
 
