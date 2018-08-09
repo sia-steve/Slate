@@ -204,23 +204,7 @@ Returns information about the consensus set, such as the current block height.
 
 ## /consensus/blocks [GET]
 
-Returns the block for a given id or height.
-
-### Query String Parameters
-
-One of the following parameters can be specified.
-
-`// BlockID of the requested block.
-id 
-
-// BlockHeight of the requested block.
-height`
-
-### Response
-
-The JSON formatted block or a standard error response.
-
-```
+```go
 {
     "height": 20032,
     "id": "00000000000033b9eb57fa63a51adeea857e70f6415ebbfe5df2a01f0d0477f4",
@@ -298,6 +282,20 @@ The JSON formatted block or a standard error response.
     ]
 }
 ```
+
+Returns the block for a given id or height.
+
+### Query String Parameters
+
+One of the following parameters can be specified.
+
+`
+// BlockID of the requested block.
+id 
+
+// BlockHeight of the requested block.
+height
+`
 
 ## /consensus/validate/transactionset [POST]
 
