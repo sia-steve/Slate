@@ -103,10 +103,8 @@ For examples and detailed descriptions of request and response parameters, refer
 
 Returns the set of constants in use.
 
-`
-  "blockfrequency":         600,        // seconds per block
-`
-Target for how frequently new blocks should be mined.
+`"blockfrequency":         600,        // seconds per block`
+// Target for how frequently new blocks should be mined.
 
 `
   "blocksizelimit":         2000000,    // bytes
@@ -220,8 +218,6 @@ Returns the version of the Sia daemon currently running. This number is visible 
 ```
 
 Returns information about the consensus set, such as the current block height.
-
-{
 
   `"synced": true,`
   // True if the consensus set is synced with the network, i.e. it has downloaded the entire blockchain.
