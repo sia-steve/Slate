@@ -16,7 +16,9 @@ search: true
 
 # Introduction
 
-Welcome to the Sia Storage Platform API! Sia uses semantic versioning and is backwards compatible to version v1.0.0.
+**Welcome to the Sia Storage Platform API!**
+
+Sia uses semantic versioning and is backwards compatible to version v1.0.0.
 
 API calls return either JSON or no content. Success is indicated by 2xx HTTP status codes, while errors are indicated by 4xx and 5xx HTTP status codes. If an endpoint does not specify its expected status code refer to #standard-responses.
 
@@ -25,7 +27,7 @@ There may be functional API calls which are not documented. These are not guaran
 **Notes:**
 
 - Requests must set their User-Agent string to contain the substring "Sia-Agent".
-- By default, siad listens on "localhost:9980". This can be changed using the --api-addr flag when running siad.
+- By default, siad listens on "localhost:9980". This can be changed using the `--api-addr` flag when running siad.
 - **Do not bind or expose the API to a non-loopback address unless you are aware of the possible dangers.**
 
 Example GET curl call:
@@ -42,6 +44,7 @@ Example POST curl call:
 The standard response indicating the request was successfully processed is HTTP status code `204 No Content`. If the request was successfully processed and the server responded with JSON the HTTP status code is `200 OK`. Specific endpoints may specify other 2xx status codes on success.
 
 ## Error
+
 ```
 {
     "message": String
@@ -62,9 +65,9 @@ For example, if the API password is "foobar" the request header should include
 
 # Units
 
-Unless otherwise specified, all parameters should be specified in their smallest possible unit. For example, size should always be specified in bytes and Siacoins should be specified in hastings. JSON values returned by the API will also use the smallest possible unit, unless otherwise specified.
+Unless otherwise noted, all parameters should be identified in their smallest possible unit. For example, size should always be specified in bytes and Siacoins should always be specified in hastings. JSON values returned by the API will also use the smallest possible unit, unless otherwise noted.
 
-If a numbers is returned as a string in JSON, it should be treated as an arbitrary-precision number (bignum), and it should be parsed with your language's corresponding bignum library. Currency values are the most common example where this is necessary.
+If a number is returned as a string in JSON, it should be treated as an arbitrary-precision number (bignum), and it should be parsed with your language's corresponding bignum library. Currency values are the most common example where this is necessary.
 
 # Daemon
 
@@ -103,7 +106,6 @@ Returns the set of constants in use.
 `
   "blockfrequency":         600,        // seconds per block
 `
-
 ^ Target for how frequently new blocks should be mined.
 
 `
