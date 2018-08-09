@@ -647,7 +647,7 @@ single file contract.
 
 > Query String Parameters
 
-```
+```go
 // When set to true, the host will accept new file contracts if the
 // terms are reasonable. When set to false, the host will not accept new
 // file contracts at all.
