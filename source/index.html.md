@@ -197,9 +197,7 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 ## /daemon/version [GET]
 
-```
-JSON Response
-
+```go
 {
 "version": "1.3.2"
 }
