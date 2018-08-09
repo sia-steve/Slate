@@ -362,11 +362,11 @@ connects the gateway to a peer. The peer is added to the node list if it is not 
 
 ### Path Parameters (with comments)
 
-`:netaddress`
-
-### Response
-
+```
 standard success or error response. See [standard responses](#Standard-Responses).
+```
+
+`:netaddress`
 
 ## /gateway/disconnect/:*netaddress* [POST]
 
