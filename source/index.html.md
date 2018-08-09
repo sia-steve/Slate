@@ -373,14 +373,17 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 ## /gateway/disconnect/:*netaddress* [POST]
 
-disconnects the gateway from a peer. The peer remains in the node list.
+disconnects the gateway from a peer. The peer remains in the node list. Disconnecting from a peer does not prevent the gateway from automatically connecting to the peer in the future.
 
-### Path Parameters (with comments)
+### Path Parameters
 
-`netaddress`
+netaddress is the address of the peer to connect to. It should be a reachable ip address and port number, of the form `IP:port`. IPV6 addresses must be enclosed in square brackets.  
+  
+Example IPV4 address: 123.456.789.0:123  
+Example IPV6 address: [123::456]:789  
+`:netaddress`
 
 ### Response
-
 standard success or error response. See [standard responses](#Standard-Responses).
 
 # Host
