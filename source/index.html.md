@@ -305,7 +305,7 @@ Since transactions may be large, the transaction set is supplied in the POST bod
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 # Gateway
 
@@ -338,7 +338,7 @@ connects the gateway to a peer. The peer is added to the node list if it is not 
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /gateway/disconnect/:*netaddress* [POST] (example)
 
@@ -350,7 +350,7 @@ disconnects the gateway from a peer. The peer remains in the node list.
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 # Host
 
@@ -466,7 +466,7 @@ minuploadbandwidthprice   // Optional, hastings / byte
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /host/announce [POST]
 
@@ -478,7 +478,7 @@ Announces the host to the network as a source of storage. GEnerally only needs t
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /host/contracts [GET]
 
@@ -573,7 +573,7 @@ size // bytes, Required
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /host/storage/folders/remove [POST]
 
@@ -588,7 +588,7 @@ force // bool, Optional, default is false
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /host/storage/folders/resize [POST]
 
@@ -603,7 +603,7 @@ newsize // bytes, Required
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /host/storage/sectors/delete/:*merkleroot* [POST]
 
@@ -615,7 +615,7 @@ deletes a sector, meaning that the manager will be unable to upload that sector 
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /host/estimatescore [GET]
 
@@ -787,7 +787,7 @@ starts a single threaded CPU miner. Does nothing if the CPU miner is already run
 
 ### Response
 
-standard success or error response. See #standard-response
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /miner/stop [GET]
 
@@ -795,7 +795,7 @@ stops the cpu miner. Does nothing if the cpu miner is not running.
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /miner/header [GET]
 
@@ -859,7 +859,7 @@ renewwindow // block height
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /renter/contracts [GET]
 
@@ -988,7 +988,7 @@ deletes a renter file entry. Does not delete any downloads or original files, on
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /renter/download/*siapath [GET]
 
@@ -1008,7 +1008,7 @@ offset`
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /renter/downloadasync/*siapath [GET]
 
@@ -1024,7 +1024,7 @@ downloads a file to the local filesystem. The call will return immediately.
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /renter/rename/*siapath [POST]
 
@@ -1040,7 +1040,7 @@ renames a file. Does not rename any downloads or source files, only renames the 
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /renter/stream/*siapath [GET]
 
@@ -1052,7 +1052,7 @@ downloads a file using http streaming. This call blocks until the data is receiv
 
 ### Response
 
-standard success with the requested data in the body or error response. See #standard-responses.
+standard success with the requested data in the body or error response. See [standard responses](#Standard-Responses).
 
 ## /renter/upload/*siapath [POST]
 
@@ -1070,7 +1070,7 @@ source       // string - a filepath`
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 # Transaction Pool
 
@@ -1124,7 +1124,7 @@ transaction string // raw base64 encoded transaction`
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 # Wallet
 
@@ -1163,7 +1163,7 @@ encryptionpassword`
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /wallet/address [GET]
 
@@ -1201,7 +1201,7 @@ creates a backup of the wallet settings file. Though this can easily be done man
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /wallet/init [POST]
 
@@ -1233,7 +1233,7 @@ force // Optional, when set to true it will destroy an existing wallet and reini
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /wallet/seed [POST]
 
@@ -1247,7 +1247,7 @@ seed`
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /wallet/seeds [GET]
 
@@ -1321,7 +1321,7 @@ keyfiles`
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /wallet/sweep/seed [POST]
 
@@ -1346,7 +1346,7 @@ locks the wallet, wiping all secret keys. After being locked, the keys are encry
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /wallet/transaction/:*id* [GET]
 
@@ -1443,7 +1443,7 @@ unlocks the wallet. The wallet is capable of knowing whether the correct passwor
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /wallet/verify/address/:addr [GET]
 
@@ -1467,7 +1467,7 @@ newpassword`
 
 ### Response
 
-standard success or error response. See #standard-responses.
+standard success or error response. See [standard responses](#Standard-Responses).
 
 
 
