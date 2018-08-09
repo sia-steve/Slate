@@ -322,6 +322,24 @@ For examples and detailed descriptions of request and response parameters, refer
         "inbound":    Boolean
     }
 }
+
+> Example
+
+{
+    "netaddress":"333.333.333.333:9981",
+    "peers":[
+        {
+            "netaddress":"222.222.222.222:9981",
+            "version":"1.0.0",
+            "inbound":false
+        },
+        {
+            "netaddress":"111.111.111.111:9981",
+            "version":"0.6.0",
+            "inbound":true
+        }
+    ]
+}
 ```
 
 returns information about the gateway, including the list of connected peers.
