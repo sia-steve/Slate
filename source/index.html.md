@@ -16,7 +16,7 @@ search: true
 
 # Introduction
 
-Welcome to the Sia Storage Platform API! Sia uses semantic versioning and is backwards compatible to version v1.0.0.
+Welcome to the Sia Storage Platform API!!! Sia uses semantic versioning and is backwards compatible to version v1.0.0.
 
 API calls return either JSON or no content. Success is indicated by 2xx HTTP status codes, while errors are indicated by 4xx and 5xx HTTP status codes. If an endpoint does not specify its expected status code refer to #standard-responses.
 
