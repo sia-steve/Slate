@@ -468,103 +468,6 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 fetches status information about the host.
 
-## /host [POST]
-
-configures hosting parameters. All parameters are optional; unspecified parameters will be left unchanged.
-
-### Query String Parameters (with comments)
-
-`
-acceptingcontracts   // Optional, true / false
-maxdownloadbatchsize // Optional, bytes
-maxduration          // Optional, blocks
-maxrevisebatchsize   // Optional, bytes
-netaddress           // Optional
-windowsize           // Optional, blocks
-
-collateral       // Optional, hastings / byte / block
-collateralbudget // Optional, hastings
-maxcollateral    // Optional, hastings
-
-mincontractprice          // Optional, hastings
-mindownloadbandwidthprice // Optional, hastings / byte
-minstorageprice           // Optional, hastings / byte / block
-minuploadbandwidthprice   // Optional, hastings / byte
-`
-
-### Response
-
-standard success or error response. See [standard responses](#Standard-Responses).
-
-## /host/announce [POST]
-
-Announces the host to the network as a source of storage. GEnerally only needs to be called once.
-
-### Query String Parameters (with comments)
-
-`netaddress string // Optional`
-
-### Response
-
-standard success or error response. See [standard responses](#Standard-Responses).
-
-## /host/contracts [GET]
-
-```
-### JSON Response (with comments)
-
-{
-  "contracts": [
-    {
-      > Amount in hastings to cover the transaction fees for this storage obligation.
-      "contractcost":			"1234",		// hastings
-      > Size of the data that is protected by the contract.
-      "datasize":			500000,		// bytes
-      > Amount that is locked as collateral for this storage obligation.
-      "lockedcollateral":		"1234",		// hastings
-      > Id of the storageobligation, which is defined by the file contract id of the file contract that governs the storage obligation.
-      "obligationid":			"fff48010dcbbd6ba7ffd41bc4b25a3634ee58bbf688d2f06b7d5a0c837304e13",
-      > Potential revenue for downloaded data that the host will reveive upon successful completion of the obligation.
-      "potentialdownloadrevenue":	"1234",		// hastings
-      > Potential revenue for storage of data that the host will reveive upon successful completion of the obligation.
-      "potentialstoragerevenue":	"1234",		// hastings
-      > Potential revenue for uploaded data that the host will reveive upon successful completion of the obligation.
-      "potentialuploadrevenue":		"1234",		// hastings
-      > Amount that the host might lose if the submission of the storage proof is not successful.
-      "riskedcollateral":		"1234",		// hastings
-      > Number of sector roots.
-      "sectorrootscount":		2,
-      > Amount for transaction fees that the host added to the storage obligation.
-      "transactionfeesadded":		"1234",		// hastings
-      > Expiration height is the height at which the storage obligation expires.
-      "expirationheight":		123456,		// blocks
-      > Negotion height is the height at which the storage obligation was negotiated.
-      "negotiationheight":		123456,		// blocks
-      > The proof deadline is the height by which the storage proof must be submitted.
-      "proofdeadline":			123456,		// blocks
-      > Status of the storage obligation. There are 4 different statuses:
-    // obligationFailed:	the storage obligation failed, potential revenues and risked collateral are lost
-    // obligationRejected:	the storage obligation was never started, no revenues gained or lost
-    // obligationSucceeded:	the storage obligation was completed, revenues were gained
-    // obligationUnresolved: 	the storage obligation has an uninitialized value. When the "proofdeadline" is in the past this might be a stale obligation.
-      "obligationstatus":		"obligationFailed",
-      > Origin confirmed indicates whether the file contract was seen on the blockchain for this storage obligation.
-      "originconfirmed":		true,
-      > Proof confirmed indicates whether there was a storage proof seen on the blockchain for this storage obligation.
-      "proofconfirmed":			true,
-      > The host has constructed a storage proof
-      "proofconstructed":		true
-      > Revision confirmed indicates whether there was a file contract revision seen on the blockchain for this storage obligation.
-      "revisionconfirmed":		false,
-      > Revision constructed indicates whether there was a file contract revision constructed for this storage obligation.
-      "revisionconstructed":		false,
-    }
-  ]
-}
-```
-
-Get contract information from the host database. This call will return all storage obligations on the host. Its up to the caller to filter the contracts based on his needs.
-
 {
   // The settings that get displayed to untrusted nodes querying the host's
   // status.
@@ -853,6 +756,103 @@ Get contract information from the host database. This call will return all stora
   // and indicates if the host is being actively used by renters.
   "workingstatus": "checking"
 }
+
+## /host [POST]
+
+configures hosting parameters. All parameters are optional; unspecified parameters will be left unchanged.
+
+### Query String Parameters (with comments)
+
+`
+acceptingcontracts   // Optional, true / false
+maxdownloadbatchsize // Optional, bytes
+maxduration          // Optional, blocks
+maxrevisebatchsize   // Optional, bytes
+netaddress           // Optional
+windowsize           // Optional, blocks
+
+collateral       // Optional, hastings / byte / block
+collateralbudget // Optional, hastings
+maxcollateral    // Optional, hastings
+
+mincontractprice          // Optional, hastings
+mindownloadbandwidthprice // Optional, hastings / byte
+minstorageprice           // Optional, hastings / byte / block
+minuploadbandwidthprice   // Optional, hastings / byte
+`
+
+### Response
+
+standard success or error response. See [standard responses](#Standard-Responses).
+
+## /host/announce [POST]
+
+Announces the host to the network as a source of storage. GEnerally only needs to be called once.
+
+### Query String Parameters (with comments)
+
+`netaddress string // Optional`
+
+### Response
+
+standard success or error response. See [standard responses](#Standard-Responses).
+
+## /host/contracts [GET]
+
+```
+### JSON Response (with comments)
+
+{
+  "contracts": [
+    {
+      > Amount in hastings to cover the transaction fees for this storage obligation.
+      "contractcost":			"1234",		// hastings
+      > Size of the data that is protected by the contract.
+      "datasize":			500000,		// bytes
+      > Amount that is locked as collateral for this storage obligation.
+      "lockedcollateral":		"1234",		// hastings
+      > Id of the storageobligation, which is defined by the file contract id of the file contract that governs the storage obligation.
+      "obligationid":			"fff48010dcbbd6ba7ffd41bc4b25a3634ee58bbf688d2f06b7d5a0c837304e13",
+      > Potential revenue for downloaded data that the host will reveive upon successful completion of the obligation.
+      "potentialdownloadrevenue":	"1234",		// hastings
+      > Potential revenue for storage of data that the host will reveive upon successful completion of the obligation.
+      "potentialstoragerevenue":	"1234",		// hastings
+      > Potential revenue for uploaded data that the host will reveive upon successful completion of the obligation.
+      "potentialuploadrevenue":		"1234",		// hastings
+      > Amount that the host might lose if the submission of the storage proof is not successful.
+      "riskedcollateral":		"1234",		// hastings
+      > Number of sector roots.
+      "sectorrootscount":		2,
+      > Amount for transaction fees that the host added to the storage obligation.
+      "transactionfeesadded":		"1234",		// hastings
+      > Expiration height is the height at which the storage obligation expires.
+      "expirationheight":		123456,		// blocks
+      > Negotion height is the height at which the storage obligation was negotiated.
+      "negotiationheight":		123456,		// blocks
+      > The proof deadline is the height by which the storage proof must be submitted.
+      "proofdeadline":			123456,		// blocks
+      > Status of the storage obligation. There are 4 different statuses:
+    // obligationFailed:	the storage obligation failed, potential revenues and risked collateral are lost
+    // obligationRejected:	the storage obligation was never started, no revenues gained or lost
+    // obligationSucceeded:	the storage obligation was completed, revenues were gained
+    // obligationUnresolved: 	the storage obligation has an uninitialized value. When the "proofdeadline" is in the past this might be a stale obligation.
+      "obligationstatus":		"obligationFailed",
+      > Origin confirmed indicates whether the file contract was seen on the blockchain for this storage obligation.
+      "originconfirmed":		true,
+      > Proof confirmed indicates whether there was a storage proof seen on the blockchain for this storage obligation.
+      "proofconfirmed":			true,
+      > The host has constructed a storage proof
+      "proofconstructed":		true
+      > Revision confirmed indicates whether there was a file contract revision seen on the blockchain for this storage obligation.
+      "revisionconfirmed":		false,
+      > Revision constructed indicates whether there was a file contract revision constructed for this storage obligation.
+      "revisionconstructed":		false,
+    }
+  ]
+}
+```
+
+Get contract information from the host database. This call will return all storage obligations on the host. Its up to the caller to filter the contracts based on his needs.
 
 ## /host/storage [GET]
 
