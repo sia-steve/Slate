@@ -344,24 +344,17 @@ For examples and detailed descriptions of request and response parameters, refer
 
 returns information about the gateway, including the list of connected peers.
 
-  // netaddress is the network address of the gateway as seen by the rest of the network. The address consists of the external IP address and the port Sia is listening on. It represents a `modules.NetAddress`.
-  
-    `"netaddress": String,`
+`"netaddress": String,` // netaddress is the network address of the gateway as seen by the rest of the network. The address consists of the external IP address and the port Sia is listening on. It represents a `modules.NetAddress`.
 
-peers is an array of peers the gateway is connected to. It represents an array of `modules.Peer`s.
-    `"peers":      []{`
+`"peers":      []{` // peers is an array of peers the gateway is connected to. It represents an array of `modules.Peer`s.
         
-        netaddress is the address of the peer. It represents a `modules.NetAddress`.
-        `"netaddress": String,`
+`"netaddress": String,` // netaddress is the address of the peer. It represents a `modules.NetAddress`.
+        
+`"version": String,` // version is the version number of the peer.
 
-        version is the version number of the peer.
-        `"version":    String,`
+`"inbound": Boolean,` // inbound is true when the peer initiated the connection. This field is exposed as outbound peers are generally trusted more than inbound peers, as inbound peers are easily manipulated by an adversary.
 
-        inbound is true when the peer initiated the connection. This field is exposed as outbound peers are generally trusted more than inbound peers, as inbound peers are easily manipulated by an adversary.
-        `"inbound":    Boolean,`
-
-        local is true if the peer's IP address belongs to a local address range such as 192.168.x.x or 127.x.x.x
-        `"local":      Boolean`
+`"local": Boolean` // local is true if the peer's IP address belongs to a local address range such as 192.168.x.x or 127.x.x.x
 
 ## /gateway/connect/:*netaddress* [POST]
 
