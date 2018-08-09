@@ -360,13 +360,16 @@ returns information about the gateway, including the list of connected peers.
 
 connects the gateway to a peer. The peer is added to the node list if it is not already present. The node list is the list of all nodes the gateway knows about, but is not necessarily connected to.
 
-### Path Parameters (with comments)
+### Path Parameters
 
-```
-standard success or error response. See [standard responses](#Standard-Responses).
-```
+netaddress is the address of the peer to connect to. It should be a reachable ip address and port number, of the form 'IP:port'. IPV6 addresses must be enclosed in square brackets.
 
+Example IPV4 address: 123.456.789.0:123
+Example IPV6 address: [123::456]:789
 `:netaddress`
+
+### Response
+standard success or error response. See [standard responses](#Standard-Responses).
 
 ## /gateway/disconnect/:*netaddress* [POST]
 
