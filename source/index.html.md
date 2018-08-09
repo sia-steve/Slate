@@ -1,12 +1,12 @@
 ---
-title: Sia API Reference Docs
+title: Sia API Documentation
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - go
 
 toc_footers:
   - <a href='https://sia.tech'>The Official Sia Website
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
+  - <a href='https://gitlab.com/NebulousLabs/Sia'>Sia on GitLab</a>
 
 includes:
   - errors
@@ -26,7 +26,7 @@ There may be functional API calls which are not documented. These are not guaran
 
 - Requests must set their User-Agent string to contain the substring "Sia-Agent".
 - By default, siad listens on "localhost:9980". This can be changed using the --api-addr flag when running siad.
-- Do not bind or expose the API to a non-loopback address unless you are aware of the possible dangers.
+- **Do not bind or expose the API to a non-loopback address unless you are aware of the possible dangers.**
 
 Example GET curl call:
 
