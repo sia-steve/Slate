@@ -199,7 +199,7 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 ```go
 {
-"version": "1.3.2"
+"version": "1.3.4"
 }
 ```
 
