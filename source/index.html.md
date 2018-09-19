@@ -843,11 +843,9 @@ Get contract information from the host database. This call will return all stora
 
 ## /host/storage [GET]
 
-get a list of folders tracked by the host's storage manager.
-
 ### JSON Response (with comments)
 
-```
+```go
 {
   "folders": [
     {
@@ -864,16 +862,39 @@ get a list of folders tracked by the host's storage manager.
 }
 ```
 
+gets a list of folders tracked by the host's storage manager.
+
+`"path": "/home/foo/bar",`
+// Absolute path to the storage folder on the local filesystem.
+
+`"capacity": 50000000000, // bytes`
+// Maximum capacity of the storage folder. The host will not store more than this many bytes in the folder. This capacity is not checked against the drive's remaining capacity. Therefore, you must manually ensure the disk has sufficient capacity for the folder at all times. Otherwise you risk losing renter's data and failing storage proofs.
+
+`"capacityremaining": 100000, // bytes`
+// Unused capacity of the storage folder.
+
+`"failedreads":  0, "failedwrites": 1,`
+// Number of failed disk read & write operations. A large number of failed reads or writes indicates a problem with the filesystem or drive's hardware.
+
+`"successfulreads":  2, "successfulwrites": 3`
+// Number of successful read & write operations.
+
 ## /host/storage/folders/add [POST]
+
+> Query String Parameters
+
+```go
+path // Required
+size // bytes, Required
+```
 
 adds a storage folder to the manager. The manager may not check that there is enough space available on-disk to support as much storage as requested
 
-### Query String Parameters (with comments)
+`path // Required`
+// Local path on disk to the storage folder to add.
 
-`
-path // Required
-size // bytes, Required
-`
+`size // bytes, Required`
+// Initial capacity of the storage folder. This value isn't validated so it is possible to set the capacity of the storage folder greater than the capacity of the disk. Do not do this.
 
 ### Response
 
@@ -881,14 +902,20 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 ## /host/storage/folders/remove [POST]
 
-remove a storage folder from the manager. All sotrage on the folder will be moved to other stoarge folders, meaning that no data will be lost. If the manager is unable to save data, an error will be returned and the operation will be stopped.
+> Query String Parameters
 
-### Query String Parameters (with comments)
-
-`
+```go
 path  // Required
 force // bool, Optional, default is false
-`
+```
+
+remove a storage folder from the manager. All sotrage on the folder will be moved to other stoarge folders, meaning that no data will be lost. If the manager is unable to save data, an error will be returned and the operation will be stopped.
+
+`path // Required`
+// Local path on disk to the storage folder to removed.
+
+`force // bool, Optional, default is false`
+// If `force` is true, the storage folder will be removed even if the data in the storage folder cannot be moved to other storage folders, typically because they don't have sufficient capacity. If `force` is true and the data cannot be moved, data will be lost.
 
 ### Response
 
@@ -896,14 +923,20 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 ## /host/storage/folders/resize [POST]
 
-grows or shrinks a storage file in the manager. The manager may not check that there is enough space on-disk to support growing the storasge folder, but should gracefully handle running out of space unexpectedly. When shrinking a storage folder, any data in the folder that neeeds to be moved will be placed into other storage folders, meaning that no data will be lost. If the manager is unable to migrate the data, an error will be returned and the operation will be stopped.
+> Query String Parameters
 
-### Query String Paramaters (with comments)
-
-`
+```go
 path    // Required
 newsize // bytes, Required
-`
+```
+
+grows or shrinks a storage file in the manager. The manager may not check that there is enough space on-disk to support growing the storasge folder, but should gracefully handle running out of space unexpectedly. When shrinking a storage folder, any data in the folder that neeeds to be moved will be placed into other storage folders, meaning that no data will be lost. If the manager is unable to migrate the data, an error will be returned and the operation will be stopped.
+
+`path // Required`
+// Local path on disk to the storage folder to resize.
+
+`newsize // bytes, Required`
+// Desired new size of the storage folder. This will be the new capacity of the storage folder.
 
 ### Response
 
@@ -911,7 +944,16 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 ## /host/storage/sectors/delete/:*merkleroot* [POST]
 
+> Path Parameters
+
+```go
+:merkleroot 
+```
+
 deletes a sector, meaning that the manager will be unable to upload that sector and be unable to provide a storage proof on that sector. This endpoint is for removing the data entirely, and will remove instances of the sector appearing at all heights. The primary purpose is to comply with legal requests to remove data.
+
+`:merkleroot`
+// Merkleroot of the sector to delete.
 
 ### Path Parameters (with comments)
 
@@ -923,20 +965,16 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 ## /host/estimatescore [GET]
 
-returns the estimated HostDB score of the host using its current settings, combined with the provided settings.
-
-### JSON Response (with comments)
-
-`
+```go
 {
 	"estimatedscore": "123456786786786786786786786742133",
 	"conversionrate": 95
 }
-`
+```
 
-### Query String Parameters (with comments)
+> Query String Parameters
 
-`
+```go
 acceptingcontracts   // Optional, true / false
 maxdownloadbatchsize // Optional, bytes
 maxduration          // Optional, blocks
@@ -952,9 +990,17 @@ mincontractprice          // Optional, hastings
 mindownloadbandwidthprice // Optional, hastings / byte
 minstorageprice           // Optional, hastings / byte / block
 minuploadbandwidthprice   // Optional, hastings / byte
-`
+```
 
-# Host DB
+returns the estimated HostDB score of the host using its current settings, combined with the provided settings.
+
+`"estimatedscore": "123456786786786786786786786742133",`
+// estimatedscore is the estimated HostDB score of the host given the settings passed to estimatescore.
+  
+`"conversionrate": 95`
+// conversionrate is the likelihood given the settings passed to estimatescore that the host will be selected by renters forming contracts.
+
+# Host DB (START FROM HERE)
 
 For examples and detailed descriptions of request and response parameters, refer to HostDB.md.
 
