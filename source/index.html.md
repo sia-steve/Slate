@@ -780,6 +780,67 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 Get contract information from the host database. This call will return all storage obligations on the host. Its up to the caller to filter the contracts based on his needs.
 
+`"contractcost":		"1234",		// hastings`
+// Amount in hastings to cover the transaction fees for this storage obligation.
+
+`"datasize":			50000,		// bytes`
+// Size of the data that is protected by the contract.
+
+`"lockedcollateral":		"1234",		// hastings`
+// Amount that is locked as collateral for this storage obligation.
+
+`"obligationid":		"fff48010dcbbd6ba7ffd41bc4b25a3634ee58bbf688d2f06b7d5a0c837304e13",`
+// ID of the storageobligation, which is defined by the file contract id of the file contract that governs the storage obligation.
+
+`"potentialdownloadrevenue":	"1234",		// hastings`
+// Potential revenue for downloaded data that the host will reveive upon successful completion of the obligation.
+
+`"potentialstoragerevenue":	"1234",		// hastings`
+// Potential revenue for storage of data that the host will reveive upon successful completion of the obligation.
+
+`"potentialuploadrevenue":	"1234",		// hastings`
+// Potential revenue for uploaded data that the host will reveive upon successful completion of the obligation.
+
+`"riskedcollateral":		"1234",		// hastings`
+// Amount that the host might lose if the submission of the storage proof is not successful.
+
+`"sectorrootscount":		2,`
+// Number of sector roots.
+
+`"transactionfeesadded":	"1234",		// hastings`
+// Amount for transaction fees that the host added to the storage obligation.
+
+`"expirationheight":		123456,		// blocks`
+// Experation height is the height at which the storage obligation expires.
+
+`"negotiationheight":	0,		// blocks`
+// Negotion height is the height at which the storage obligation was negotiated.
+
+`"proofdeadline":		123456,		// blocks`
+// The proof deadline is the height by which the storage proof must be submitted.
+
+`"obligationstatus":		"obligationFailed",`
+// Status of the storage obligation. There are 4 different statuses:  
+    // obligationFailed:	the storage obligation failed, potential revenues and risked collateral are lost  
+    // obligationRejected:	the storage obligation was never started, no revenues gained or lost  
+    // obligationSucceeded:	the storage obligation was completed, revenues were gained  
+    // obligationUnresolved: 	the storage obligation has an uninitialized value. When the "proofdeadline" is in the past this might be a stale obligation.
+
+`"originconfirmed":		true,`
+// Origin confirmed indicates whether the file contract was seen on the blockchain for this storage obligation.
+
+`"proofconfirmed":		true,`
+// Proof confirmed indicates whether there was a storage proof seen on the blockchain for this storage obligation.
+
+`"proofconstructed":		false`
+// The host has constructed a storage proof.
+ 
+`"revisionconfirmed":	true,`
+// Revision confirmed indicates whether there was a file contract revision seen on the blockchain for this storage obligation.
+ 
+`"revisionconstructed":	true,`
+// Revision constructed indicates whether there was a file contract revision constructed for this storage obligation.
+
 ## /host/storage [GET]
 
 get a list of folders tracked by the host's storage manager.
