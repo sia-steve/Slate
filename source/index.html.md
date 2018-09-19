@@ -716,9 +716,10 @@ Announce the host to the network as a source of storage. Generally only needs to
 
 Note that even after the host has been announced, it will not accept new contracts unless configured to do so. To configure the host to accept contracts, see [/host](## /host [POST]).
 
-### Query String Parameters (with comments)
+### Query String Parameters
 
 `netaddress string // Optional`
+// The address to be announced. If no address is provided, the automatically discovered address will be used instead.
 
 ### Response
 
@@ -726,9 +727,7 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 ## /host/contracts [GET]
 
-```
-### JSON Response (with comments)
-
+```go
 {
   "contracts": [
     {
