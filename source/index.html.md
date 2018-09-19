@@ -668,43 +668,43 @@ minuploadbandwidthprice   // Optional, hastings / byte
 configures hosting parameters. All parameters are optional; unspecified parameters will be left unchanged.
 
 `acceptingcontracts // Optional, true / false`
-When set to true, the host will accept new file contracts if the terms are reasonable. When set to false, the host will not accept new file contracts at all.
+// When set to true, the host will accept new file contracts if the terms are reasonable. When set to false, the host will not accept new file contracts at all.
 
 `maxdownloadbatchsize // Optional, bytes`
-The maximum size of a single download request from a renter. Each download request has multiple round trips of communication that exchange money. Larger batch sizes mean fewer round trips, but more financial risk for the host - the renter can get a free batch when downloading by refusing to provide a signature.
+// The maximum size of a single download request from a renter. Each download request has multiple round trips of communication that exchange money. Larger batch sizes mean fewer round trips, but more financial risk for the host - the renter can get a free batch when downloading by refusing to provide a signature.
 
 `maxduration // Optional, blocks`
-The maximum duration of a file contract that the host will accept. The storage proof window must end before the current height + maxduration.
+// The maximum duration of a file contract that the host will accept. The storage proof window must end before the current height + maxduration.
 
 `maxrevisebatchsize // Optional, bytes`
-The maximum size of a single batch of file contract revisions. The renter can perform DoS attacks on the host by uploading a batch of data then refusing to provide a signature to pay for the data. The host can reduce this exposure by limiting the batch size. Larger batch sizes allow for higher throughput as there is significant communication overhead associated with performing a batch upload.
+// The maximum size of a single batch of file contract revisions. The renter can perform DoS attacks on the host by uploading a batch of data then refusing to provide a signature to pay for the data. The host can reduce this exposure by limiting the batch size. Larger batch sizes allow for higher throughput as there is significant communication overhead associated with performing a batch upload.
 
 `netaddress // Optional`
-The IP address or hostname (including port) that the host should be contacted at. If left blank, the host will automatically figure out its ip address and use that. If given, the host will use the address given.
+// The IP address or hostname (including port) that the host should be contacted at. If left blank, the host will automatically figure out its ip address and use that. If given, the host will use the address given.
 
 `windowsize // Optional, blocks`
-The storage proof window is the number of blocks that the host has to get a storage proof onto the blockchain. The window size is the minimum size of window that the host will accept in a file contract.
+// The storage proof window is the number of blocks that the host has to get a storage proof onto the blockchain. The window size is the minimum size of window that the host will accept in a file contract.
 
 `collateral // Optional, hastings / byte / block`
-The maximum amount of money that the host will put up as collateral per byte per block of storage that is contracted by the renter.
+// The maximum amount of money that the host will put up as collateral per byte per block of storage that is contracted by the renter.
 
 `collateralbudget // Optional, hastings`
-The total amount of money that the host will allocate to collateral across all file contracts.
+// The total amount of money that the host will allocate to collateral across all file contracts.
 
 `maxcollateral // Optional, hastings`
-The maximum amount of collateral that the host will put into a single file contract.
+// The maximum amount of collateral that the host will put into a single file contract.
 
 `mincontractprice // Optional, hastings`
-The minimum price that the host will demand from a renter when forming a contract. Typically this price is to cover transaction fees on the file contract revision and storage proof, but can also be used if the host has a low amount of collateral. The price is a minimum because the host may automatically adjust the price upwards in times of high demand.
+// The minimum price that the host will demand from a renter when forming a contract. Typically this price is to cover transaction fees on the file contract revision and storage proof, but can also be used if the host has a low amount of collateral. The price is a minimum because the host may automatically adjust the price upwards in times of high demand.
 
 `mindownloadbandwidthprice // Optional, hastings / byte`
-The minimum price that the host will demand from a renter when the renter is downloading data. If the host is saturated, the host may increase the price from the minimum.
+// The minimum price that the host will demand from a renter when the renter is downloading data. If the host is saturated, the host may increase the price from the minimum.
 
 `minstorageprice // Optional, hastings / byte / block`
-The minimum price that the host will demand when storing data for extended periods of time. If the host is low on space, the price of storage may be set higher than the minimum.
+// The minimum price that the host will demand when storing data for extended periods of time. If the host is low on space, the price of storage may be set higher than the minimum.
 
 `minuploadbandwidthprice // Optional, hastings / byte`
-The minimum price that the host will demand from a renter when the renter is uploading data. If the host is saturated, the host may increase the price from the minimum.
+// The minimum price that the host will demand from a renter when the renter is uploading data. If the host is saturated, the host may increase the price from the minimum.
 
 ### Response
 
@@ -712,7 +712,9 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 ## /host/announce [POST]
 
-Announces the host to the network as a source of storage. GEnerally only needs to be called once.
+Announce the host to the network as a source of storage. Generally only needs to be called once.
+
+Note that even after the host has been announced, it will not accept new contracts unless configured to do so. To configure the host to accept contracts, see [/host](## /host [POST]).
 
 ### Query String Parameters (with comments)
 
