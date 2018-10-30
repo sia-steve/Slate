@@ -1112,6 +1112,30 @@ There is a block approximately every 10 minutes. e.g. 1 day = 144 blocks
 
 ## /hostdb/all [GET]
 
+```go
+{
+  "hosts": [
+    {
+      "acceptingcontracts":   true,
+      "maxdownloadbatchsize": 17825792, // bytes
+      "maxduration":          25920,    // blocks
+      "maxrevisebatchsize":   17825792, // bytes
+      "netaddress":           "123.456.789.2:9982",
+      "remainingstorage":     35000000000, // bytes
+      "sectorsize":           4194304,     // bytes
+      "totalstorage":         35000000000, // bytes
+      "unlockhash":           "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789ab",
+      "windowsize":           144, // blocks
+      "publickey": {
+        "algorithm": "ed25519",
+        "key":        "RW50cm9weSBpc24ndCB3aGF0IGl0IHVzZWQgdG8gYmU="
+      }
+      "publickeystring": "ed25519:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+    }
+  ]
+}
+```
+
 lists all of the hosts known to the renter. Hosts are not guaranteed to be in any particular order, and the order may change in subsequent calls.
 
 ### JSON Response (with comments)
