@@ -1821,7 +1821,7 @@ returns the renter's contracts.  Active contracts are contracts that the Renter 
 
 lists all files in the download queue.
 
-### JSON Response (with comments)
+### JSON Response
 
 `"destination": "/home/users/alice",`
 // Local path that the file will be downloaded to.
@@ -1856,12 +1856,23 @@ lists all files in the download queue.
 `"totaldatatransfered": 10321,`
 // The total amount of data transfered when downloading the file. This will eventually include data transferred during contract + payment negotiation, as well as data from failed piece downloads.
 
-## /renter/files [GET] START HERE
+## /renter/downloads/clear [POST]
 
-lists the status of all files.
+> Timestamp Parameters
+```go
+before  // Optional - unix timestamp found in the download history
+after   // Optional - unix timestamp found in the download history
+```
 
-### JSON Response (with comments)
-`
+Clears the download history of the renter for a range of unix time stamps.  Both parameters are optional, if no parameters are provided, the entire download history will be cleared.  To clear a single download, provide the timestamp for the download as both parameters.  Providing only the before parameter will clear all downloads older than the timestamp. Conversely, providing only the after parameter will clear all downloads newer than the timestamp.
+
+### JSON Response
+
+standard success or error response. See [standard responses](#Standard-Responses).
+
+## /renter/files [GET]
+
+```go
 {
   "files": [
     {
@@ -1877,14 +1888,42 @@ lists the status of all files.
     }
   ]
 }
-`
+```
 
-## /renter/file/*siapath [GET]
+lists the status of all files.
 
-lists the status of specified file.
+### JSON Response
 
-### JSON Response (with comments)
-`
+`"siapath": "foo/bar.txt",`
+// Path to the file in the renter on the network.
+
+`"localpath": "/home/foo/bar.txt",`
+// Path to the local file on disk.
+
+`"filesize": 8192, // bytes`
+// Size of the file in bytes.
+
+`"available": true,`
+// true if the file is available for download. Files may be available before they are completely uploaded.
+
+`"renewing": true,`
+// true if the file's contracts will be automatically renewed by the renter.
+
+`"redundancy": 5,`
+// Average redundancy of the file on the network. Redundancy is calculated by dividing the amount of data uploaded in the file's open contracts by the size of the file. Redundancy does not necessarily correspond to availability. Specifically, a redundancy >= 1 does not indicate the file is available as there could be a chunk of the file with 0 redundancy.
+
+`"uploadedbytes": 209715200, // bytes`
+// Total number of bytes successfully uploaded via current file contracts. This number includes padding and rendundancy, so a file with a size of 8192 bytes might be padded to 40 MiB and, with a redundancy of 5, encoded to 200 MiB for upload.
+
+`"uploadprogress": 100, // percent`
+// Percentage of the file uploaded, including redundancy. Uploading has completed when uploadprogress is 100. Files may be available for download before upload progress is 100.
+
+`"expiration": 60000`
+// Block height at which the file ceases availability.
+
+## /renter/file/*siapath* [GET]
+
+```go
 {
   "file": {
     "siapath":        "foo/bar.txt",
@@ -1898,7 +1937,134 @@ lists the status of specified file.
     "expiration":     60000
   }
 }
-`
+```
+
+lists the status of specified file.
+
+### JSON Response
+
+`"siapath": "foo/bar.txt",`
+// Path to the file in the renter on the network.
+
+`"localpath": "/home/foo/bar.txt",`
+// Path to the local file on disk.
+
+`"filesize": 8192, // bytes`
+// Size of the file in bytes.
+
+`"available": true,`
+// true if the file is available for download. Files may be available before they are completely uploaded.
+
+`"renewing": true,`
+// true if the file's contracts will be automatically renewed by the renter.
+
+`"redundancy": 5,`
+// Average redundancy of the file on the network. Redundancy is calculated by dividing the amount of data uploaded in the file's open contracts by the size of the file. Redundancy does not necessarily correspond to availability. Specifically, a redundancy >= 1 does not indicate the file is available as there could be a chunk of the file with 0 redundancy.
+
+`"uploadedbytes": 209715200, // bytes`
+// Total number of bytes successfully uploaded via current file contracts. This number includes padding and rendundancy, so a file with a size of 8192 bytes might be padded to 40 MiB and, with a redundancy of 5, encoded to 200 MiB for upload.
+
+`"uploadprogress": 100, // percent`
+// Percentage of the file uploaded, including redundancy. Uploading has completed when uploadprogress is 100. Files may be available for download before upload progress is 100.
+
+`"expiration": 60000`
+// Block height at which the file ceases availability.
+
+## /renter/prices [GET]
+
+> Query String Parameters
+```go
+all optional or all required
+
+funds // hastings
+hosts
+period // block height
+renewwindow // block height
+```
+
+```go
+{
+  "downloadterabyte":      "1234", // hastings
+  "formcontracts":         "1234", // hastings
+  "storageterabytemonth":  "1234", // hastings
+  "uploadterabyte":        "1234", // hastings
+  "funds":                 "1234", // hastings
+  "hosts":                     24,
+  "period":                  6048, // blocks
+  "renewwindow":             3024  // blocks
+}
+```
+
+lists the estimated prices of performing various storage and data operations. An allowance can be submitted to provide a more personalized estimate. If no allowance is submitted then the current set allowance will be used, if there is no allowance set then sane defaults will be used. Submitting an allowance is optional, but when submitting an allowance all the components of the allowance are required. The allowance used to create the estimate is returned with the estimate.
+
+### Query String Parameters
+
+all optional or all required
+
+`funds // hastings`
+// Number of hastings allocated for file contracts in the given period.
+
+`hosts`
+// Number of hosts that contracts should be formed with. Files cannot be uploaded to more hosts than you have contracts with, and it's generally good to form a few more contracts than you need.
+
+`period // block height`
+// Duration of contracts formed. Must be nonzero.
+
+renewwindow // block height`
+// Renew window specifies how many blocks before the expiration of the current contracts the renter will wait before renewing the contracts. A smaller renew window means that Sia must be run more frequently, but also means fewer total transaction fees. Storage spending is not affected by the renew window size.
+
+### JSON Response
+
+`"downloadterabyte": "1234", // hastings`
+// The estimated cost of downloading one terabyte of data from the network.
+
+`"formcontracts": "1234", // hastings`
+// The estimated cost of forming a set of contracts on the network. This cost also applies to the estimated cost of renewing the renter's set of contracts.
+
+`"storageterabytemonth": "1234", // hastings`
+// The estimated cost of storing one terabyte of data on the network for a month, including accounting for redundancy.
+
+`"uploadterabyte": "1234", // hastings`
+// The estimated cost of uploading one terabyte of data to the network, including accounting for redundancy.
+
+`"funds": "1234", // hastings`
+// Amount of money allocated for contracts. Funds are spent on both storage and bandwidth.
+
+`"hosts":24,`
+// Number of hosts that contracts will be formed with.
+
+`"period": 6048, // blocks`
+// Duration of contracts formed, in number of blocks.
+
+`"renewwindow": 3024 // blocks`
+// If the current blockheight + the renew window >= the height the contract is scheduled to end, the contract is renewed automatically. Is always nonzero.
+
+## /renter/file/*siapath* [POST]
+
+> Path Parameters
+```go
+// SiaPath of the file on the network. The path must be non-empty, may not include any path traversal strings ("./", "../"), and may not begin with a forward-slash character.
+*siapath
+```
+
+> Query String Parameters
+```go
+// If provided, this parameter changes the tracking path of a file to the  specified path. Useful if moving the file to a different location on disk.
+trackingpath
+```
+
+endpoint for changing file metadata.
+
+### Response
+
+standard success or error response. See [standard responses](#Standard-Responses).
+
+## /renter/delete/*siapath* [POST] START FROM HERE THURSDAY NIGHT
+
+
+
+
+
 
 ## /renter/prices [GET]
 
