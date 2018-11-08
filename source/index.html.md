@@ -1566,14 +1566,9 @@ merkle root | [80-112) | [48-80)
 
 # Renter
 
-For examples and detailed descriptions of request and response parameters, refer to Renter.md.
-
 ## /renter [GET]
 
-returns the current settings along with metrics on the renter's spending.
-
-### JSON Response (with comments)
-`
+```go
 {
   "settings": {
     "allowance": {
@@ -1581,7 +1576,10 @@ returns the current settings along with metrics on the renter's spending.
       "hosts":       24,
       "period":      6048, // blocks
       "renewwindow": 3024  // blocks
-    }
+    },
+    "maxuploadspeed":     1234, // BPS
+    "maxdownloadspeed":   1234, // BPS
+    "streamcachesize":  4    
   },
   "financialmetrics": {
     "contractfees":     "1234", // hastings
@@ -1592,21 +1590,117 @@ returns the current settings along with metrics on the renter's spending.
     "uploadspending":   "5678", // hastings
     "unspent":          "1234"  // hastings
   },
-  "currentperiod": "200"
+  "currentperiod": 200
 }
-`
+```
+
+returns the current settings along with metrics on the renter's spending.
+
+`"settings": {`
+// Settings that control the behavior of the renter.
+
+`"allowance": {`
+// Allowance dictates how much the renter is allowed to spend in a given period. Note that funds are spent on both storage and bandwidth.
+
+`"funds": "1234", // hastings`
+// Amount of money allocated for contracts. Funds are spent on both storage and bandwidth.
+
+`"hosts":24,`
+// Number of hosts that contracts will be formed with.
+
+`"period": 6048, // blocks`
+// Duration of contracts formed, in number of blocks.
+
+`"renewwindow": 3024 // blocks`
+// If the current blockheight + the renew window >= the height the contract is scheduled to end, the contract is renewed automatically. Is always nonzero.
+
+`"maxuploadspeed":     1234, // bytes per second`
+// MaxUploadSpeed by default is unlimited but can be set by the user to manage bandwidth.
+
+`"maxdownloadspeed":   1234, // bytes per second`
+// MaxDownloadSpeed by default is unlimited but can be set by the user to manage bandwidth.
+
+`"streamcachesize":  4`
+// The StreamCacheSize is the number of data chunks that will be cached during streaming.
+
+`"financialmetrics": {`
+// Metrics about how much the Renter has spent on storage, uploads, and downloads.
+
+`"contractfees": "1234", // hastings`
+// Amount of money spent on contract fees, transaction fees and siafund fees.
+
+`"contractspending": "1234", // hastings, (deprecated, now totalallocated)`
+// How much money, in hastings, the Renter has spent on file contracts, including fees.
+
+`"downloadspending": "5678", // hastings`
+// Amount of money spent on downloads.
+
+`"storagespending": "1234", // hastings`
+// Amount of money spend on storage.
+
+`"totalallocated": "1234", // hastings`
+// Total amount of money that the renter has put into contracts. Includes spent money and also money that will be returned to the renter.
+
+`"uploadspending": "5678", // hastings`
+// Amount of money spent on uploads.
+
+`"unspent": "1234" // hastings`
+// Amount of money in the allowance that has not been spent.
+
+`"currentperiod": 200`
+// Height at which the current allowance period began.
 
 ## /renter [POST]
 
-modify settings that control the renter's behavior.
-
-### Query String Parameters (with comments)
-`
+> Query String Parameters
+```go
 funds // hastings
 hosts
 period      // block height
 renewwindow // block height
-`
+```
+
+modify settings that control the renter's behavior.
+
+### Query Response Parameters
+
+`checkforipviolation // true or false`
+// Enables or disables the check for hosts using the same ip subnets within the hostdb. It's turned on by default and causes Sia to not form contracts with hosts from the same subnet and if such contracts already exist, it will deactivate the contract which has occupied that subnet for the shorter time.
+
+`funds // hastings`
+// Number of hastings allocated for file contracts in the given period.
+
+`hosts`
+// Number of hosts that contracts should be formed with. Files cannot be uploaded to more hosts than you have contracts with, and it's generally good to form a few more contracts than you need.
+
+`period // block height`
+// Duration of contracts formed. Must be nonzero.
+
+`renewwindow // block height`
+// Renew window specifies how many blocks before the expiration of the current contracts the renter will wait before renewing the contracts. A smaller renew window means that Sia must be run more frequently, but also means fewer total transaction fees. Storage spending is not affected by the renew window size.
+
+`maxdownloadspeed`
+// Max download speed permitted, speed provide in bytes per second
+
+`maxuploadspeed`
+// Max upload speed permitted, speed provide in bytes per second
+
+`streamcachesize`
+// Stream cache size specifies how many data chunks will be cached while streaming.  
+
+### Response
+
+standard success or error response. See [standard responses](#Standard-Responses).
+
+## /renter/contract/cancel [POST]
+
+> Query String Parameters
+
+```go
+// ID of the file contract
+id
+```
+cancels a specific contract of the Renter.
 
 ### Response
 
@@ -1614,12 +1708,15 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 ## /renter/contracts [GET]
 
-returns active contracts. Expired contracts are not included.
+> Contract Parameters
+```go
+inactive   // true or false - Optional
+expired    // true or false - Optional
+```
 
-### JSON Response (with comments)
-`
+```go
 {
-  "contracts": [
+  "activecontracts": [
     {
       "downloadspending": "1234", // hastings
       "endheight": 50000, // block height
@@ -1641,16 +1738,67 @@ returns active contracts. Expired contracts are not included.
       "goodforupload": true,
       "goodforrenew": false,
     }
-  ]
+  ],
+  "inactivecontracts": [],
+  "expiredcontracts": [],
 }
-`
+```
+
+returns the renter's contracts.  Active contracts are contracts that the Renter is currently using to store, upload, and download data, and are returned by default. Inactive contracts are contracts that are in the current period but are marked as not good for renew, these contracts have the potential to become active again but currently are not storing data.  Expired contracts are contracts not in the current period, where not more data is being stored and excess funds have been released to the renter.
+
+`"downloadspending": "1234", // hastings`
+// Amount of contract funds that have been spent on downloads.
+
+`"endheight": 50000, // block height`
+// Block height that the file contract ends on.
+
+`"fees": "1234", // hastings`
+// Fees paid in order to form the file contract.
+
+`"hostpublickey": {  
+ "algorithm": "ed25519",  
+ "key": "RW50cm9weSBpc24ndCB3aGF0IGl0IHVzZWQgdG8gYmU="`  
+// Public key of the host the contract was formed with.
+
+`"id": "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef",`
+// ID of the file contract.
+
+`"lasttransaction": {},`
+// A signed transaction containing the most recent contract revision.
+
+`"netaddress": "12.34.56.78:9",`
+// Address of the host the file contract was formed with.
+
+`"renterfunds": "1234", // hastings`
+// Remaining funds left for the renter to spend on uploads & downloads.
+
+`"size": 8192, // bytes`
+// Size of the file contract, which is typically equal to the number of bytes that have been uploaded to the host.
+
+`"startheight": 50000, // block height`
+// Block height that the file contract began on.
+
+`"StorageSpending": 0,`
+// DEPRECATED: This is the exact same value as StorageSpending, but it has incorrect capitalization. This was fixed in 1.3.2, but this field is kept to preserve backwards compatibility on clients who depend on the incorrect capitalization. This field will be removed in the future, so clients should switch to the StorageSpending field (above) with the correct lowercase name.
+
+`"storagespending": "1234", // hastings`
+// Amount of contract funds that have been spent on storage.
+
+`"totalcost": "1234", // hastings`
+// Total cost to the wallet of forming the file contract. This includes both the fees and the funds allocated in the contract.
+
+`"uploadspending": "1234" // hastings`
+// Amount of contract funds that have been spent on uploads.
+
+`"goodforupload": true,`
+// Signals if contract is good for uploading data
+
+`"goodforrenew": false,`
+// Signals if contract is good for a renewal
 
 ## /renter/downloads [GET]
 
-lists all files in the download queue.
-
-### JSON Response (with comments)
-`
+```go
 {
   "downloads": [
     {
@@ -1669,9 +1817,46 @@ lists all files in the download queue.
     }
   ]
 }
-`
+```
 
-## /renter/files [GET]
+lists all files in the download queue.
+
+### JSON Response (with comments)
+
+`"destination": "/home/users/alice",`
+// Local path that the file will be downloaded to.
+
+`"destinationtype": "file",`
+// What type of destination was used. Can be "file", indicating a download to disk, can be "buffer", indicating a download to memory, and can be "http stream", indicating that the download was streamed through the http API.
+
+`"length": 8192, // bytes`
+// Length of the download. If the download was a partial download, this will indicate the length of the partial download, and not the length of the full file.
+
+`"offset": 0,`
+// Offset within the file of the download. For full file downloads, the offset will be '0'. For partial downloads, the offset may be anywhere within the file. offset+length will never exceed the full file size.
+
+`"siapath": "foo/bar.txt",`
+// Siapath given to the file when it was uploaded.
+
+`"completed": true,`
+// Whether or not the download has completed. Will be false initially, and set to true immediately as the download has been fully written out to the file, to the http stream, or to the in-memory buffer. Completed will also be set to true if there is an error that causes the download to fail.
+
+`"endtime": "2009-11-10T23:00:00Z", // RFC 3339 time`
+// Time at which the download completed. Will be zero if the download has not yet completed.
+
+`"error": ""`
+// Error encountered while downloading. If there was no error (yet), it will be the empty string.
+
+`"received": 4096, // bytes`
+// Number of bytes downloaded thus far. Will only be updated as segments of the file complete fully. This typically has a resolution of tens of megabytes.
+
+`"starttime": "2009-11-10T23:00:00Z", // RFC 3339 time`
+// Time at which the download was initiated.
+
+`"totaldatatransfered": 10321,`
+// The total amount of data transfered when downloading the file. This will eventually include data transferred during contract + payment negotiation, as well as data from failed piece downloads.
+
+## /renter/files [GET] START HERE
 
 lists the status of all files.
 
