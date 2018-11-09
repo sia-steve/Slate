@@ -2010,7 +2010,7 @@ all optional or all required
 `period // block height`
 // Duration of contracts formed. Must be nonzero.
 
-renewwindow // block height`
+`renewwindow // block height`
 // Renew window specifies how many blocks before the expiration of the current contracts the renter will wait before renewing the contracts. A smaller renew window means that Sia must be run more frequently, but also means fewer total transaction fees. Storage spending is not affected by the renew window size.
 
 ### JSON Response
@@ -2059,122 +2059,169 @@ endpoint for changing file metadata.
 
 standard success or error response. See [standard responses](#Standard-Responses).
 
-## /renter/delete/*siapath* [POST] START FROM HERE THURSDAY NIGHT
+## /renter/delete/*siapath* [POST]
 
-
-
-
-
-
-## /renter/prices [GET]
-
-lists the estimated prices of performing various storage and data operations.
-
-### JSON Response (with comments)
-`
-{
-  "downloadterabyte":      "1234", // hastings
-  "formcontracts":         "1234", // hastings
-  "storageterabytemonth":  "1234", // hastings
-  "uploadterabyte":        "1234"  // hastings
-}
-`
-
-## /renter/delete/*siapath [POST]
+> Path Parameters
+```go
+*siapath
+```
 
 deletes a renter file entry. Does not delete any downloads or original files, only the entry in the renter.
 
-### Path Parameters (with comments)
+### Path Parameters
 
 `*siapath`
+// Location of the file in the renter on the network.
 
 ### Response
 
 standard success or error response. See [standard responses](#Standard-Responses).
 
-## /renter/download/*siapath [GET]
+## /renter/download/*siapath* [GET]
 
-downloads a file to the local filesystem. The call will block until the file has been downloaded.
+> Path Parameters 
+```go
+*siapath
+```
 
-### Path Parameters (with comments)
-
-`*siapath`
-
-### Query String Parameters (with comments)
-
-`async
+> Query String Parameters
+```go
+async
 destination
 httpresp
 length
-offset`
+offset
+```
+
+downloads a file to the local filesystem. The call will block until the file has been downloaded.
+
+### Path Parameters
+
+`*siapath`
+// Location of the file in the renter on the network.
+
+### Query String Parameters
+
+`async`
+// If async is true, the http request will be non blocking. Can't be used with
+
+`destination`
+// Location on disk that the file will be downloaded to.
+
+`httpresp`
+// If httresp is true, the data will be written to the http response.
+
+`length`
+// Length of the requested data. Has to be <= filesize-offset.
+
+`offset`
+// Offset relative to the file start from where the download starts.
 
 ### Response
 
 standard success or error response. See [standard responses](#Standard-Responses).
 
-## /renter/downloadasync/*siapath [GET]
+## /renter/downloadsync/*siapath* [GET]
+
+> Path Parameters
+
+```go
+*siapath
+```
+
+> Query String Parameters
+
+```go
+destination
+```
 
 downloads a file to the local filesystem. The call will return immediately.
 
-### Path Parameters (with comments)
-
-`*siapath`
-
-### Query String Parameters (with comments)
-
-`destination`
-
 ### Response
 
 standard success or error response. See [standard responses](#Standard-Responses).
 
-## /renter/rename/*siapath [POST]
+## /renter/rename/*siapath* [POST]
 
-renames a file. Does not rename any downloads or source files, only renames the entry in the renter. An error is returned if siapath does not exist or newsiapath already exists.
+> Path Parameters
+```go
+*siapath   
+```
 
-### Path Parameters (with comments)
+> Query String Parameters
+```go
+newsiapath
+```
+
+### Path Parameters
 
 `*siapath`
+// Current location of the file in the renter on the network.
 
-### Query String Parameters (with comments)
+### Query String Parameters
 
 `newsiapath`
+// New location of the file in the renter on the network.
 
 ### Response
 
 standard success or error response. See [standard responses](#Standard-Responses).
 
-## /renter/stream/*siapath [GET]
+## /renter/stream/*siapath* [GET]
 
-downloads a file using http streaming. This call blocks until the data is received. The streaming endpoint also uses caching internally to prevent siad from redownloading the same chunk multiple times when only parts of a file are requested at once. This might lead to a substantial increase in ram usage and therefore it is not recommended to stream multiple files in parallel at the moment. This restriction will be removed together with the caching once partial downloads are supported in the future.
+> Path Parameters
+```go
+*siapath
+```
 
-### Path Parameters (with comments)
+downloads a file using http streaming. This call blocks until the data is received. The streaming endpoint also uses caching internally to prevent siad from re-downloading the same chunk multiple times when only parts of a file are requested at once. This might lead to a substantial increase in ram usage and therefore it is not recommended to stream multiple files in parallel at the moment. This restriction will be removed together with the caching once partial downloads are supported in the future. If you want to stream multiple files you should increase the size of the Renter's `streamcachesize` to at least 2x the number of files you are steaming.
+
+### Path Parameters
 
 `*siapath`
+// Current location of the file in the renter on the network.
 
 ### Response
 
-standard success with the requested data in the body or error response. See [standard responses](#Standard-Responses).
+standard success or error response. See [standard responses](#Standard-Responses).
 
-## /renter/upload/*siapath [POST]
+## /renter/upload/*siapath* [POST]
+
+> Path Parameters
+```go
+*siapath
+```
+
+> Query String Parameters
+```go
+datapieces   // int
+paritypieces // int
+source       // string - a filepath
+```
 
 uploads a file to the network from the local filesystem.
 
-### Path Parameters (with comments)
+### Path Parameters
 
 `*siapath`
+// Location where the file will reside in the renter on the network. The path must be non-empty, may not include any path traversal strings ("./", "../"), and may not begin with a forward-slash character.
 
-### Query String Parameters (with comments)
+### Query String Parameters
 
-`datapieces   // int
-paritypieces // int
-source       // string - a filepath`
+`datapieces // int`
+// The number of data pieces to use when erasure coding the file.
+
+`paritypieces // int`
+// The number of parity pieces to use when erasure coding the file. Total redundancy of the file is (datapieces+paritypieces)/datapieces.
+
+`source // string - a filepath`
+// Location on disk of the file being uploaded.
 
 ### Response
 
 standard success or error response. See [standard responses](#Standard-Responses).
 
-# Transaction Pool
+# Transaction Pool (START FROM HERE)********
 
 ## /tpool/confirmed/:id [GET]
 
