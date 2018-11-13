@@ -103,8 +103,8 @@ For examples and detailed descriptions of request and response parameters, refer
 
 Returns the set of constants in use.
 
-**blockfrequency** | number  
-Target for how frequently new blocks should be mined.  
+**blockfrequency** | Target for how frequently new blocks should be mined.  
+--- | ---
 
 **blocksizelimit** | number  
 Maximum size, in bytes, of a block. Blocks larger than this will be rejected by peers.  
@@ -156,7 +156,7 @@ Number of Hastings in one Siacoin.
 
 ## /daemon/stop [GET]
 
-cleanly shuts down the daemon. This may take a few seconds.
+Cleanly shuts down the daemon. This may take a few seconds.
 
 ### Response
 standard success or error response. See [standard responses](#Standard-Responses).
@@ -165,7 +165,7 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 ```go
 {
-"version": "1.3.4"
+"version": "1.3.7"
 }
 ```
 
@@ -187,20 +187,20 @@ Returns the version of the Sia daemon currently running. This number is visible 
 
 Returns information about the consensus set, such as the current block height.
 
-  `"synced": true,`
-  // True if the consensus set is synced with the network, e.g. it has downloaded the entire blockchain.
+**synced**
+True if the consensus set is synced with the network, e.g. it has downloaded the entire blockchain.
 
-  `"height": 62248,`
-  // Number of blocks preceding the current block.
+**height**
+Number of blocks preceding the current block.
 
-  `"currentblock": "00000000000008a84884ba827bdc868a17ba9c14011de33ff763bd95779a9cf1",`
-  // Hash of the current block.
+**currentblock**
+Hash of the current block.
 
-  `"target": [0,0,0,0,0,0,11,48,125,79,116,89,136,74,42,27,5,14,10,31,23,53,226,238,202,219,5,204,38,32,59,165],`
-  // An immediate child block of this block must have a hash less than this target for it to be valid.
+**target**
+An immediate child block of this block must have a hash less than this target for it to be valid.
 
-  `"difficulty": "1234" // arbitrary-precision integer`
-  // The difficulty of the current block target.
+**difficulty**
+The difficulty of the current block target.
 
 ## /consensus/blocks [GET]
 
