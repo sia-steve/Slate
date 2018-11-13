@@ -118,41 +118,41 @@ How far in the future a block can be without being rejected. A block further int
 **genesistimestamp** | number  
 Timestamp of the genesis block.  
 
-`"maturitydelay":          144,        // blocks`
-// Number of children a block must have before it is considered "mature."
+**maturitydelay** | number
+Number of children a block must have before it is considered "mature."
 
-`"mediantimestampwindow":  11,         // blocks`
-// Duration of the window used to adjust the difficulty.
+**mediantimestampwindow** | number
+Duration of the window used to adjust the difficulty.
 
-`"siafundcount":           "10000",`
-// Total number of siafunds.
+**siafundcount** | number
+Total number of siafunds.
 
-`"siafundportion":         "39/1000",`
-// Fraction of each file contract payout given to siafund holders.
+**siafundportion** | number
+Fraction of each file contract payout given to siafund holders.
 
-`"targetwindow":           1000,       // blocks`
-// Height of the window used to adjust the difficulty.
+**targetwindow**
+Height of the window used to adjust the difficulty.
 
-`"initialcoinbase": 300000, // Siacoins`
-// Number of coins given to the miner of the first block. Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
+**initialcoinbase**
+Number of coins given to the miner of the first block. Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
 
-`"minimumcoinbase": 30000,  // Siacoins`
-// Minimum number of coins paid out to the miner of a block (the coinbase decreases with each block). Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
+**minimumcoinbase**
+Minimum number of coins paid out to the miner of a block (the coinbase decreases with each block). Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
 
-`"roottarget": [0,0,0,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],`
-// Initial target.
+**roottarget**
+Initial target.
 
-`"rootdepth":  [255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255],`
-// Initial depth.
+**rootdepth**
+Initial depth.
 
-`"maxtargetadjustmentup":   "5/2",`
-// Largest allowed ratio between the old difficulty and the new difficulty.
+**maxtargetadjustmentup**
+Largest allowed ratio between the old difficulty and the new difficulty.
 
-`"maxtargetadjustmentdown": "2/5",`
-// Smallest allowed ratio between the old difficulty and the new difficulty.
+**maxtargetadjustmentdown**
+Smallest allowed ratio between the old difficulty and the new difficulty.
 
-`"siacoinprecision": "1000000000000000000000000" // hastings per siacoin`
-// Number of Hastings in one Siacoin.
+**siacoinprecision**
+Number of Hastings in one Siacoin.
 
 ## /daemon/stop [GET]
 
