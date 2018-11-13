@@ -103,17 +103,16 @@ For examples and detailed descriptions of request and response parameters, refer
 
 Returns the set of constants in use.
 
-**blockfrequency** | Target for how frequently new blocks should be mined.  
+blockfrequency | Target for how frequently new blocks should be mined.  
 --- | ---
 
-**blocksizelimit** | number  
-Maximum size, in bytes, of a block. Blocks larger than this will be rejected by peers.  
+blocksizelimit | Maximum size, in bytes, of a block. Blocks larger than this will be rejected by peers.  
+--- | ---
 
 **extremefuturethreshold** | number  
 Farthest a block's timestamp can be in the future before the block is rejected outright.  
 
-**futurethreshold** | number  
-How far in the future a block can be without being rejected. A block further into the future will not be accepted immediately, but the daemon will attempt to accept the block as soon as it is valid.  
+futurethreshold | How far in the future a block can be without being rejected. A block further into the future will not be accepted immediately, but the daemon will attempt to accept the block as soon as it is valid.  
 
 **genesistimestamp** | number  
 Timestamp of the genesis block.  
