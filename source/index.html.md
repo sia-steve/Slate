@@ -105,7 +105,7 @@ Returns the set of constants in use.
 
 `blockfrequency` | number
 --- | ---
-Target for how frequently new blocks should be mined. |
+Target for how frequently new blocks should be mined.  
 
 `blocksizelimit` | number
 --- | ---
