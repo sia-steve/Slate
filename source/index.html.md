@@ -103,56 +103,56 @@ For examples and detailed descriptions of request and response parameters, refer
 
 Returns the set of constants in use.
 
-blockfrequency | Target for how frequently new blocks should be mined.  
---- | ---
+**blockfrequency**  
+Target for how frequently new blocks should be mined.  
 
-blocksizelimit | Maximum size, in bytes, of a block. Blocks larger than this will be rejected by peers.  
---- | ---
+**blocksizelimit**  
+Maximum size, in bytes, of a block. Blocks larger than this will be rejected by peers.  
 
-**extremefuturethreshold** | number  
+**extremefuturethreshold**  
 Farthest a block's timestamp can be in the future before the block is rejected outright.  
 
-futurethreshold | How far in the future a block can be without being rejected. A block further into the future will not be accepted immediately, but the daemon will attempt to accept the block as soon as it is valid.  
---- | ---
+**futurethreshold**  
+How far in the future a block can be without being rejected. A block further into the future will not be accepted immediately, but the daemon will attempt to accept the block as soon as it is valid.  
 
-**genesistimestamp** | number  
+**genesistimestamp**  
 Timestamp of the genesis block.  
 
-**maturitydelay** | number
-Number of children a block must have before it is considered "mature."
+**maturitydelay**   
+Number of children a block must have before it is considered "mature."  
 
-**mediantimestampwindow** | number
-Duration of the window used to adjust the difficulty.
+**mediantimestampwindow**  
+Duration of the window used to adjust the difficulty.  
 
-**siafundcount** | number
-Total number of siafunds.
+**siafundcount**  
+Total number of siafunds.  
 
-**siafundportion** | number
-Fraction of each file contract payout given to siafund holders.
+**siafundportion**  
+Fraction of each file contract payout given to siafund holders.  
 
-**targetwindow**
-Height of the window used to adjust the difficulty.
+**targetwindow**  
+Height of the window used to adjust the difficulty.  
 
-**initialcoinbase**
-Number of coins given to the miner of the first block. Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
+**initialcoinbase**  
+Number of coins given to the miner of the first block. Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.  
 
-**minimumcoinbase**
-Minimum number of coins paid out to the miner of a block (the coinbase decreases with each block). Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.
+**minimumcoinbase**  
+Minimum number of coins paid out to the miner of a block (the coinbase decreases with each block). Note that elsewhere in the API currency is typically returned in hastings and as a bignum. This is not the case here.  
 
-**roottarget**
-Initial target.
+**roottarget**  
+Initial target.  
 
-**rootdepth**
-Initial depth.
+**rootdepth**  
+Initial depth.  
 
-**maxtargetadjustmentup**
-Largest allowed ratio between the old difficulty and the new difficulty.
+**maxtargetadjustmentup**  
+Largest allowed ratio between the old difficulty and the new difficulty.  
 
-**maxtargetadjustmentdown**
-Smallest allowed ratio between the old difficulty and the new difficulty.
+**maxtargetadjustmentdown**  
+Smallest allowed ratio between the old difficulty and the new difficulty.  
 
-**siacoinprecision**
-Number of Hastings in one Siacoin.
+**siacoinprecision**  
+Number of Hastings in one Siacoin.  
 
 ## /daemon/stop [GET]
 
@@ -187,20 +187,20 @@ Returns the version of the Sia daemon currently running. This number is visible 
 
 Returns information about the consensus set, such as the current block height.
 
-**synced**
-True if the consensus set is synced with the network, e.g. it has downloaded the entire blockchain.
+**synced**  
+True if the consensus set is synced with the network, e.g. it has downloaded the entire blockchain.  
 
-**height**
-Number of blocks preceding the current block.
+**height**  
+Number of blocks preceding the current block.  
 
-**currentblock**
-Hash of the current block.
+**currentblock**  
+Hash of the current block.  
 
-**target**
-An immediate child block of this block must have a hash less than this target for it to be valid.
+**target**  
+An immediate child block of this block must have a hash less than this target for it to be valid.  
 
-**difficulty**
-The difficulty of the current block target.
+**difficulty**  
+The difficulty of the current block target.  
 
 ## /consensus/blocks [GET]
 
