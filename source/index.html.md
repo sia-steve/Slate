@@ -103,6 +103,9 @@ For examples and detailed descriptions of request and response parameters, refer
 
 Returns the set of constants in use.
 
+`blockfrequency` | number  
+// Target for how frequently new blocks should be mined.  
+
 `"blockfrequency":         600,        // seconds per block`
 // Target for how frequently new blocks should be mined.
 
