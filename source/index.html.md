@@ -113,6 +113,7 @@ blocksizelimit | Maximum size, in bytes, of a block. Blocks larger than this wil
 Farthest a block's timestamp can be in the future before the block is rejected outright.  
 
 futurethreshold | How far in the future a block can be without being rejected. A block further into the future will not be accepted immediately, but the daemon will attempt to accept the block as soon as it is valid.  
+--- | ---
 
 **genesistimestamp** | number  
 Timestamp of the genesis block.  
