@@ -117,12 +117,11 @@ Farthest a block's timestamp can be in the future before the block is rejected o
 
 `futurethreshold` | number
 --- | ---
-How far in the future a block can be without being rejected. A block further into the future will not be accepted immediately, but the daemon will attempt to accept the block as soon as it is valid.
+How far in the future a block can be without being rejected. A block further into the future will not be accepted immediately, but the daemon will attempt to accept the block as soon as it is valid.  
 
-
-
-`"genesistimestamp":       1257894000, // Unix time`
-// Timestamp of the genesis block.
+`genesistimestamp` | number
+--- | ---
+Timestamp of the genesis block.  
 
 `"maturitydelay":          144,        // blocks`
 // Number of children a block must have before it is considered "mature."
