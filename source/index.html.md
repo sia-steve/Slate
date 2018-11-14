@@ -955,7 +955,7 @@ conversionrate is the likelihood given the settings passed to estimatescore that
 }
 ```
 
-shows some general information about the state of the hostdb.
+Shows some general information about the state of the hostdb.
 
 ### Response
 
@@ -997,124 +997,110 @@ lists all of the active hosts known to the renter, sorted by preference.
 
 ### Query String Parameters
 
-`numhosts // Optional`
-// Number of hosts to return. The actual number of hosts returned may be less if there are insufficient active hosts. Optional, the default is all active hosts.
+**numhosts** // Optional  
+Number of hosts to return. The actual number of hosts returned may be less if there are insufficient active hosts. Optional, the default is all active hosts.  
 
 ### JSON Response
 
-`"acceptingcontracts": true`
-// true if the host is accepting new contracts.
+**acceptingcontracts** | Boolean  
+true if the host is accepting new contracts.  
 
-`"collateral": "20000000000", // hastings / byte / block`
-// The maximum amount of money that the host will put up as collateral for storage that is contracted by the renter
+**collateral** | hastings / byte / block  
+The maximum amount of money that the host will put up as collateral for storage that is contracted by the renter.  
 
-`"contractprice": "1000000000000000000000000", // hastings`
-// The price that a renter has to pay to create a contract with the host. The payment is intended to cover transaction fees for the file contract revision and the storage proof that the host will be submitting to the blockchain.
+**contractprice** | hastings  
+The price that a renter has to pay to create a contract with the host. The payment is intended to cover transaction fees for the file contract revision and the storage proof that the host will be submitting to the blockchain.  
 
-`"downloadbandwidthprice": "35000000000000", // hastings / byte`
-// The price that a renter has to pay when downloading data from the host.
+**downloadbandwidthprice** | hastings / byte  
+The price that a renter has to pay when downloading data from the host.  
 
-`"firstseen": 160000, // blocks`
-// Firstseen is the last block height at which this host was announced.
+**firstseen** | blocks  
+Firstseen is the last block height at which this host was announced.  
 
-`"historicdowntime": 0`
-// Total amount of time the host has been offline.
+**historicdowntime**  
+Total amount of time the host has been offline.  
 
-`"historicfailedinteractions": 0`
-// Number of historic failed interactions with the host.
+**historicfailedinteractions**  
+Number of historic failed interactions with the host.  
 
-`"historicsuccessfulinteractions": 5`
-// Number of historic successful interactions with the host.
+**historicsuccessfulinteractions**  
+Number of historic successful interactions with the host.  
 
-`"historicuptime": 41634520900246576,`
-// Total amount of time the host has been online.
+**historicuptime**  
+Total amount of time the host has been online.  
 
-`"ipnets": [
-        "1.2.3.0",
-        "2.1.3.0"
-      ],`  
-// List of IP subnet masks used by the host. For IPv4 the /24 and for IPv6 the /54 subnet mask is used. A host can have either one IPv4 or one IPv6 subnet or one of each. E.g. these lists are valid: [ "IPv4" ], [ "IPv6" ] or [ "IPv4", "IPv6" ]. The following lists are invalid: [ "IPv4", "IPv4" ], [ "IPv4", "IPv6", "IPv6" ]. Hosts with an invalid list are ignored.
+**ipnets**  
+List of IP subnet masks used by the host. For IPv4 the /24 and for IPv6 the /54 subnet mask is used. A host can have either one IPv4 or one IPv6 subnet or one of each. E.g. these lists are valid: [ "IPv4" ], [ "IPv6" ] or [ "IPv4", "IPv6" ]. The following lists are invalid: [ "IPv4", "IPv4" ], [ "IPv4", "IPv6", "IPv6" ]. Hosts with an invalid list are ignored.  
 
-`"lasthistoricupdate": 174900, // blocks`
-// The last time that the interactions within scanhistory have been compressed into the historic ones
+**lasthistoricupdate** | blocks  
+The last time that the interactions within scanhistory have been compressed into the historic ones.  
 
-`"lastipnetchange": "2015-01-01T08:00:00.000000000+04:00"`
-// The last time the list of IP subnet masks was updated. When equal subnet masks are found for different hosts, the host that occupies the subnet mask for a longer time is preferred.
+**lastipnetchange** | date  
+The last time the list of IP subnet masks was updated. When equal subnet masks are found for different hosts, the host that occupies the subnet mask for a longer time is preferred.  
 
-`"maxcollateral": "1000000000000000000000000000", // hastings`
-// The maximum amount of collateral that the host will put into a single file contract.
+**maxcollateral** | hastings  
+The maximum amount of collateral that the host will put into a single file contract.  
 
-`"maxdownloadbatchsize": 17825792, // bytes`
-// Maximum number of bytes that the host will allow to be requested by a single download request.
+**maxdownloadbatchsize** | bytes  
+Maximum number of bytes that the host will allow to be requested by a single download request.  
 
-`"maxduration": 25920, // blocks`
-// Maximum duration in blocks that a host will allow for a file contract. The host commits to keeping files for the full duration under the threat of facing a large penalty for losing or dropping data before the duration is complete. The storage proof window of an incoming file contract must end before the current height + maxduration.  
+**maxduration** | blocks  
+Maximum duration in blocks that a host will allow for a file contract. The host commits to keeping files for the full duration under the threat of facing a large penalty for losing or dropping data before the duration is complete. The storage proof window of an incoming file contract must end before the current height + maxduration.  
 
-There is a block approximately every 10 minutes. e.g. 1 day = 144 blocks
+There is a block approximately every 10 minutes. e.g. 1 day = 144 blocks  
 
-`"maxrevisebatchsize": 17825792, // bytes`
-// Maximum size in bytes of a single batch of file contract revisions. Larger batch sizes allow for higher throughput as there is significant communication overhead associated with performing a batch upload.
+**maxrevisebatchsize** | bytes  
+Maximum size in bytes of a single batch of file contract revisions. Larger batch sizes allow for higher throughput as there is significant communication overhead associated with performing a batch upload.  
 
-`"netaddress": "123.456.789.0:9982"`
-// Remote address of the host. It can be an IPv4, IPv6, or hostname, along with the port. IPv6 addresses are enclosed in square brackets.
+**netaddress**  
+Remote address of the host. It can be an IPv4, IPv6, or hostname, along with the port. IPv6 addresses are enclosed in square brackets.  
 
-`"publickey": {`
-// Public key used to identify and verify hosts.
+**publickey**  
+Public key used to identify and verify hosts.  
         
-`"algorithm": "ed25519",`
-// Algorithm used for signing and verification. Typically "ed25519".
+**algorithm**  
+Algorithm used for signing and verification. Typically "ed25519".  
 
-`"key": "RW50cm9weSBpc24ndCB3aGF0IGl0IHVzZWQgdG8gYmU="`
-// Key used to verify signed host messages.
+**key**  
+Key used to verify signed host messages.  
 
-`"publickeystring": "ed25519:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"`
-// The string representation of the full public key, used when calling /hostdb/hosts.
+**publickeystring**  
+The string representation of the full public key, used when calling /hostdb/hosts.  
 
-`"recentfailedinteractions": 0,`
-// Number of recent failed interactions with the host.
+**recentfailedinteractions**  
+Number of recent failed interactions with the host.  
 
-`"recentsuccessfulinteractions": 0,`
-// Number of recent successful interactions with the host.
+**recentsuccessfulinteractions**  
+Number of recent successful interactions with the host.  
 
-`"remainingstorage": 35000000000, // bytes`
-// Unused storage capacity the host claims it has.
+**remainingstorage** | bytes  
+Unused storage capacity the host claims it has.  
 
-`"revisionnumber": 12733798,`
-// The revision number indicates to the renter what iteration of settings the host is currently at. Settings are generally signed. If the renter has multiple conflicting copies of settings from the host, the renter can expect the one with the higher revision number to be more recent.
+**revisionnumber**  
+The revision number indicates to the renter what iteration of settings the host is currently at. Settings are generally signed. If the renter has multiple conflicting copies of settings from the host, the renter can expect the one with the higher revision number to be more recent.  
 
-`"scanhistory": [
-        {
-          "success": true,
-          "timestamp": "2018-09-23T08:00:00.000000000+04:00"
-        },
-        {
-          "success": true,
-          "timestamp": "2018-09-23T06:00:00.000000000+04:00"
-        },
-        {
-          "success": true,
-          "timestamp": "2018-09-23T04:00:00.000000000+04:00"`  
-// Measurements that have been taken on the host. The most recent measurements are kept in full detail.
+**scanhistory**  
+Measurements that have been taken on the host. The most recent measurements are kept in full detail.  
 
-`"sectorsize": 4194304, // bytes`
-// Smallest amount of data in bytes that can be uploaded or downloaded to or from the host.
+**sectorsize** | bytes  
+Smallest amount of data in bytes that can be uploaded or downloaded to or from the host.  
 
-`"storageprice": "14000000000", // hastings / byte / block`
-// The price that a renter has to pay to store files with the host.
+**storageprice** | hastings / byte / block  
+The price that a renter has to pay to store files with the host.  
 
-`"totalstorage": 35000000000, // bytes`
-// Total amount of storage capacity the host claims it has.
+**totalstorage** | bytes  
+Total amount of storage capacity the host claims it has.  
 
-`"unlockhash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789ab",`
-// Address at which the host can be paid when forming file contracts.
+**unlockhash**  
+Address at which the host can be paid when forming file contracts.  
 
-`"uploadbandwidthprice": "3000000000000", // hastings / byte`
+**uploadbandwidthprice** | hastings / byte  
 
-`"version": "1.3.7",`
-// The version of the host.
+**version**  
+The version of the host.  
 
-`"windowsize": 144 // blocks`
-// A storage proof window is the number of blocks that the host has to get a storage proof onto the blockchain. The window size is the minimum size of window that the host will accept in a file contract.
+**windowsize** | blocks  
+A storage proof window is the number of blocks that the host has to get a storage proof onto the blockchain. The window size is the minimum size of window that the host will accept in a file contract.  
 
 ## /hostdb/all [GET]
 
@@ -1142,123 +1128,109 @@ There is a block approximately every 10 minutes. e.g. 1 day = 144 blocks
 }
 ```
 
-lists all of the hosts known to the renter. Hosts are not guaranteed to be in any particular order, and the order may change in subsequent calls.
+Lists all of the hosts known to the renter. Hosts are not guaranteed to be in any particular order, and the order may change in subsequent calls.
 
 ### JSON Response (with comments)
 
-`"acceptingcontracts": true,`
-// true if the host is accepting new contracts.
+**acceptingcontracts** | Boolean  
+true if the host is accepting new contracts.  
 
-`"collateral": "20000000000", // hastings / byte / block`
- // The maximum amount of money that the host will put up as collateral for storage that is contracted by the renter.
+**collateral** | hastings / byte / block  
+The maximum amount of money that the host will put up as collateral for storage that is contracted by the renter.  
 
-`"contractprice": "1000000000000000000000000", // hastings`
-// The price that a renter has to pay to create a contract with the host. The payment is intended to cover transaction fees for the file contract revision and the storage proof that the host will be submitting to the blockchain.
+**contractprice** | hastings  
+The price that a renter has to pay to create a contract with the host. The payment is intended to cover transaction fees for the file contract revision and the storage proof that the host will be submitting to the blockchain.  
 
-`"downloadbandwidthprice": "35000000000000", // hastings / byte`
-// The price that a renter has to pay when downloading data from the host.
+**downloadbandwidthprice** | hastings / byte  
+The price that a renter has to pay when downloading data from the host.  
 
-`"firstseen": 160000, // blocks`
-// Firstseen is the last block height at which this host was announced.
+**firstseen** | blocks  
+Firstseen is the last block height at which this host was announced.  
 
-`"historicdowntime": 0,`
-// Total amount of time the host has been offline.
+**historicdowntime**  
+Total amount of time the host has been offline.  
 
-`"historicfailedinteractions": 0,`
-// Number of historic failed interactions with the host.
+**historicfailedinteractions**  
+Number of historic failed interactions with the host.  
 
-`"historicsuccessfulinteractions": 5,`
-// Number of historic successful interactions with the host.
+**historicsuccessfulinteractions**  
+Number of historic successful interactions with the host.  
 
-`"historicuptime": 41634520900246576,`
-// Total amount of time the host has been online.
+**historicuptime**  
+Total amount of time the host has been online.  
 
-`"ipnets": [
-        "1.2.3.0",
-        "2.1.3.0"
-      ],`
-// List of IP subnet masks used by the host. For IPv4 the /24 and for IPv6 the /54 subnet mask is used. A host can have either one IPv4 or one IPv6 subnet or one of each. E.g. these lists are valid: [ "IPv4" ], [ "IPv6" ] or [ "IPv4", "IPv6" ]. The following lists are invalid: [ "IPv4", "IPv4" ], [ "IPv4", "IPv6", "IPv6" ]. Hosts with an invalid list are ignored.
+**ipnets**  
+List of IP subnet masks used by the host. For IPv4 the /24 and for IPv6 the /54 subnet mask is used. A host can have either one IPv4 or one IPv6 subnet or one of each. E.g. these lists are valid: [ "IPv4" ], [ "IPv6" ] or [ "IPv4", "IPv6" ]. The following lists are invalid: [ "IPv4", "IPv4" ], [ "IPv4", "IPv6", "IPv6" ]. Hosts with an invalid list are ignored.  
 
-`"lasthistoricupdate": 174900, // blocks`
-// The last time that the interactions within scanhistory have been compressed into the historic ones
+**lasthistoricupdate** | blocks  
+The last time that the interactions within scanhistory have been compressed into the historic ones.  
 
-`"lastipnetchange": "2015-01-01T08:00:00.000000000+04:00",`
-// The last time the list of IP subnet masks was updated. When equal subnet masks are found for different hosts, the host that occupies the subnet mask for a longer time is preferred.
+**lastipnetchange** | date  
+The last time the list of IP subnet masks was updated. When equal subnet masks are found for different hosts, the host that occupies the subnet mask for a longer time is preferred.  
 
-`"maxcollateral": "1000000000000000000000000000", // hastings`
-// The maximum amount of collateral that the host will put into a single file contract.
+**maxcollateral** | hastings  
+The maximum amount of collateral that the host will put into a single file contract.  
 
-`"maxdownloadbatchsize": 17825792, // bytes`
-// Maximum number of bytes that the host will allow to be requested by a single download request.
+**maxdownloadbatchsize** | bytes  
+Maximum number of bytes that the host will allow to be requested by a single download request.  
 
-`"maxduration": 25920, // blocks`
-// Maximum duration in blocks that a host will allow for a file contract. The host commits to keeping files for the full duration under the threat of facing a large penalty for losing or dropping data before the duration is complete. The storage proof window of an incoming file contract must end before the current height + maxduration.  
+**maxduration** | blocks  
+Maximum duration in blocks that a host will allow for a file contract. The host commits to keeping files for the full duration under the threat of facing a large penalty for losing or dropping data before the duration is complete. The storage proof window of an incoming file contract must end before the current height + maxduration.  
 
-There is a block approximately every 10 minutes. e.g. 1 day = 144 blocks
+There is a block approximately every 10 minutes. e.g. 1 day = 144 blocks  
 
-`"maxrevisebatchsize": 17825792, // bytes`
-// Maximum size in bytes of a single batch of file contract revisions. Larger batch sizes allow for higher throughput as there is significant communication overhead associated with performing a batch upload.
+**maxrevisebatchsize** | bytes  
+Maximum size in bytes of a single batch of file contract revisions. Larger batch sizes allow for higher throughput as there is significant communication overhead associated with performing a batch upload.  
 
-`"netaddress": "123.456.789.0:9982"`
-// Remote address of the host. It can be an IPv4, IPv6, or hostname, along with the port. IPv6 addresses are enclosed in square brackets.
+**netaddress**  
+Remote address of the host. It can be an IPv4, IPv6, or hostname, along with the port. IPv6 addresses are enclosed in square brackets.  
 
-`"publickey": {`
-// Public key used to identify and verify hosts.
+**publickey**  
+Public key used to identify and verify hosts.  
         
-`"algorithm": "ed25519",`
-// Algorithm used for signing and verification. Typically "ed25519".
+**algorithm**  
+Algorithm used for signing and verification. Typically "ed25519".  
 
-`"key": "RW50cm9weSBpc24ndCB3aGF0IGl0IHVzZWQgdG8gYmU="`
-// Key used to verify signed host messages.
+**key**  
+Key used to verify signed host messages.  
 
-`"publickeystring": "ed25519:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"`
-// The string representation of the full public key, used when calling /hostdb/hosts.
+**publickeystring**  
+The string representation of the full public key, used when calling /hostdb/hosts.  
 
-`"recentfailedinteractions": 0,`
-// Number of recent failed interactions with the host.
+**recentfailedinteractions**  
+Number of recent failed interactions with the host.  
 
-`"recentsuccessfulinteractions": 0,`
-// Number of recent successful interactions with the host.
+**recentsuccessfulinteractions**  
+Number of recent successful interactions with the host.  
 
-`"remainingstorage": 35000000000, // bytes`
-// Unused storage capacity the host claims it has.
+**remainingstorage** | bytes  
+Unused storage capacity the host claims it has.  
 
-`"revisionnumber": 12733798,`
-// The revision number indicates to the renter what iteration of settings the host is currently at. Settings are generally signed. If the renter has multiple conflicting copies of settings from the host, the renter can expect the one with the higher revision number to be more recent.
+**revisionnumber**  
+The revision number indicates to the renter what iteration of settings the host is currently at. Settings are generally signed. If the renter has multiple conflicting copies of settings from the host, the renter can expect the one with the higher revision number to be more recent.  
 
-`"scanhistory": [
-        {
-          "success": true,
-          "timestamp": "2018-09-23T08:00:00.000000000+04:00"
-        },
-        {
-          "success": true,
-          "timestamp": "2018-09-23T06:00:00.000000000+04:00"
-        },
-        {
-          "success": true,
-          "timestamp": "2018-09-23T04:00:00.000000000+04:00"`  
-// Measurements that have been taken on the host. The most recent measurements are kept in full detail.
+**scanhistory**  
+Measurements that have been taken on the host. The most recent measurements are kept in full detail.  
 
-`"sectorsize": 4194304, // bytes`
-// Smallest amount of data in bytes that can be uploaded or downloaded to or from the host.
+**sectorsize** | bytes  
+Smallest amount of data in bytes that can be uploaded or downloaded to or from the host.  
 
-`"storageprice": "14000000000", // hastings / byte / block`
-// The price that a renter has to pay to store files with the host.
+**storageprice** | hastings / byte / block  
+The price that a renter has to pay to store files with the host.  
 
-`"totalstorage": 35000000000, // bytes`
-// Total amount of storage capacity the host claims it has.
+**totalstorage** | bytes  
+Total amount of storage capacity the host claims it has.  
 
-`"unlockhash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789ab",`
-// Address at which the host can be paid when forming file contracts.
+**unlockhash**  
+Address at which the host can be paid when forming file contracts.  
 
-`"uploadbandwidthprice": "3000000000000", // hastings / byte`
+**uploadbandwidthprice** | hastings / byte  
 
-`"version": "1.3.7",`
-// The version of the host.
+**version**  
+The version of the host.  
 
-`"windowsize": 144 // blocks`
-// A storage proof window is the number of blocks that the host has to get a storage proof onto the blockchain. The window size is the minimum size of window that the host will accept in a file contract.
+**windowsize** | blocks  
+A storage proof window is the number of blocks that the host has to get a storage proof onto the blockchain. The window size is the minimum size of window that the host will accept in a file contract.  
 
 ## /hostdb/hosts/:*pubkey* [GET]
 
@@ -1303,162 +1275,146 @@ fetches detailed information about a particular host, including metrics regardin
 
 ### Path Parameters
 
-`:pubkey`
-// The public key of the host. Each public key identifies a single host.  
+**pubkey**  
+The public key of the host. Each public key identifies a single host.  
 
-Example Pubkey: ed25519:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
+Example Pubkey: ed25519:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef  
 
 ### JSON Response (with comments)
 
-`"acceptingcontracts": true,`
-// true if the host is accepting new contracts.
+**acceptingcontracts** | Boolean  
+true if the host is accepting new contracts.  
 
-`"collateral": "20000000000", // hastings / byte / block`
-// The maximum amount of money that the host will put up as collateral for storage that is contracted by the renter
+**collateral** | hastings / byte / block  
+The maximum amount of money that the host will put up as collateral for storage that is contracted by the renter.  
 
-`"contractprice": "1000000000000000000000000", // hastings`
-// The price that a renter has to pay to create a contract with the host. The payment is intended to cover transaction fees for the file contract revision and the storage proof that the host will be submitting to the blockchain.
+**contractprice** | hastings  
+The price that a renter has to pay to create a contract with the host. The payment is intended to cover transaction fees for the file contract revision and the storage proof that the host will be submitting to the blockchain.  
 
-`"downloadbandwidthprice": "35000000000000", // hastings / byte`
-// The price that a renter has to pay when downloading data from the host.
+**downloadbandwidthprice** | hastings / byte  
+The price that a renter has to pay when downloading data from the host.  
 
-`"firstseen": 160000, // blocks`
-// Firstseen is the last block height at which this host was announced.
+**firstseen** | blocks  
+Firstseen is the last block height at which this host was announced.  
 
-`"historicdowntime": 0,`
-// Total amount of time the host has been offline.
+**historicdowntime**  
+Total amount of time the host has been offline.  
 
-`"historicfailedinteractions": 0,`
-// Number of historic failed interactions with the host.
+**historicfailedinteractions**  
+Number of historic failed interactions with the host.  
 
-`"historicsuccessfulinteractions": 5,`
-// Number of historic successful interactions with the host.
+**historicsuccessfulinteractions**  
+Number of historic successful interactions with the host.  
 
-`"historicuptime": 41634520900246576,`
-// Total amount of time the host has been online.
+**historicuptime**  
+Total amount of time the host has been online.  
 
-`"ipnets": [
-      "1.2.3.0",
-      "2.1.3.0"
-    ],`
-// List of IP subnet masks used by the host. For IPv4 the /24 and for IPv6 the /54 subnet mask is used. A host can have either one IPv4 or one IPv6 subnet or one of each. E.g. these lists are valid: [ "IPv4" ], [ "IPv6" ] or [ "IPv4", "IPv6" ]. The following lists are invalid: [ "IPv4", "IPv4" ], [ "IPv4", "IPv6", "IPv6" ]. Hosts with an invalid list are ignored.
+**ipnets**  
+List of IP subnet masks used by the host. For IPv4 the /24 and for IPv6 the /54 subnet mask is used. A host can have either one IPv4 or one IPv6 subnet or one of each. E.g. these lists are valid: [ "IPv4" ], [ "IPv6" ] or [ "IPv4", "IPv6" ]. The following lists are invalid: [ "IPv4", "IPv4" ], [ "IPv4", "IPv6", "IPv6" ]. Hosts with an invalid list are ignored.  
 
-`"lasthistoricupdate": 174900, // blocks`
-// The last time that the interactions within scanhistory have been compressed into the historic ones
+**lasthistoricupdate** | blocks  
+The last time that the interactions within scanhistory have been compressed into the historic ones.  
 
-`"lastipnetchange": "2015-01-01T08:00:00.000000000+04:00",`
-// The last time the list of IP subnet masks was updated. When equal subnet masks are found for different hosts, the host that occupies the subnet mask for a longer time is preferred.
+**lastipnetchange** | date  
+The last time the list of IP subnet masks was updated. When equal subnet masks are found for different hosts, the host that occupies the subnet mask for a longer time is preferred.  
 
-`"maxcollateral": "1000000000000000000000000000", // hastings`
-// The maximum amount of collateral that the host will put into a single file contract.
+**maxcollateral** | hastings  
+The maximum amount of collateral that the host will put into a single file contract.  
 
-`"maxdownloadbatchsize": 17825792, // bytes`
-// Maximum number of bytes that the host will allow to be requested by a single download request.
+**maxdownloadbatchsize** | bytes  
+Maximum number of bytes that the host will allow to be requested by a single download request.  
 
-`"maxduration": 25920, // blocks`
-// Maximum duration in blocks that a host will allow for a file contract. The host commits to keeping files for the full duration under the threat of facing a large penalty for losing or dropping data before the duration is complete. The storage proof window of an incoming file contract must end before the current height + maxduration.  
+**maxduration** | blocks  
+Maximum duration in blocks that a host will allow for a file contract. The host commits to keeping files for the full duration under the threat of facing a large penalty for losing or dropping data before the duration is complete. The storage proof window of an incoming file contract must end before the current height + maxduration.  
 
-There is a block approximately every 10 minutes. e.g. 1 day = 144 blocks
+There is a block approximately every 10 minutes. e.g. 1 day = 144 blocks  
 
-`"maxrevisebatchsize": 17825792, // bytes`
-// Maximum size in bytes of a single batch of file contract revisions. Larger batch sizes allow for higher throughput as there is significant communication overhead associated with performing a batch upload.
+**maxrevisebatchsize** | bytes  
+Maximum size in bytes of a single batch of file contract revisions. Larger batch sizes allow for higher throughput as there is significant communication overhead associated with performing a batch upload.  
 
-`"netaddress": "123.456.789.0:9982",`
-// Remote address of the host. It can be an IPv4, IPv6, or hostname, along with the port. IPv6 addresses are enclosed in square brackets.
+**netaddress**  
+Remote address of the host. It can be an IPv4, IPv6, or hostname, along with the port. IPv6 addresses are enclosed in square brackets.  
 
-`"publickey": {`
-// Public key used to identify and verify hosts.
+**publickey**  
+Public key used to identify and verify hosts.  
 
-`"algorithm": "ed25519",`
-// Algorithm used for signing and verification. Typically "ed25519".
+**algorithm**  
+Algorithm used for signing and verification. Typically "ed25519".  
 
-`"key": "RW50cm9weSBpc24ndCB3aGF0IGl0IHVzZWQgdG8gYmU="`
-// Key used to verify signed host messages.
+**key**  
+Key used to verify signed host messages.  
 
-`"publickeystring": "ed25519:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",`
-// The string representation of the full public key, used when calling /hostdb/hosts.
+**publickeystring**  
+The string representation of the full public key, used when calling /hostdb/hosts.  
 
-`"recentfailedinteractions": 0,`
-// Number of recent failed interactions with the host.
+**recentfailedinteractions**  
+Number of recent failed interactions with the host.  
 
-`"recentsuccessfulinteractions": 0,`
-// Number of recent successful interactions with the host.
+**recentsuccessfulinteractions**  
+Number of recent successful interactions with the host.  
 
-`"remainingstorage": 35000000000, // bytes`
-// Unused storage capacity the host claims it has.
+**remainingstorage** | bytes  
+Unused storage capacity the host claims it has.  
 
-`"revisionnumber": 12733798,`
-// The revision number indicates to the renter what iteration of settings the host is currently at. Settings are generally signed. If the renter has multiple conflicting copies of settings from the host, the renter can expect the one with the higher revision number to be more recent.
+**revisionnumber**  
+The revision number indicates to the renter what iteration of settings the host is currently at. Settings are generally signed. If the renter has multiple conflicting copies of settings from the host, the renter can expect the one with the higher revision number to be more recent.  
 
-`"scanhistory": [
-      {
-        "success": true,
-        "timestamp": "2018-09-23T08:00:00.000000000+04:00"
-      },
-      {
-        "success": true,
-        "timestamp": "2018-09-23T06:00:00.000000000+04:00"
-      },
-      {
-        "success": true,
-        "timestamp": "2018-09-23T04:00:00.000000000+04:00"
-      }
-    ],`
-// Measurements that have been taken on the host. The most recent measurements are kept in full detail.
+**scanhistory**  
+Measurements that have been taken on the host. The most recent measurements are kept in full detail.  
 
-`"sectorsize": 4194304, // bytes`
-// Smallest amount of data in bytes that can be uploaded or downloaded to or from the host.
+**sectorsize** | bytes  
+Smallest amount of data in bytes that can be uploaded or downloaded to or from the host.  
 
-`"storageprice": "14000000000", // hastings / byte / block`
-// The price that a renter has to pay to store files with the host.
+**storageprice** | hastings / byte / block  
+The price that a renter has to pay to store files with the host.  
 
-`"totalstorage": 35000000000, // bytes`
-// Total amount of storage capacity the host claims it has.
+**totalstorage** | bytes  
+Total amount of storage capacity the host claims it has.  
 
-`"unlockhash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789ab",`
-// Address at which the host can be paid when forming file contracts.
+**unlockhash**  
+Address at which the host can be paid when forming file contracts.  
 
-`"uploadbandwidthprice": "3000000000000", // hastings / byte`
-// The price, in hastings, of the upload bandwidth.
+**uploadbandwidthprice** | hastings / byte  
+The price, in hastings, of the upload bandwidth.  
 
-`"version": "1.3.7",`
-// The version of the host.
+**version**  
+The version of the host.  
 
-`"windowsize": 144 // blocks`
-// A storage proof window is the number of blocks that the host has to get a storage proof onto the blockchain. The window size is the minimum size of window that the host will accept in a file contract.
+**windowsize** | blocks  
+A storage proof window is the number of blocks that the host has to get a storage proof onto the blockchain. The window size is the minimum size of window that the host will accept in a file contract.  
 
-`"scorebreakdown": {`
-// A set of scores as determined by the renter. Generally, the host's final score is all of the values multiplied together. Modified renters may have additional criteria that they use to judge a host, or may ignore certin criteia. In general, these fields should only be used as a loose guide for the score of a host, as every renter sees the world differently and uses different metrics to evaluate hosts.
+**scorebreakdown**  
+A set of scores as determined by the renter. Generally, the host's final score is all of the values multiplied together. Modified renters may have additional criteria that they use to judge a host, or may ignore certin criteia. In general, these fields should only be used as a loose guide for the score of a host, as every renter sees the world differently and uses different metrics to evaluate hosts.  
   
-`"ageadjustment": 0.1234,`
-// The multiplier that gets applied to the host based on how long it has been a host. Older hosts typically have a lower penalty.
+**ageadjustment**  
+The multiplier that gets applied to the host based on how long it has been a host. Older hosts typically have a lower penalty.  
 
-`"burnadjustment": 23.456,`
-// The multiplier that gets applied to the host based on how much proof-of-burn the host has performed. More burn causes a linear increase in score.
+**burnadjustment**  
+The multiplier that gets applied to the host based on how much proof-of-burn the host has performed. More burn causes a linear increase in score.  
 
-"collateraladjustment": 23.456,
-// The multiplier that gets applied to a host based on how much collateral the host is offering. More collateral is typically better, though above a point it can be detrimental.
+**collateraladjustment**  
+The multiplier that gets applied to a host based on how much collateral the host is offering. More collateral is typically better, though above a point it can be detrimental.  
 
-`"conversionrate": 9.12345,`
-// conversionrate is the likelihood that the host will be selected by renters forming contracts.
+**conversionrate**  
+conversionrate is the likelihood that the host will be selected by renters forming contracts.  
 
-`"interactionadjustment": 0.1234,`
-// The multipler that gets applied to a host based on previous interactions with the host. A high ratio of successful interactions will improve this hosts score, and a high ratio of failed interactions will hurt this hosts score. This adjustment helps account for hosts that are on unstable connections, don't keep their wallets unlocked, ran out of funds, etc.
+**interactionadjustment**  
+The multipler that gets applied to a host based on previous interactions with the host. A high ratio of successful interactions will improve this hosts score, and a high ratio of failed interactions will hurt this hosts score. This adjustment helps account for hosts that are on unstable connections, don't keep their wallets unlocked, ran out of funds, etc.  
 
-`"pricesmultiplier": 0.1234,`
-// The multiplier that gets applied to a host based on the host's price. Lower prices are almost always better. Below a certain, very low price, there is no advantage.
+**pricesmultiplier**  
+The multiplier that gets applied to a host based on the host's price. Lower prices are almost always better. Below a certain, very low price, there is no advantage.  
 
-`"score": 123456,`
-// The overall score for the host. Scores are entriely relative, and are consistent only within the current hostdb. Between different machines, different configurations, and different versions the absolute scores for a given host can be off by many orders of magnitude. When displaying to a human, some form of normalization with respect to the other hosts (for example, divide all scores by the median score of the hosts) is recommended.
+**score**  
+The overall score for the host. Scores are entriely relative, and are consistent only within the current hostdb. Between different machines, different configurations, and different versions the absolute scores for a given host can be off by many orders of magnitude. When displaying to a human, some form of normalization with respect to the other hosts (for example, divide all scores by the median score of the hosts) is recommended.  
 
-`"storageremainingadjustment": 0.1234,`
-// The multiplier that gets applied to a host based on how much storage is remaining for the host. More storage remaining is better, to a point.
+**storageremainingadjustment**  
+The multiplier that gets applied to a host based on how much storage is remaining for the host. More storage remaining is better, to a point.  
 
-`"uptimeadjustment": 0.1234,`
-// The multiplier that gets applied to a host based on the uptime percentage of the host. The penalty increases extremely quickly as uptime drops below 90%.
+**uptimeadjustment**  
+The multiplier that gets applied to a host based on the uptime percentage of the host. The penalty increases extremely quickly as uptime drops below 90%.  
 
-`"versionadjustment": 0.1234`
-// The multiplier that gets applied to a host based on the version of Sia that they are running. Versions get penalties if there are known bugs, scaling limitations, performance limitations, etc. Generally, the most recent version is always the one with the highest score.
+**versionadjustment**  
+The multiplier that gets applied to a host based on the version of Sia that they are running. Versions get penalties if there are known bugs, scaling limitations, performance limitations, etc. Generally, the most recent version is always the one with the highest score.  
 
 ## /hostdb/filtermode [POST]
 
@@ -1472,15 +1428,15 @@ There is a block approximately every 10 minutes. e.g. 1 day = 144 blocks
 }
 ```
 
-lets you enable and disable a filter mode for the hostdb. Currenlty the two modes supported are `blacklist` mode and `whitelist` mode. In `blacklist` mode, any hosts you identify as being on the `blacklist` will not be used to form contracts. In `whitelist` mode, only the hosts identified as being on the `whitelist` will be used to form contracts. In both modes, hosts that you are blacklisted will be filtered from your hostdb. To enable either mode, set `filtermode` to the desired mode and submit a list of host pubkeys as the corresponding `blacklist` or `whitelist`. To disable either list, the `host` field can be left blank (e.g. empty slice) and the `filtermode` should be set to `disable`.  
+Lets you enable and disable a filter mode for the hostdb. Currenlty the two modes supported are `blacklist` mode and `whitelist` mode. In `blacklist` mode, any hosts you identify as being on the `blacklist` will not be used to form contracts. In `whitelist` mode, only the hosts identified as being on the `whitelist` will be used to form contracts. In both modes, hosts that you are blacklisted will be filtered from your hostdb. To enable either mode, set `filtermode` to the desired mode and submit a list of host pubkeys as the corresponding `blacklist` or `whitelist`. To disable either list, the `host` field can be left blank (e.g. empty slice) and the `filtermode` should be set to `disable`.  
 
-**NOTE:** Enabling and disabling a filter mode can result in changes with your current contracts with can result in an increase in contract fee spending. For example, if `blacklist` mode is enabled, any hosts that you currently have contracts with that are also on the provide list of `hosts` will have their contracts replaced with non-blacklisted hosts. When `whitelist` mode is enabled, contracts will be replaced until there are only contracts with whitelisted hosts. Even disabling a filter mode can result in a change in contracts if there are better scoring hosts in your hostdb that were previously being filtered out.
+**NOTE:** Enabling and disabling a filter mode can result in changes with your current contracts with can result in an increase in contract fee spending. For example, if `blacklist` mode is enabled, any hosts that you currently have contracts with that are also on the provide list of `hosts` will have their contracts replaced with non-blacklisted hosts. When `whitelist` mode is enabled, contracts will be replaced until there are only contracts with whitelisted hosts. Even disabling a filter mode can result in a change in contracts if there are better scoring hosts in your hostdb that were previously being filtered out.  
 
-`"filtermode": "whitelist",`
-// can be either whitelist, blacklist, or disable
+**filtermode**  
+Can be either whitelist, blacklist, or disable.  
 
-`"hosts"`
-// comma separated pubkeys
+**hosts**  
+Comma separated pubkeys.  
 
 # Miner
 
@@ -1499,19 +1455,19 @@ returns the status of the miner.
 }
 ```
 
-returns the status of the miner.
+Returns the status of the miner.
 
-`"blocksmined": 9001,`
-// Number of mined blocks. This value is remembered after restarting.
+**blocksmined**  
+Number of mined blocks. This value is remembered after restarting.  
 
-`"cpuhashrate": 1337,`
-// How fast the cpu is hashing, in hashes per second.
+**cpuhashrate**  
+How fast the cpu is hashing, in hashes per second.  
 
-`"cpumining": false,`
-// true if the cpu miner is active.
+**cpumining** | Boolean  
+true if the cpu miner is active.  
 
-`"staleblocksmined": 0,`
-// Number of mined blocks that are stale, indicating that they are not included in the current longest chain, likely because some other block at the same height had its chain extended first.
+**staleblocksmined**  
+Number of mined blocks that are stale, indicating that they are not included in the current longest chain, likely because some other block at the same height had its chain extended first.  
 
 
 ## /miner/start [GET]
