@@ -1472,7 +1472,7 @@ Number of mined blocks that are stale, indicating that they are not included in 
 
 ## /miner/start [GET]
 
-starts a single threaded CPU miner. Does nothing if the CPU miner is already running.
+Starts a single threaded CPU miner. Does nothing if the CPU miner is already running.
 
 ### Response
 
@@ -1556,61 +1556,61 @@ merkle root | [80-112) | [48-80)
 }
 ```
 
-returns the current settings along with metrics on the renter's spending.
+Returns the current settings along with metrics on the renter's spending.
 
-`"settings": {`
-// Settings that control the behavior of the renter.
+**settings**  
+Settings that control the behavior of the renter.  
 
-`"allowance": {`
-// Allowance dictates how much the renter is allowed to spend in a given period. Note that funds are spent on both storage and bandwidth.
+**allowance**  
+Allowance dictates how much the renter is allowed to spend in a given period. Note that funds are spent on both storage and bandwidth.  
 
-`"funds": "1234", // hastings`
-// Amount of money allocated for contracts. Funds are spent on both storage and bandwidth.
+**funds** | hastings  
+Amount of money allocated for contracts. Funds are spent on both storage and bandwidth.  
 
-`"hosts":24,`
-// Number of hosts that contracts will be formed with.
+**hosts**  
+Number of hosts that contracts will be formed with.  
 
-`"period": 6048, // blocks`
-// Duration of contracts formed, in number of blocks.
+**period** | blocks  
+Duration of contracts formed, in number of blocks.  
 
-`"renewwindow": 3024 // blocks`
-// If the current blockheight + the renew window >= the height the contract is scheduled to end, the contract is renewed automatically. Is always nonzero.
+**renewwindow** | blocks  
+If the current blockheight + the renew window >= the height the contract is scheduled to end, the contract is renewed automatically. Is always nonzero.  
 
-`"maxuploadspeed":     1234, // bytes per second`
-// MaxUploadSpeed by default is unlimited but can be set by the user to manage bandwidth.
+**maxuploadspeed** | bytes per second  
+MaxUploadSpeed by default is unlimited but can be set by the user to manage bandwidth.  
 
-`"maxdownloadspeed":   1234, // bytes per second`
-// MaxDownloadSpeed by default is unlimited but can be set by the user to manage bandwidth.
+**maxdownloadspeed** | bytes per second  
+MaxDownloadSpeed by default is unlimited but can be set by the user to manage bandwidth.  
 
-`"streamcachesize":  4`
-// The StreamCacheSize is the number of data chunks that will be cached during streaming.
+**streamcachesize**  
+The StreamCacheSize is the number of data chunks that will be cached during streaming.  
 
-`"financialmetrics": {`
-// Metrics about how much the Renter has spent on storage, uploads, and downloads.
+**financialmetrics**  
+Metrics about how much the Renter has spent on storage, uploads, and downloads.  
 
-`"contractfees": "1234", // hastings`
-// Amount of money spent on contract fees, transaction fees and siafund fees.
+**contractfees** | hastings  
+Amount of money spent on contract fees, transaction fees and siafund fees.  
 
-`"contractspending": "1234", // hastings, (deprecated, now totalallocated)`
-// How much money, in hastings, the Renter has spent on file contracts, including fees.
+**contractspending** | hastings, (deprecated, now totalallocated)  
+How much money, in hastings, the Renter has spent on file contracts, including fees.  
 
-`"downloadspending": "5678", // hastings`
-// Amount of money spent on downloads.
+**downloadspending** | hastings  
+Amount of money spent on downloads.  
 
-`"storagespending": "1234", // hastings`
-// Amount of money spend on storage.
+**storagespending** | hastings  
+Amount of money spend on storage.  
 
-`"totalallocated": "1234", // hastings`
-// Total amount of money that the renter has put into contracts. Includes spent money and also money that will be returned to the renter.
+**totalallocated** | hastings  
+Total amount of money that the renter has put into contracts. Includes spent money and also money that will be returned to the renter.  
 
-`"uploadspending": "5678", // hastings`
-// Amount of money spent on uploads.
+**uploadspending** | hastings  
+Amount of money spent on uploads.  
 
-`"unspent": "1234" // hastings`
-// Amount of money in the allowance that has not been spent.
+**unspent** | hastings  
+Amount of money in the allowance that has not been spent.  
 
-`"currentperiod": 200`
-// Height at which the current allowance period began.
+**currentperiod**  
+Height at which the current allowance period began.  
 
 ## /renter [POST]
 
@@ -1622,33 +1622,33 @@ period      // block height
 renewwindow // block height
 ```
 
-modify settings that control the renter's behavior.
+Modify settings that control the renter's behavior.
 
 ### Query Response Parameters
 
-`checkforipviolation // true or false`
-// Enables or disables the check for hosts using the same ip subnets within the hostdb. It's turned on by default and causes Sia to not form contracts with hosts from the same subnet and if such contracts already exist, it will deactivate the contract which has occupied that subnet for the shorter time.
+**checkforipviolation** | true or false  
+Enables or disables the check for hosts using the same ip subnets within the hostdb. It's turned on by default and causes Sia to not form contracts with hosts from the same subnet and if such contracts already exist, it will deactivate the contract which has occupied that subnet for the shorter time.  
 
-`funds // hastings`
-// Number of hastings allocated for file contracts in the given period.
+**funds** | hastings  
+Number of hastings allocated for file contracts in the given period.  
 
-`hosts`
-// Number of hosts that contracts should be formed with. Files cannot be uploaded to more hosts than you have contracts with, and it's generally good to form a few more contracts than you need.
+**hosts**  
+Number of hosts that contracts should be formed with. Files cannot be uploaded to more hosts than you have contracts with, and it's generally good to form a few more contracts than you need.  
 
-`period // block height`
-// Duration of contracts formed. Must be nonzero.
+**period** | block height  
+Duration of contracts formed. Must be nonzero.  
 
-`renewwindow // block height`
-// Renew window specifies how many blocks before the expiration of the current contracts the renter will wait before renewing the contracts. A smaller renew window means that Sia must be run more frequently, but also means fewer total transaction fees. Storage spending is not affected by the renew window size.
+**renewwindow** | block height  
+Renew window specifies how many blocks before the expiration of the current contracts the renter will wait before renewing the contracts. A smaller renew window means that Sia must be run more frequently, but also means fewer total transaction fees. Storage spending is not affected by the renew window size.  
 
-`maxdownloadspeed`
-// Max download speed permitted, speed provide in bytes per second
+**maxdownloadspeed**  
+Max download speed permitted, speed provide in bytes per second.  
 
-`maxuploadspeed`
-// Max upload speed permitted, speed provide in bytes per second
+**maxuploadspeed**  
+Max upload speed permitted, speed provide in bytes per second.  
 
-`streamcachesize`
-// Stream cache size specifies how many data chunks will be cached while streaming.  
+**streamcachesize**  
+Stream cache size specifies how many data chunks will be cached while streaming.  
 
 ### Response
 
@@ -1672,8 +1672,8 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 > Contract Parameters
 ```go
-inactive   // true or false - Optional
-expired    // true or false - Optional
+inactive   // true or false - Optional  
+expired    // true or false - Optional  
 ```
 
 ```go
@@ -1706,57 +1706,57 @@ expired    // true or false - Optional
 }
 ```
 
-returns the renter's contracts.  Active contracts are contracts that the Renter is currently using to store, upload, and download data, and are returned by default. Inactive contracts are contracts that are in the current period but are marked as not good for renew, these contracts have the potential to become active again but currently are not storing data.  Expired contracts are contracts not in the current period, where not more data is being stored and excess funds have been released to the renter.
+Returns the renter's contracts.  Active contracts are contracts that the Renter is currently using to store, upload, and download data, and are returned by default. Inactive contracts are contracts that are in the current period but are marked as not good for renew, these contracts have the potential to become active again but currently are not storing data.  Expired contracts are contracts not in the current period, where not more data is being stored and excess funds have been released to the renter.  
 
-`"downloadspending": "1234", // hastings`
-// Amount of contract funds that have been spent on downloads.
+**downloadspending** | hastings  
+Amount of contract funds that have been spent on downloads.  
 
-`"endheight": 50000, // block height`
-// Block height that the file contract ends on.
+**endheight** | block height  
+Block height that the file contract ends on.  
 
-`"fees": "1234", // hastings`
-// Fees paid in order to form the file contract.
+**fees** | hastings  
+Fees paid in order to form the file contract.  
 
-`"hostpublickey": {  
- "algorithm": "ed25519",  
- "key": "RW50cm9weSBpc24ndCB3aGF0IGl0IHVzZWQgdG8gYmU="`  
-// Public key of the host the contract was formed with.
+**hostpublickey**  
+  **algorithm**  
+  **key**  
+Public key of the host the contract was formed with.  
 
-`"id": "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef",`
-// ID of the file contract.
+**id**  
+ID of the file contract.  
 
-`"lasttransaction": {},`
-// A signed transaction containing the most recent contract revision.
+**lasttransaction**  
+A signed transaction containing the most recent contract revision.  
 
-`"netaddress": "12.34.56.78:9",`
-// Address of the host the file contract was formed with.
+**netaddress**  
+Address of the host the file contract was formed with.  
 
-`"renterfunds": "1234", // hastings`
-// Remaining funds left for the renter to spend on uploads & downloads.
+**renterfunds** | hastings  
+Remaining funds left for the renter to spend on uploads & downloads.  
 
-`"size": 8192, // bytes`
-// Size of the file contract, which is typically equal to the number of bytes that have been uploaded to the host.
+**size** | bytes  
+Size of the file contract, which is typically equal to the number of bytes that have been uploaded to the host.  
 
-`"startheight": 50000, // block height`
-// Block height that the file contract began on.
+**startheight** | block height  
+Block height that the file contract began on.  
 
-`"StorageSpending": 0,`
-// DEPRECATED: This is the exact same value as StorageSpending, but it has incorrect capitalization. This was fixed in 1.3.2, but this field is kept to preserve backwards compatibility on clients who depend on the incorrect capitalization. This field will be removed in the future, so clients should switch to the StorageSpending field (above) with the correct lowercase name.
+**StorageSpending**  
+DEPRECATED: This is the exact same value as StorageSpending, but it has incorrect capitalization. This was fixed in 1.3.2, but this field is kept to preserve backwards compatibility on clients who depend on the incorrect capitalization. This field will be removed in the future, so clients should switch to the StorageSpending field (above) with the correct lowercase name.  
 
-`"storagespending": "1234", // hastings`
-// Amount of contract funds that have been spent on storage.
+**storagespending** | hastings  
+Amount of contract funds that have been spent on storage.  
 
-`"totalcost": "1234", // hastings`
-// Total cost to the wallet of forming the file contract. This includes both the fees and the funds allocated in the contract.
+**totalcost** | hastings  
+Total cost to the wallet of forming the file contract. This includes both the fees and the funds allocated in the contract.  
 
-`"uploadspending": "1234" // hastings`
-// Amount of contract funds that have been spent on uploads.
+**uploadspending** | hastings  
+Amount of contract funds that have been spent on uploads.  
 
-`"goodforupload": true,`
-// Signals if contract is good for uploading data
+**goodforupload** | Boolean  
+Signals if contract is good for uploading data.  
 
-`"goodforrenew": false,`
-// Signals if contract is good for a renewal
+**goodforrenew** | Boolean  
+Signals if contract is good for a renewal.  
 
 ## /renter/downloads [GET]
 
@@ -1781,42 +1781,42 @@ returns the renter's contracts.  Active contracts are contracts that the Renter 
 }
 ```
 
-lists all files in the download queue.
+Lists all files in the download queue.
 
 ### JSON Response
 
-`"destination": "/home/users/alice",`
-// Local path that the file will be downloaded to.
+**destination**  
+Local path that the file will be downloaded to.  
 
-`"destinationtype": "file",`
-// What type of destination was used. Can be "file", indicating a download to disk, can be "buffer", indicating a download to memory, and can be "http stream", indicating that the download was streamed through the http API.
+**destinationtype**  
+What type of destination was used. Can be "file", indicating a download to disk, can be "buffer", indicating a download to memory, and can be "http stream", indicating that the download was streamed through the http API.  
 
-`"length": 8192, // bytes`
-// Length of the download. If the download was a partial download, this will indicate the length of the partial download, and not the length of the full file.
+**length** | bytes  
+Length of the download. If the download was a partial download, this will indicate the length of the partial download, and not the length of the full file.  
 
-`"offset": 0,`
-// Offset within the file of the download. For full file downloads, the offset will be '0'. For partial downloads, the offset may be anywhere within the file. offset+length will never exceed the full file size.
+**offset**  
+Offset within the file of the download. For full file downloads, the offset will be '0'. For partial downloads, the offset may be anywhere within the file. offset+length will never exceed the full file size.  
 
-`"siapath": "foo/bar.txt",`
-// Siapath given to the file when it was uploaded.
+**siapath**  
+Siapath given to the file when it was uploaded.  
 
-`"completed": true,`
-// Whether or not the download has completed. Will be false initially, and set to true immediately as the download has been fully written out to the file, to the http stream, or to the in-memory buffer. Completed will also be set to true if there is an error that causes the download to fail.
+**completed** | Boolean  
+Whether or not the download has completed. Will be false initially, and set to true immediately as the download has been fully written out to the file, to the http stream, or to the in-memory buffer. Completed will also be set to true if there is an error that causes the download to fail.  
 
-`"endtime": "2009-11-10T23:00:00Z", // RFC 3339 time`
-// Time at which the download completed. Will be zero if the download has not yet completed.
+**endtime** | date, RFC 3339 time  
+Time at which the download completed. Will be zero if the download has not yet completed.  
 
-`"error": ""`
-// Error encountered while downloading. If there was no error (yet), it will be the empty string.
+**error**  
+Error encountered while downloading. If there was no error (yet), it will be the empty string.  
 
-`"received": 4096, // bytes`
-// Number of bytes downloaded thus far. Will only be updated as segments of the file complete fully. This typically has a resolution of tens of megabytes.
+**received** | bytes  
+Number of bytes downloaded thus far. Will only be updated as segments of the file complete fully. This typically has a resolution of tens of megabytes.  
 
-`"starttime": "2009-11-10T23:00:00Z", // RFC 3339 time`
-// Time at which the download was initiated.
+**starttime** | date, RFC 3339 time  
+Time at which the download was initiated.
 
-`"totaldatatransfered": 10321,`
-// The total amount of data transfered when downloading the file. This will eventually include data transferred during contract + payment negotiation, as well as data from failed piece downloads.
+**totaldatatransfered**  
+The total amount of data transfered when downloading the file. This will eventually include data transferred during contract + payment negotiation, as well as data from failed piece downloads.  
 
 ## /renter/downloads/clear [POST]
 
@@ -1856,32 +1856,32 @@ lists the status of all files.
 
 ### JSON Response
 
-`"siapath": "foo/bar.txt",`
-// Path to the file in the renter on the network.
+**siapath**  
+Path to the file in the renter on the network.  
 
-`"localpath": "/home/foo/bar.txt",`
-// Path to the local file on disk.
+**localpath**  
+Path to the local file on disk.  
 
-`"filesize": 8192, // bytes`
-// Size of the file in bytes.
+**filesize** | bytes  
+Size of the file in bytes.  
 
-`"available": true,`
-// true if the file is available for download. Files may be available before they are completely uploaded.
+**available** | Boolean  
+true if the file is available for download. Files may be available before they are completely uploaded.  
 
-`"renewing": true,`
-// true if the file's contracts will be automatically renewed by the renter.
+**renewing** | Boolean  
+true if the file's contracts will be automatically renewed by the renter.  
 
-`"redundancy": 5,`
-// Average redundancy of the file on the network. Redundancy is calculated by dividing the amount of data uploaded in the file's open contracts by the size of the file. Redundancy does not necessarily correspond to availability. Specifically, a redundancy >= 1 does not indicate the file is available as there could be a chunk of the file with 0 redundancy.
+**redundancy**  
+Average redundancy of the file on the network. Redundancy is calculated by dividing the amount of data uploaded in the file's open contracts by the size of the file. Redundancy does not necessarily correspond to availability. Specifically, a redundancy >= 1 does not indicate the file is available as there could be a chunk of the file with 0 redundancy.  
 
-`"uploadedbytes": 209715200, // bytes`
-// Total number of bytes successfully uploaded via current file contracts. This number includes padding and rendundancy, so a file with a size of 8192 bytes might be padded to 40 MiB and, with a redundancy of 5, encoded to 200 MiB for upload.
+**uploadedbytes** | bytes  
+Total number of bytes successfully uploaded via current file contracts. This number includes padding and rendundancy, so a file with a size of 8192 bytes might be padded to 40 MiB and, with a redundancy of 5, encoded to 200 MiB for upload.  
 
-`"uploadprogress": 100, // percent`
-// Percentage of the file uploaded, including redundancy. Uploading has completed when uploadprogress is 100. Files may be available for download before upload progress is 100.
+**uploadprogress** | percent  
+Percentage of the file uploaded, including redundancy. Uploading has completed when uploadprogress is 100. Files may be available for download before upload progress is 100.  
 
-`"expiration": 60000`
-// Block height at which the file ceases availability.
+**expiration**  
+Block height at which the file ceases availability.  
 
 ## /renter/file/*siapath* [GET]
 
@@ -1901,36 +1901,36 @@ lists the status of all files.
 }
 ```
 
-lists the status of specified file.
+Lists the status of specified file.
 
 ### JSON Response
 
-`"siapath": "foo/bar.txt",`
-// Path to the file in the renter on the network.
+**siapath**  
+Path to the file in the renter on the network.  
 
-`"localpath": "/home/foo/bar.txt",`
-// Path to the local file on disk.
+**localpath**  
+Path to the local file on disk.  
 
-`"filesize": 8192, // bytes`
-// Size of the file in bytes.
+**filesize** | bytes  
+Size of the file in bytes.  
 
-`"available": true,`
-// true if the file is available for download. Files may be available before they are completely uploaded.
+**available** | Boolean  
+true if the file is available for download. Files may be available before they are completely uploaded.  
 
-`"renewing": true,`
-// true if the file's contracts will be automatically renewed by the renter.
+**renewing** | Boolean  
+true if the file's contracts will be automatically renewed by the renter.  
 
-`"redundancy": 5,`
-// Average redundancy of the file on the network. Redundancy is calculated by dividing the amount of data uploaded in the file's open contracts by the size of the file. Redundancy does not necessarily correspond to availability. Specifically, a redundancy >= 1 does not indicate the file is available as there could be a chunk of the file with 0 redundancy.
+**redundancy**  
+Average redundancy of the file on the network. Redundancy is calculated by dividing the amount of data uploaded in the file's open contracts by the size of the file. Redundancy does not necessarily correspond to availability. Specifically, a redundancy >= 1 does not indicate the file is available as there could be a chunk of the file with 0 redundancy.  
 
-`"uploadedbytes": 209715200, // bytes`
-// Total number of bytes successfully uploaded via current file contracts. This number includes padding and rendundancy, so a file with a size of 8192 bytes might be padded to 40 MiB and, with a redundancy of 5, encoded to 200 MiB for upload.
+**uploadedbytes** | bytes  
+Total number of bytes successfully uploaded via current file contracts. This number includes padding and rendundancy, so a file with a size of 8192 bytes might be padded to 40 MiB and, with a redundancy of 5, encoded to 200 MiB for upload.  
 
-`"uploadprogress": 100, // percent`
-// Percentage of the file uploaded, including redundancy. Uploading has completed when uploadprogress is 100. Files may be available for download before upload progress is 100.
+**uploadprogress** | percent  
+Percentage of the file uploaded, including redundancy. Uploading has completed when uploadprogress is 100. Files may be available for download before upload progress is 100.  
 
-`"expiration": 60000`
-// Block height at which the file ceases availability.
+**expiration**  
+Block height at which the file ceases availability.  
 
 ## /renter/prices [GET]
 
@@ -1957,49 +1957,49 @@ renewwindow // block height
 }
 ```
 
-lists the estimated prices of performing various storage and data operations. An allowance can be submitted to provide a more personalized estimate. If no allowance is submitted then the current set allowance will be used, if there is no allowance set then sane defaults will be used. Submitting an allowance is optional, but when submitting an allowance all the components of the allowance are required. The allowance used to create the estimate is returned with the estimate.
+Lists the estimated prices of performing various storage and data operations. An allowance can be submitted to provide a more personalized estimate. If no allowance is submitted then the current set allowance will be used, if there is no allowance set then sane defaults will be used. Submitting an allowance is optional, but when submitting an allowance all the components of the allowance are required. The allowance used to create the estimate is returned with the estimate.
 
 ### Query String Parameters
 
 all optional or all required
 
-`funds // hastings`
-// Number of hastings allocated for file contracts in the given period.
+**funds** | hastings  
+Number of hastings allocated for file contracts in the given period.  
 
-`hosts`
-// Number of hosts that contracts should be formed with. Files cannot be uploaded to more hosts than you have contracts with, and it's generally good to form a few more contracts than you need.
+**hosts**  
+Number of hosts that contracts should be formed with. Files cannot be uploaded to more hosts than you have contracts with, and it's generally good to form a few more contracts than you need.  
 
-`period // block height`
-// Duration of contracts formed. Must be nonzero.
+**period** | block height  
+Duration of contracts formed. Must be nonzero.  
 
-`renewwindow // block height`
-// Renew window specifies how many blocks before the expiration of the current contracts the renter will wait before renewing the contracts. A smaller renew window means that Sia must be run more frequently, but also means fewer total transaction fees. Storage spending is not affected by the renew window size.
+**renewwindow** | block height  
+Renew window specifies how many blocks before the expiration of the current contracts the renter will wait before renewing the contracts. A smaller renew window means that Sia must be run more frequently, but also means fewer total transaction fees. Storage spending is not affected by the renew window size.  
 
 ### JSON Response
 
-`"downloadterabyte": "1234", // hastings`
-// The estimated cost of downloading one terabyte of data from the network.
+**downloadterabyte** | hastings  
+The estimated cost of downloading one terabyte of data from the network.  
 
-`"formcontracts": "1234", // hastings`
-// The estimated cost of forming a set of contracts on the network. This cost also applies to the estimated cost of renewing the renter's set of contracts.
+**formcontracts** | hastings  
+The estimated cost of forming a set of contracts on the network. This cost also applies to the estimated cost of renewing the renter's set of contracts.  
 
-`"storageterabytemonth": "1234", // hastings`
-// The estimated cost of storing one terabyte of data on the network for a month, including accounting for redundancy.
+**storageterabytemonth** | hastings  
+The estimated cost of storing one terabyte of data on the network for a month, including accounting for redundancy.  
 
-`"uploadterabyte": "1234", // hastings`
-// The estimated cost of uploading one terabyte of data to the network, including accounting for redundancy.
+**uploadterabyte** | hastings  
+The estimated cost of uploading one terabyte of data to the network, including accounting for redundancy.  
 
-`"funds": "1234", // hastings`
-// Amount of money allocated for contracts. Funds are spent on both storage and bandwidth.
+**funds** | hastings  
+Amount of money allocated for contracts. Funds are spent on both storage and bandwidth.  
 
-`"hosts":24,`
-// Number of hosts that contracts will be formed with.
+**hosts**  
+Number of hosts that contracts will be formed with.  
 
-`"period": 6048, // blocks`
-// Duration of contracts formed, in number of blocks.
+**period** | blocks  
+Duration of contracts formed, in number of blocks.  
 
-`"renewwindow": 3024 // blocks`
-// If the current blockheight + the renew window >= the height the contract is scheduled to end, the contract is renewed automatically. Is always nonzero.
+**renewwindow** | blocks  
+If the current blockheight + the renew window >= the height the contract is scheduled to end, the contract is renewed automatically. Is always nonzero.  
 
 ## /renter/file/*siapath* [POST]
 
@@ -2032,8 +2032,8 @@ deletes a renter file entry. Does not delete any downloads or original files, on
 
 ### Path Parameters
 
-`*siapath`
-// Location of the file in the renter on the network.
+***siapath***  
+Location of the file in the renter on the network.  
 
 ### Response
 
@@ -2059,25 +2059,25 @@ downloads a file to the local filesystem. The call will block until the file has
 
 ### Path Parameters
 
-`*siapath`
-// Location of the file in the renter on the network.
+***siapath***  
+Location of the file in the renter on the network.  
 
 ### Query String Parameters
 
-`async`
-// If async is true, the http request will be non blocking. Can't be used with
+**async**  
+If async is true, the http request will be non blocking. Can't be used with:  
 
-`destination`
-// Location on disk that the file will be downloaded to.
+**destination**  
+Location on disk that the file will be downloaded to.  
 
-`httpresp`
-// If httresp is true, the data will be written to the http response.
+**httpresp**  
+If httresp is true, the data will be written to the http response.  
 
-`length`
-// Length of the requested data. Has to be <= filesize-offset.
+**length**  
+Length of the requested data. Has to be <= filesize-offset.  
 
-`offset`
-// Offset relative to the file start from where the download starts.
+**offset**  
+Offset relative to the file start from where the download starts.  
 
 ### Response
 
@@ -2106,24 +2106,26 @@ standard success or error response. See [standard responses](#Standard-Responses
 ## /renter/rename/*siapath* [POST]
 
 > Path Parameters
+
 ```go
 *siapath   
 ```
 
 > Query String Parameters
+
 ```go
 newsiapath
 ```
 
 ### Path Parameters
 
-`*siapath`
-// Current location of the file in the renter on the network.
+****siapath***  
+Current location of the file in the renter on the network.  
 
 ### Query String Parameters
 
-`newsiapath`
-// New location of the file in the renter on the network.
+**newsiapath**  
+New location of the file in the renter on the network.  
 
 ### Response
 
@@ -2132,6 +2134,7 @@ standard success or error response. See [standard responses](#Standard-Responses
 ## /renter/stream/*siapath* [GET]
 
 > Path Parameters
+
 ```go
 *siapath
 ```
@@ -2140,8 +2143,8 @@ downloads a file using http streaming. This call blocks until the data is receiv
 
 ### Path Parameters
 
-`*siapath`
-// Current location of the file in the renter on the network.
+***siapath***  
+Current location of the file in the renter on the network.  
 
 ### Response
 
@@ -2150,6 +2153,7 @@ standard success or error response. See [standard responses](#Standard-Responses
 ## /renter/upload/*siapath* [POST]
 
 > Path Parameters
+
 ```go
 *siapath
 ```
@@ -2165,19 +2169,19 @@ uploads a file to the network from the local filesystem.
 
 ### Path Parameters
 
-`*siapath`
-// Location where the file will reside in the renter on the network. The path must be non-empty, may not include any path traversal strings ("./", "../"), and may not begin with a forward-slash character.
+***siapath***  
+Location where the file will reside in the renter on the network. The path must be non-empty, may not include any path traversal strings ("./", "../"), and may not begin with a forward-slash character.  
 
 ### Query String Parameters
 
-`datapieces // int`
-// The number of data pieces to use when erasure coding the file.
+**datapieces** | int  
+The number of data pieces to use when erasure coding the file.  
 
-`paritypieces // int`
-// The number of parity pieces to use when erasure coding the file. Total redundancy of the file is (datapieces+paritypieces)/datapieces.
+**paritypieces** | int  
+The number of parity pieces to use when erasure coding the file. Total redundancy of the file is (datapieces+paritypieces)/datapieces.  
 
-`source // string - a filepath`
-// Location on disk of the file being uploaded.
+**source** | string - a filepath  
+Location on disk of the file being uploaded.  
 
 ### Response
 
@@ -2223,12 +2227,12 @@ returns the ID for the requested transaction and its raw encoded parents and tra
 
 ### JSON Response
 
-`"id": "<id string>",`
-// id of the transaction
+**id** | string  
+id of the transaction.  
 
-`"parents": "<parents string>",`  
-`"transaction": "<transaction string>",`
-// raw, base64 encoded transaction data
+**parents** | string  
+**transaction** | string  
+raw, base64 encoded transaction data  
 
 ## /tpool/raw [POST]
 
