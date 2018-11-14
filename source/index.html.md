@@ -649,7 +649,7 @@ connectabilitystatus is one of "checking", "connectable", or "not connectable", 
 **workingstatus**  
 workingstatus is one of "checking", "working", or "not working" and indicates if the host is being actively used by renters.  
 
-## /host [POST] (start from here)
+## /host [POST]
 
 > Query String Parameters
 
@@ -671,46 +671,46 @@ minstorageprice           // Optional, hastings / byte / block
 minuploadbandwidthprice   // Optional, hastings / byte
 ```
 
-configures hosting parameters. All parameters are optional; unspecified parameters will be left unchanged.
+Configures hosting parameters. All parameters are optional; unspecified parameters will be left unchanged.
 
-`acceptingcontracts // Optional, true / false`
-// When set to true, the host will accept new file contracts if the terms are reasonable. When set to false, the host will not accept new file contracts at all.
+**acceptingcontracts** | Boolean, Optional  
+When set to true, the host will accept new file contracts if the terms are reasonable. When set to false, the host will not accept new file contracts at all.  
 
-`maxdownloadbatchsize // Optional, bytes`
-// The maximum size of a single download request from a renter. Each download request has multiple round trips of communication that exchange money. Larger batch sizes mean fewer round trips, but more financial risk for the host - the renter can get a free batch when downloading by refusing to provide a signature.
+**maxdownloadbatchsize** | bytes, Optional  
+The maximum size of a single download request from a renter. Each download request has multiple round trips of communication that exchange money. Larger batch sizes mean fewer round trips, but more financial risk for the host - the renter can get a free batch when downloading by refusing to provide a signature.  
 
-`maxduration // Optional, blocks`
-// The maximum duration of a file contract that the host will accept. The storage proof window must end before the current height + maxduration.
+**maxduration** | blocks, Optional  
+The maximum duration of a file contract that the host will accept. The storage proof window must end before the current height + maxduration.  
 
-`maxrevisebatchsize // Optional, bytes`
-// The maximum size of a single batch of file contract revisions. The renter can perform DoS attacks on the host by uploading a batch of data then refusing to provide a signature to pay for the data. The host can reduce this exposure by limiting the batch size. Larger batch sizes allow for higher throughput as there is significant communication overhead associated with performing a batch upload.
+**maxrevisebatchsize** | bytes, Optional  
+The maximum size of a single batch of file contract revisions. The renter can perform DoS attacks on the host by uploading a batch of data then refusing to provide a signature to pay for the data. The host can reduce this exposure by limiting the batch size. Larger batch sizes allow for higher throughput as there is significant communication overhead associated with performing a batch upload.  
 
-`netaddress // Optional`
-// The IP address or hostname (including port) that the host should be contacted at. If left blank, the host will automatically figure out its ip address and use that. If given, the host will use the address given.
+**netaddress** | Optional  
+The IP address or hostname (including port) that the host should be contacted at. If left blank, the host will automatically figure out its ip address and use that. If given, the host will use the address given.  
 
-`windowsize // Optional, blocks`
+**windowsize** | blocks, Optional  
 // The storage proof window is the number of blocks that the host has to get a storage proof onto the blockchain. The window size is the minimum size of window that the host will accept in a file contract.
 
-`collateral // Optional, hastings / byte / block`
-// The maximum amount of money that the host will put up as collateral per byte per block of storage that is contracted by the renter.
+**collateral** | hastings / byte / block, Optional  
+The maximum amount of money that the host will put up as collateral per byte per block of storage that is contracted by the renter.  
 
-`collateralbudget // Optional, hastings`
-// The total amount of money that the host will allocate to collateral across all file contracts.
+**collateralbudget** | hastings, Optional  
+The total amount of money that the host will allocate to collateral across all file contracts.  
 
-`maxcollateral // Optional, hastings`
-// The maximum amount of collateral that the host will put into a single file contract.
+**maxcollateral** | hastings, Optional  
+The maximum amount of collateral that the host will put into a single file contract.  
 
-`mincontractprice // Optional, hastings`
-// The minimum price that the host will demand from a renter when forming a contract. Typically this price is to cover transaction fees on the file contract revision and storage proof, but can also be used if the host has a low amount of collateral. The price is a minimum because the host may automatically adjust the price upwards in times of high demand.
+**mincontractprice** | hastings, Optional  
+The minimum price that the host will demand from a renter when forming a contract. Typically this price is to cover transaction fees on the file contract revision and storage proof, but can also be used if the host has a low amount of collateral. The price is a minimum because the host may automatically adjust the price upwards in times of high demand.  
 
-`mindownloadbandwidthprice // Optional, hastings / byte`
-// The minimum price that the host will demand from a renter when the renter is downloading data. If the host is saturated, the host may increase the price from the minimum.
+**mindownloadbandwidthprice** | hastings / byte, Optional  
+The minimum price that the host will demand from a renter when the renter is downloading data. If the host is saturated, the host may increase the price from the minimum.  
 
-`minstorageprice // Optional, hastings / byte / block`
-// The minimum price that the host will demand when storing data for extended periods of time. If the host is low on space, the price of storage may be set higher than the minimum.
+**minstorageprice** | hastings / byte / block, Optional  
+The minimum price that the host will demand when storing data for extended periods of time. If the host is low on space, the price of storage may be set higher than the minimum.  
 
-`minuploadbandwidthprice // Optional, hastings / byte`
-// The minimum price that the host will demand from a renter when the renter is uploading data. If the host is saturated, the host may increase the price from the minimum.
+**minuploadbandwidthprice** | hastings / byte, Optional  
+The minimum price that the host will demand from a renter when the renter is uploading data. If the host is saturated, the host may increase the price from the minimum.  
 
 ### Response
 
@@ -724,8 +724,8 @@ Note that even after the host has been announced, it will not accept new contrac
 
 ### Query String Parameters
 
-`netaddress string // Optional`
-// The address to be announced. If no address is provided, the automatically discovered address will be used instead.
+**netaddress string** | Optional  
+The address to be announced. If no address is provided, the automatically discovered address will be used instead.  
 
 ### Response
 
@@ -807,22 +807,22 @@ Get contract information from the host database. This call will return all stora
 }
 ```
 
-gets a list of folders tracked by the host's storage manager.
+Gets a list of folders tracked by the host's storage manager.
 
-`"path": "/home/foo/bar",`
-// Absolute path to the storage folder on the local filesystem.
+**path**  
+Absolute path to the storage folder on the local filesystem.  
 
-`"capacity": 50000000000, // bytes`
-// Maximum capacity of the storage folder. The host will not store more than this many bytes in the folder. This capacity is not checked against the drive's remaining capacity. Therefore, you must manually ensure the disk has sufficient capacity for the folder at all times. Otherwise you risk losing renter's data and failing storage proofs.
+**capacity** | bytes  
+Maximum capacity of the storage folder. The host will not store more than this many bytes in the folder. This capacity is not checked against the drive's remaining capacity. Therefore, you must manually ensure the disk has sufficient capacity for the folder at all times. Otherwise you risk losing renter's data and failing storage proofs.  
 
-`"capacityremaining": 100000, // bytes`
-// Unused capacity of the storage folder.
+**capacityremaining** | bytes  
+Unused capacity of the storage folder.  
 
-`"failedreads":  0, "failedwrites": 1,`
-// Number of failed disk read & write operations. A large number of failed reads or writes indicates a problem with the filesystem or drive's hardware.
+**failedreads, failedwrites**  
+Number of failed disk read & write operations. A large number of failed reads or writes indicates a problem with the filesystem or drive's hardware.  
 
-`"successfulreads":  2, "successfulwrites": 3`
-// Number of successful read & write operations.
+**successfulreads, successfulwrites**  
+Number of successful read & write operations.  
 
 ## /host/storage/folders/add [POST]
 
@@ -835,11 +835,11 @@ size // bytes, Required
 
 adds a storage folder to the manager. The manager may not check that there is enough space available on-disk to support as much storage as requested
 
-`path // Required`
-// Local path on disk to the storage folder to add.
+**path** | Required  
+Local path on disk to the storage folder to add.  
 
-`size // bytes, Required`
-// Initial capacity of the storage folder. This value isn't validated so it is possible to set the capacity of the storage folder greater than the capacity of the disk. Do not do this.
+**size** | bytes, Required  
+Initial capacity of the storage folder. This value isn't validated so it is possible to set the capacity of the storage folder greater than the capacity of the disk. Do not do this.  
 
 ### Response
 
@@ -854,13 +854,13 @@ path  // Required
 force // bool, Optional, default is false
 ```
 
-remove a storage folder from the manager. All sotrage on the folder will be moved to other stoarge folders, meaning that no data will be lost. If the manager is unable to save data, an error will be returned and the operation will be stopped.
+Remove a storage folder from the manager. All sotrage on the folder will be moved to other stoarge folders, meaning that no data will be lost. If the manager is unable to save data, an error will be returned and the operation will be stopped.
 
-`path // Required`
-// Local path on disk to the storage folder to removed.
+**path** | Required  
+Local path on disk to the storage folder to removed.  
 
-`force // bool, Optional, default is false`
-// If `force` is true, the storage folder will be removed even if the data in the storage folder cannot be moved to other storage folders, typically because they don't have sufficient capacity. If `force` is true and the data cannot be moved, data will be lost.
+**force** // Boolean, Optional, default is false  
+If `force` is true, the storage folder will be removed even if the data in the storage folder cannot be moved to other storage folders, typically because they don't have sufficient capacity. If `force` is true and the data cannot be moved, data will be lost.  
 
 ### Response
 
@@ -875,13 +875,13 @@ path    // Required
 newsize // bytes, Required
 ```
 
-grows or shrinks a storage file in the manager. The manager may not check that there is enough space on-disk to support growing the storasge folder, but should gracefully handle running out of space unexpectedly. When shrinking a storage folder, any data in the folder that neeeds to be moved will be placed into other storage folders, meaning that no data will be lost. If the manager is unable to migrate the data, an error will be returned and the operation will be stopped.
+Grows or shrinks a storage file in the manager. The manager may not check that there is enough space on-disk to support growing the storasge folder, but should gracefully handle running out of space unexpectedly. When shrinking a storage folder, any data in the folder that neeeds to be moved will be placed into other storage folders, meaning that no data will be lost. If the manager is unable to migrate the data, an error will be returned and the operation will be stopped.
 
-`path // Required`
-// Local path on disk to the storage folder to resize.
+**path** | Required  
+Local path on disk to the storage folder to resize.  
 
-`newsize // bytes, Required`
-// Desired new size of the storage folder. This will be the new capacity of the storage folder.
+**newsize** | bytes, Required  
+Desired new size of the storage folder. This will be the new capacity of the storage folder.  
 
 ### Response
 
@@ -895,10 +895,10 @@ standard success or error response. See [standard responses](#Standard-Responses
 :merkleroot 
 ```
 
-deletes a sector, meaning that the manager will be unable to upload that sector and be unable to provide a storage proof on that sector. This endpoint is for removing the data entirely, and will remove instances of the sector appearing at all heights. The primary purpose is to comply with legal requests to remove data.
+Deletes a sector, meaning that the manager will be unable to upload that sector and be unable to provide a storage proof on that sector. This endpoint is for removing the data entirely, and will remove instances of the sector appearing at all heights. The primary purpose is to comply with legal requests to remove data.
 
-`:merkleroot`
-// Merkleroot of the sector to delete.
+**merkleroot**  
+Merkleroot of the sector to delete.  
 
 ### Path Parameters (with comments)
 
@@ -937,13 +937,13 @@ minstorageprice           // Optional, hastings / byte / block
 minuploadbandwidthprice   // Optional, hastings / byte
 ```
 
-returns the estimated HostDB score of the host using its current settings, combined with the provided settings.
+Returns the estimated HostDB score of the host using its current settings, combined with the provided settings.
 
-`"estimatedscore": "123456786786786786786786786742133",`
-// estimatedscore is the estimated HostDB score of the host given the settings passed to estimatescore.
+**estimatedscore**  
+estimatedscore is the estimated HostDB score of the host given the settings passed to estimatescore.  
   
-`"conversionrate": 95`
-// conversionrate is the likelihood given the settings passed to estimatescore that the host will be selected by renters forming contracts.
+**conversionrate**  
+conversionrate is the likelihood given the settings passed to estimatescore that the host will be selected by renters forming contracts.  
 
 # Host DB
 
