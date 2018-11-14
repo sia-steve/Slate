@@ -2042,11 +2042,13 @@ standard success or error response. See [standard responses](#Standard-Responses
 ## /renter/download/*siapath* [GET]
 
 > Path Parameters 
+
 ```go
 *siapath
 ```
 
 > Query String Parameters
+
 ```go
 async
 destination
@@ -2425,14 +2427,30 @@ Wallet seed used to generate addresses that the wallet is able to spend.
 
 ## /wallet/init/seed [POST]
 
-initializes the wallet using a preexisting seed. After the wallet has been initialized once, it does not need to be initialized again, and future calls to /wallet/init/seed will return an error. The encryption password is provided by the api call. If the password is blank, then the password will be set to the same as the seed. Note that loading a preexisting seed requires scanning the blockchain to determine how many keys have been generated from the seed. For this reason, /wallet/init/seed can only be called if the blockchain is synced.
+> Query String Parameters
 
-### Query String Parameters (with comments)
+```go
+encryptionpassword  
+dictionary  
+seed  
+force  
+```
 
-`encryptionpassword
-dictionary // Optional, default is english.
-seed
-force // Optional, when set to true it will destroy an existing wallet and reinitialize a new one.`
+Initializes the wallet using a preexisting seed. After the wallet has been initialized once, it does not need to be initialized again, and future calls to /wallet/init/seed will return an error. The encryption password is provided by the api call. If the password is blank, then the password will be set to the same as the seed. Note that loading a preexisting seed requires scanning the blockchain to determine how many keys have been generated from the seed. For this reason, /wallet/init/seed can only be called if the blockchain is synced.
+
+### Query String Parameters
+
+**encryptionpassword**  
+Password that will be used to encrypt the wallet. All subsequent calls should use this password. If left blank, the seed that gets returned will also be the encryption password.  
+
+**dictionary** | Optional, default is english  
+Name of the dictionary that should be used when encoding the seed. 'english' is the most common choice when picking a dictionary.  
+
+**seed**  
+Dictionary-encoded phrase that corresponds to the seed being used to initialize the wallet.  
+
+**force** | Boolean  
+When set to true /wallet/init will Reset the wallet if one exists instead of returning an error. This allows API callers to reinitialize a new wallet.  
 
 ### Response
 
@@ -2440,13 +2458,26 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 ## /wallet/seed [POST]
 
-gives the wallet a seed to track when looking for incoming transactions. The wallet will be able to spend outputs related to addresses created by the seed. The seed is added as an auxiliary seed, and does not replace the primary seed. Only the primary seed will be used for generating new addresses.
+> Query String Parameters
 
-### Query String Parameters (with comments)
-
-`encryptionpassword
+```go
+encryptionpassword
 dictionary
-seed`
+seed
+```
+
+Gives the wallet a seed to track when looking for incoming transactions. The wallet will be able to spend outputs related to addresses created by the seed. The seed is added as an auxiliary seed, and does not replace the primary seed. Only the primary seed will be used for generating new addresses.
+
+### Query String Parameters
+
+**encryptionpassword**  
+Key used to encrypt the new seed when it is saved to disk.  
+
+**dictionary**  
+Name of the dictionary that should be used when encoding the seed. 'english' is the most common choice when picking a dictionary.  
+
+**seed**  
+Dictionary-encoded phrase that corresponds to the seed being added to the wallet.  
 
 ### Response
 
@@ -2454,14 +2485,13 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 ## /wallet/seeds [GET]
 
-returns the list of seeds in use by the wallet. The primary seed is the only seed that gets used to generate new addresses. This call is unavailable when the wallet is locked.
+> Query String Parameters
 
-### Query String Parameters (with comments)
+```go
+dictionary
+```
 
-`dictionary`
-
-### JSON Response (with comments)
-`
+```go
 {
   "primaryseed":        "hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello world hello",
   "addressesremaining": 2500,
@@ -2470,20 +2500,39 @@ returns the list of seeds in use by the wallet. The primary seed is the only see
     "foo bar foo bar foo bar foo bar foo bar foo bar foo bar foo bar foo bar foo bar foo bar foo bar foo bar foo bar foo",
   ]
 }
-`
+```
+
+Returns the list of seeds in use by the wallet. The primary seed is the only seed that gets used to generate new addresses. This call is unavailable when the wallet is locked.
+
+### Query String Parameters
+
+**dictionary**  
+Name of the dictionary that should be used when encoding the seed. 'english' is the most common choice when picking a dictionary.  
+
+### JSON Response
+
+**primaryseed**  
+Seed that is actively being used to generate new addresses for the wallet.  
+
+**addressesremaining**  
+Number of addresses that remain in the primary seed until exhaustion has been reached. Once exhaustion has been reached, new addresses will continue to be generated but they will be more difficult to recover in the event of a lost wallet file or encryption password.  
+
+**allseeds**  
+Array of all seeds that the wallet references when scanning the blockchain for outputs. The wallet is able to spend any output generated by any of the seeds, however only the primary seed is being used to generate new addresses.  
 
 ## /wallet/siacoins [POST]
 
-sends siacoins to an address or set of addresses. The outputs are arbitrarily selected from addresses in the wallet. If 'outputs' is supplied, 'amount' and 'destination' must be empty.
+> Query String Parameters
 
-### Query String Parameters (with comments)
-`
+```go
 amount      // hastings
 destination // address
-outputs     // JSON array of {unlockhash, value} pairs`
+outputs     // JSON array of {unlockhash, value} pairs
+```
 
-### JSON Response (with comments)
-`
+> JSON Response
+
+```go
 {
   "transactionids": [
     "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
@@ -2491,19 +2540,36 @@ outputs     // JSON array of {unlockhash, value} pairs`
     "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
   ]
 }
-`
+```
+
+Sends siacoins to an address or set of addresses. The outputs are arbitrarily selected from addresses in the wallet. If 'outputs' is supplied, 'amount' and 'destination' must be empty.  
+
+### Query String Parameters
+
+**amount** | hastings  
+Number of hastings being sent. A hasting is the smallest unit in Sia. There are 10^24 hastings in a siacoin.
+
+**destination** | address  
+Address that is receiving the coins.  
+
+**outputs**  
+JSON array of outputs. The structure of each output is: {"unlockhash": "<destination>", "value": "<amount>"}  
+
+### JSON Response
+
+**transactionids**  
+Array of IDs of the transactions that were created when sending the coins. The last transaction contains the output headed to the 'destination'. Transaction IDs are 64 character long hex strings.  
 
 ## /wallet/siafunds [POST]
 
-sends siafunds to an address. The outputs are arbitrarily selected from addresses in the wallet. Any siacoins available in the siafunds being sent (as well as the siacoins available in any siafunds that end up in a refund address) will become available to the wallet as siacoins after 144 confirmations. To access all of the siacoins in the siacoin claim balance, send all of the siafunds to an address in your control (this will give you all the siacoins, while still letting you control the siafunds).
+> Query String Parameters
 
-### Query String Parameters (with comments)
-`
+```go
 amount      // siafunds
-destination // address`
+destination // address
+```
 
-### JSON Response (with comments)
-`
+```go
 {
   "transactionids": [
     "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
@@ -2511,41 +2577,108 @@ destination // address`
     "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
   ]
 }
-`
+```
+
+Sends siafunds to an address. The outputs are arbitrarily selected from addresses in the wallet. Any siacoins available in the siafunds being sent (as well as the siacoins available in any siafunds that end up in a refund address) will become available to the wallet as siacoins after 144 confirmations. To access all of the siacoins in the siacoin claim balance, send all of the siafunds to an address in your control (this will give you all the siacoins, while still letting you control the siafunds).
+
+### Query String Parameters
+
+**amount** | siafunds  
+Number of siafunds being sent.  
+
+**destination** | address  
+Address that is receiving the funds.  
+
+### JSON Response
+
+**transactionids**  
+Array of IDs of the transactions that were created when sending the coins. The last transaction contains the output headed to the 'destination'. Transaction IDs are 64 character long hex strings.  
 
 ## /wallet/siagkey [POST]
 
-loads a key into the wallet that was generated by siag. Most siafunds are currently in addresses created by siag.
+> Query String Parameters
 
-### Query String Parameters (with comments)
-`
+```go
 encryptionpassword
-keyfiles`
+keyfiles
+```
+
+Loads a key into the wallet that was generated by siag. Most siafunds are currently in addresses created by siag.
+
+### Query String Parameters
+
+**encryptionpassword**  
+Key that is used to encrypt the siag key when it is imported to the wallet.  
+
+**keyfiles**  
+List of filepaths that point to the keyfiles that make up the siag key. There should be at least one keyfile per required signature. The filenames need to be commna separated (no spaces), which means filepaths that contain a comma are not allowed.  
 
 ### Response
 
 standard success or error response. See [standard responses](#Standard-Responses).
 
+## /wallet/sign [POST]
+
+> Request Body
+
+```go
+{
+  "transaction": { }, // types.Transaction; see Wallet.md for all fields
+  "tosign": [
+    "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "abcdef0123456789abcdef0123456789abcd1234567890ef0123456789abcdef"
+  ]
+}
+```
+
+Response
+```go
+{
+  "transaction": { }
+}
+```
+
+Signs a transaction. The wallet will attempt to sign each input specified. The transaction's TransactionSignatures should be complete except for the Signature field. If `tosign` is provided, the wallet will attempt to fill in signatures for each TransactionSignature specified. If `tosign` is not provided, the wallet will add signatures for every TransactionSignature that it has keys for.
+
 ## /wallet/sweep/seed [POST]
 
-Function: Scan the blockchain for outputs belonging to a seed and send them to an address owned by the wallet.
+> Query String Parameters
 
-### Query String Parameters (with comments)
-`
+```go
 dictionary // Optional, default is english.
-seed`
+seed
+```
 
-### JSON Response (with comments)
-`
+JSON Response
+
+```go
 {
   "coins": "123456", // hastings, big int
   "funds": "1",      // siafunds, big int
 }
-`
+```
+
+### Query String Parameters
+
+**dictionary** | Optional, default is english.  
+Name of the dictionary that should be used when decoding the seed. 'english' is the most common choice when picking a dictionary.  
+
+**seed**  
+Dictionary-encoded phrase that corresponds to the seed being added to the wallet.  
+
+### JSON Response
+
+**coins** | hastings, big int  
+Number of siacoins, in hastings, transferred to the wallet as a result of the sweep.  
+
+**funds** | siafunds, big int  
+Number of siafunds transferred to the wallet as a result of the sweep.  
+
+Scans the blockchain for outputs belonging to a seed and send them to an address owned by the wallet.
 
 ## /wallet/lock [POST]
 
-locks the wallet, wiping all secret keys. After being locked, the keys are encrypted. Queries for the seed, to send siafunds, and related queries become unavailable. Queries concerning transaction history and balance are still available.
+Locks the wallet, wiping all secret keys. After being locked, the keys are encrypted. Queries for the seed, to send siafunds, and related queries become unavailable. Queries concerning transaction history and balance are still available.
 
 ### Response
 
@@ -2553,18 +2686,19 @@ standard success or error response. See [standard responses](#Standard-Responses
 
 ## /wallet/transaction/:*id* [GET]
 
-gets the transaction associated with a specific transaction id.
+> Path Parameters
 
-### Path Parameters (with comments)
+```go
+:id
+```
 
-`:id`
+> JSON Response
 
-### JSON Response (with comments)
-`
+```go
 {
   "transaction": {
     "transaction": {
-      // See types.Transaction in https://github.com/NebulousLabs/Sia/blob/master/types/transactions.go
+      // See types.Transaction in https://gitlab.com/NebulousLabs/Sia/blob/master/types/transactions.go
     },
     "transactionid":         "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
     "confirmationheight":    50000,
@@ -2590,7 +2724,73 @@ gets the transaction associated with a specific transaction id.
     ]
   }
 }
-`
+```
+
+Gets the transaction associated with a specific transaction id.
+
+### Path Parameters
+
+**:id**  
+ID of the transaction being requested.  
+
+### JSON Response
+
+**transaction**  
+Raw transaction. The rest of the fields in the resposne are determined from this raw transaction. It is left undocumented here as the processed transaction (the rest of the fields in this object) are usually what is desired.  
+
+See types.Transaction in https://gitlab.com/NebulousLabs/Sia/blob/master/types/transactions.go  
+
+**transactionid**  
+ID of the transaction from which the wallet transaction was derived.  
+
+**confirmationheight**  
+Block height at which the transaction was confirmed. If the transaction is unconfirmed the height will be the max value of an unsigned 64-bit integer.  
+
+**confirmationtimestamp**  
+Time, in unix time, at which a transaction was confirmed. If the transaction is unconfirmed the timestamp will be the max value of an unsigned 64-bit integer.  
+
+**inputs**  
+Array of processed inputs detailing the inputs to the transaction.  
+
+**parentid**  
+The id of the output being spent.  
+
+**fundtype**  
+Type of fund represented by the input. Possible values are 'siacoin input' and 'siafund input'.  
+
+**walletaddress** | Boolean  
+true if the address is owned by the wallet.  
+
+**relatedaddress**  
+Address that is affected. For inputs (outgoing money), the related address is usually not important because the wallet arbitrarily selects which addresses will fund a transaction.  
+
+**value** | hastings or siafunds, depending on fundtype, big int  
+Amount of funds that have been moved in the input.  
+
+**outputs**  
+Array of processed outputs detailing the outputs of the transaction. Outputs related to file contracts are excluded.  
+
+**id**  
+The id of the output that was created.  
+
+**fundtype**  
+Type of fund is represented by the output. Possible values are 'siacoin output', 'siafund output', 'claim output', and 'miner payout'. Siacoin outputs and claim outputs both relate to siacoins.  
+
+Siafund outputs relate to siafunds.  
+
+Miner payouts point to siacoins that have been spent on a miner payout. Because the destination of the miner payout is determined by the block and not the transaction, the data 'maturityheight', 'walletaddress', and 'relatedaddress' areleft blank.  
+
+**maturityheight**  
+Block height the output becomes available to be spent. Siacoin outputs and siafund outputs mature immediately - their maturity height will always be the confirmation height of the transaction. Claim outputs cannot be spent until they have had 144 confirmations, thus the maturity height of a claim output will always be 144 larger than the confirmation height of the transaction.  
+
+**walletaddress** | Boolean  
+true if the address is owned by the wallet.  
+
+**relatedaddress**  
+Address that is affected. For outputs (incoming money), the related address field can be used to determine who has sent money to the wallet.  
+
+**value** | hastings or siafunds, depending on fundtype, big int  
+Amount of funds that have been moved in the output.  
 
 ## /wallet/transactions [GET]
 
