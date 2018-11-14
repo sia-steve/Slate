@@ -2794,15 +2794,14 @@ Amount of funds that have been moved in the output.
 
 ## /wallet/transactions [GET]
 
-returns a list of transactions related to the wallet in chronological order.
-
-### Query String Parameters (with comments)
-`
+```go
 startheight // block height
-endheight   // block height`
+endheight   // block height
+```
 
-### JSON Response (with comments)
-`
+> JSON Response
+
+```go
 {
   "confirmedtransactions": [
     {
@@ -2815,18 +2814,41 @@ endheight   // block height`
     }
   ]
 }
-`
+```
+
+Returns a list of transactions related to the wallet in chronological order.
+
+### Query String Parameters
+
+**startheight** | block height  
+Height of the block where transaction history should begin.  
+
+**endheight** | block height  
+Height of of the block where the transaction history should end. If 'endheight' is greater than the current height, or if it is '-1', all transactions up to and including the most recent block will be provided.  
+
+### JSON Response
+
+**confirmedtransactions**  
+All of the confirmed transactions appearing between height 'startheight' and height 'endheight' (inclusive).  
+
+See the documentation for '/wallet/transaction/:id' for more information.  
+
+**unconfirmedtransactions**  
+All of the unconfirmed transactions.  
+
+See the documentation for '/wallet/transaction/:id' for more information.  
 
 ## /wallet/transactions/:addr [GET]
 
-returns all of the transactions related to a specific address.
+> Path Parameters
 
-### Path Parameters (with comments)
+```go
+:addr
+```
 
-`:addr`
+> JSON Response
 
-### JSON Response (with comments)
-`
+```go
 {
   "transactions": [
     {
@@ -2834,43 +2856,177 @@ returns all of the transactions related to a specific address.
     }
   ]
 }
-`
+```
+
+Returns all of the transactions related to a specific address.
+
+### Path Parameters
+
+**:addr**  
+Unlock hash (i.e. wallet address) whose transactions are being requested.  
+
+### JSON Response
+
+**transactions**  
+Array of processed transactions that relate to the supplied address.  
+
+See the documentation for '/wallet/transaction/:id' for more information.  
 
 ## /wallet/unlock [POST]
 
-unlocks the wallet. The wallet is capable of knowing whether the correct password was provided.
+> Path Parameters
 
-### Query String Parameters (with comments)
+```go
+encryptionpassword
+```
 
-`encryptionpassword`
+Unlocks the wallet. The wallet is capable of knowing whether the correct password was provided.
+
+### Query String Parameters
+
+**encryptionpassword** | string  
+Password that gets used to decrypt the file. Most frequently, the encryption password is the same as the primary wallet seed.  
 
 ### Response
 
 standard success or error response. See [standard responses](#Standard-Responses).
+
+## /wallet/unlockconditions/:addr [GET]
+
+> JSON Response
+
+```go
+{
+  "unlockconditions": {
+    "timelock": 0,
+    "publickeys": [{
+      "algorithm": "ed25519",
+      "key": "/XUGj8PxMDkqdae6Js6ubcERxfxnXN7XPjZyANBZH1I="
+    }],
+    "signaturesrequired": 1
+  }
+}
+```
+
+Returns the unlock conditions of :addr, if they are known to the wallet.
+
+### JSON Response
+
+**timelock**  
+The minimum blockheight required.  
+
+**signaturesrequired**  
+The number of signatures required.  
+
+**publickeys**  
+The set of keys whose signatures count towards signaturesrequired.  
+
+## /wallet/unspent [GET]
+
+> JSON Response
+
+```go
+{
+  "outputs": [
+    {
+      "id": "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "fundtype": "siacoin output",
+      "confirmationheight": 50000,
+      "unlockhash": "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789ab",
+      "value": "1234", // big int
+      "iswatchonly": false
+    }
+  ]
+}
+```
+
+Returns a list of outputs that the wallet can spend.
+
+### JSON Response
+
+**outputs**  
+Array of outputs that the wallet can spend.  
+
+**id**  
+The id of the output.  
+
+**fundtype**  
+Type of output, either 'siacoin output' or 'siafund output'.  
+
+**confirmationheight**  
+Height of block in which the output appeared. To calculate the number of confirmations, subtract this number from the current block height.  
+
+**unlockhash**  
+Hash of the output's unlock conditions, commonly known as the "address".  
+
+**value** | big int  
+Amount of funds in the output; hastings for siacoin outputs, and siafunds for siafund outputs.  
+
+**iswatchonly** | Boolean  
+Whether the output comes from a watched address or from the wallet's seed.  
 
 ## /wallet/verify/address/:addr [GET]
 
-takes the address specified by :addr and returns a JSON response indicating if the address is valid.
+> JSON Response
 
-### JSON Response (with comments)
-`
+```go
 {
 	"valid": true
 }
-`
+```
 
-## /wallet/changepassword [POST]
+Takes the address specified by :addr and returns a JSON response indicating if the address is valid.
 
-changes the wallet's encryption key.
+### JSON Response
 
-### Query String Parameters (with comments)
-`
-encryptionpassword
-newpassword`
+**valid**  
+valid indicates if the address supplied to :addr is a valid UnlockHash.  
+
+## /wallet/watch [GET]
+
+> JSON Response
+
+```go
+{
+  "addresses": [
+    "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "abcdef0123456789abcdef0123456789abcd1234567890ef0123456789abcdef"
+  ]
+}
+```
+
+Returns the set of addresses that the wallet is watching. This set only includes addresses that were explicitly requested to be watched; addresses that were generated automatically by the wallet, or by /wallet/address, are not included.
+
+### JSON Response
+
+**addresses**  
+The addresses currently watched by the wallet.  
+
+## /wallet/watch [POST]
+
+> Request Body
+
+```go
+{
+  // The addresses to add or remove from the current set.
+  "addresses": [
+    "1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "abcdef0123456789abcdef0123456789abcd1234567890ef0123456789abcdef"
+  ],
+
+  // If true, remove the addresses instead of adding them.
+  "remove": false,
+
+  // If true, the wallet will not rescan the blockchain. Only set this flag if
+  // the addresses have never appeared in the blockchain.
+  "unused": true,
+```
 
 ### Response
 
 standard success or error response. See [standard responses](#Standard-Responses).
+
+
 
 
 
